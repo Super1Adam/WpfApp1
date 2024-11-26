@@ -12,30 +12,178 @@
         WindowStartupLocation="CenterScreen"   
         FontFamily="Microsoft YaHei"
         FontWeight="ExtraLight"
+        xmlns:zxc="clr-namespace:WpfApp1.Contorls"     
         ResizeMode="CanResizeWithGrip"
-        Title="发电机寿命预测看板" Height="700" Width="1150">
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+
+        Title="发电机寿命预测看板" Height="800" Width="1500">
     <Window.Background>
         <RadialGradientBrush GradientOrigin=" 0.5,-0.8" Center=" 0.5,0"
                              RadiusX=" 0.7" RadiusY="0.7">
             <GradientStop Color="#a02b40" Offset="0"/>
             <GradientStop Color="#08113c" Offset=" 1"/>
         </RadialGradientBrush>
-                          
+
     </Window.Background>
     <Window.Resources>
+        <!--DataGrid样式-->
+        <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"></Setter>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="AlternationCount" Value="2"/>
+            <Setter Property="GridLinesVisibility" Value="None"></Setter>
+            <Setter Property="Margin" Value="0 10 0 0"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Grid>
+                            <Border Background="Transparent" CornerRadius="0">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Direction="0" Color="#FFDADADA"/>
+                                </Border.Effect>
+                            </Border>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0"  Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                                <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
+                                    <ScrollViewer.Template>
+                                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid Background="Transparent" Grid.Column="1">
+                                                    <Grid.Effect>
+                                                        <DropShadowEffect Direction="270" Color="#FFF3F3F3"/>
+                                                    </Grid.Effect>
+                                                </Grid>
+                                                <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+
+                                                <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                                                <Grid Grid.Column="1" Grid.Row="2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ScrollViewer.Template>
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Margin" Value="0 0 0 10"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter  Property="Margin" Value="0 5"></Setter>
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridRow">
+                        <Grid >
+                            <Border x:Name="border" Background="Transparent" BorderBrush="Transparent"/>
+                            <DataGridCellsPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#29b6e9"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#1b67ab"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
         <Style TargetType="GroupBox">
             <Setter Property="Margin" Value=" 0,5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GroupBox">
                         <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{TemplateBinding Header}" Foreground="White"/>
-                        </StackPanel>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{TemplateBinding Header}" Foreground="White"/>
+                            </StackPanel>
                             <Border Grid.Row="1" BorderThickness="1" BorderBrush="#447d96c4" Margin="0,7,5,5">
                                 <ContentPresenter/>
                             </Border>
@@ -55,13 +203,14 @@
                                 <Polyline Points="0 0 0 5 5 5 " Stroke="#447d96c4" VerticalAlignment="Bottom" 
                                           HorizontalAlignment="Left" Margin="0,0,0,5"/>
                             </Grid>
-                      
-                    </Grid>
+
+                        </Grid>
                     </ControlTemplate>
-                    
+
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -109,7 +258,7 @@
 
         </Border>
         <TextBlock Text="&#xe645;"  FontFamily="../Assets/Fonts/#iconfont" Foreground="#2BB6FE" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Left" Margin=" 20,0,0,0"/>
-        <TextBlock Text="发电机寿命预测" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Bottom" FontSize="22" />
+        <TextBlock Text="风电装备数字化可循环性设计软件" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Bottom" FontSize="22" />
         <TextBlock Grid.Row=" 1" HorizontalAlignment="Center" VerticalAlignment="Top" >
             <Run Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " Foreground="#2bb" />
             <Run Text="2024/11/20" Foreground=" #44ffffff"/>
@@ -119,7 +268,7 @@
                     VerticalAlignment="Center" TextBlock.Foreground="#2bb6fe"
                     Margin=" 0,0,20,0"
                     >
-         
+
             <TextBlock Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " VerticalAlignment="Center" Margin="2"/>
             <TextBlock Text="时间" Margin="2"/>
             <TextBlock Text="14:47" FontSize="13" VerticalAlignment="Center" Margin=" 2" />
@@ -129,64 +278,229 @@
         </StackPanel>
         <Grid Grid.Row=" 1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="1.3*"/>
                 <ColumnDefinition Width="1.8*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <UniformGrid Columns="1" Margin=" 20,15">
-                <GroupBox Header="ERA5数据导入">
-                    <lvc:PieChart InnerRadius="40" Width="110" Height="110" DisableAnimations="True" StartingRotationAngle="0" 
-                                  HoverPushOut="0">
-                        <lvc:PieChart.Series>
+            <UniformGrid Columns="1" Margin="20,15,20,15" >
+                <GroupBox Header="选择ERA5数据">
+                    <DataGrid  x:Name="MyDataGrid1" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding SaleBillboards}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True">
+                        <DataGrid.Columns>
+                            <!--<DataGridTemplateColumn Header="时间段" Width="60" CanUserSort="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{Binding Ranking,Converter={StaticResource RankingBackroundConverter}}" Padding="5 0">
+                                            <TextBlock Text="{Binding Ranking }"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="预测点" Binding="{Binding ProjectName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="风速" Binding="{Binding SaleCount,StringFormat={}{0:N0}}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="相对湿度" Binding="{Binding SaleAmount,StringFormat={}{0:N0}}"></DataGridTextColumn>-->
+                            <DataGridTextColumn Header="经纬度坐标" Binding="{Binding Ranking}" />
+                            <DataGridTextColumn Header="温度" Binding="{Binding ProjectName}" />
+                            <DataGridTextColumn Header="相对湿度" Binding="{Binding SaleCount}" />
+                            <DataGridTextColumn Header="高度" Binding="{Binding SaleAmount}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </GroupBox>
+                <GroupBox Header="风能资源图">
+
+                    <!--<lvc:PieChart InnerRadius="40" Width="110" Height="110" DisableAnimations="True" StartingRotationAngle="0" 
+              HoverPushOut="0">
+                        --><!--<lvc:PieChart.Series>
                             <lvc:PieSeries  Values="0.5 " StrokeThickness=" 0" DataLabels="True"
-                                            Title="puhuo" LabelPosition="OutsideSlice"/>
+                        Title="puhuo" LabelPosition="OutsideSlice"/>
                             <lvc:PieSeries Values="1"/>
                             <lvc:PieSeries Values=" 2"/>
                         </lvc:PieChart.Series>
-                    </lvc:PieChart>
-                    
+                    </lvc:PieChart>-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <Border Width="8" Height="8" Background=" #2BB6FE" Margin="3,0"/>
+                            <TextBlock Text="计划" Foreground="#44FFFFFF" FontSize="9"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="IndianRed" Margin="3,0"/>
+                            <TextBlock Text="叶轮转速" Foreground="#44FFFFFF" FontSize="9"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="AliceBlue" Margin="3,0"/>
+                            <TextBlock Text="发电机转速" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="DarkOliveGreen" Margin="3,0"/>
+                            <TextBlock Text="发电机有功功率" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="PeachPuff" Margin="3,0"/>
+                            <TextBlock Text="无功功率" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        </StackPanel>
+                        <lvc:CartesianChart Grid.Row="1" DisableAnimations="True">
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries  Values="{Binding ScadaData}" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatb}" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatc}" LineSmoothness=" 0" Stroke="AliceBlue" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatd}" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDate}" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent"/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Labels="1,2,3,4,5,6,7,8,9,10,11,12" Foreground=" #33ffffff">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator Step="1" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis MinValue="0" MaxValue="375" Foreground="#33FFFFFF">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator Step="75" Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </Grid>
+
+
+
+
                 </GroupBox>
-                <GroupBox Header="选择ERA5数据"/>
-                <GroupBox Header="导入scsada数据"/>
-                <GroupBox Header="选择scsada数据" />
+                <!--<GroupBox Header="导入scsada数据">
+                    <MediaElement Name="mediaElement" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                      LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+                </GroupBox>-->
+
+                <GroupBox Header="选择SCADA数据">
+                    <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding SaleBillboards}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True">
+                        <DataGrid.Columns >
+                            <!--<DataGridTemplateColumn Header="风机编号" Width="60" CanUserSort="False" 绑定模板>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{Binding Ranking,Converter={StaticResource RankingBackroundConverter}}" Padding="5 0">
+                                            <TextBlock Text="{Binding Ranking }"></TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="运行时间段" Binding="{Binding ProjectName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="发动机转速" Binding="{Binding SaleCount,StringFormat={}{0:N0}}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="异常信息" Binding="{Binding SaleAmount,StringFormat={}{0:N0}}"></DataGridTextColumn>-->
+                            <DataGridTextColumn Header="风机编号" Binding="{Binding Ranking}" />
+                            <DataGridTextColumn Header="运行时间段" Binding="{Binding ProjectName}" />
+                            <DataGridTextColumn Header="发动机转速" Binding="{Binding SaleCount}" />
+                            <DataGridTextColumn Header="异常信息" Binding="{Binding SaleAmount}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </GroupBox>
             </UniformGrid>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="0,40,0,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="110"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <!--汇总-->
-                <ItemsControl Grid.Row="0" ItemsSource="{Binding TaskBars}" Margin="10 50 10 0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" ></UniformGrid>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Height="100" Margin="10 0 10 10">
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 10">
-                                    <!--<TextBlock Text="&#xe622;" Foreground="White" FontSize="20" FontFamily="{StaticResource iconfont}"></TextBlock>-->
-                                    <TextBlock Text="{Binding Title}" Foreground="White" FontSize="20"></TextBlock>
-                                </StackPanel>
-                                <TextBlock  HorizontalAlignment="Center" Foreground="#ffeb7b" FontSize="28">
-                                    <Run Text="{Binding Value,StringFormat={}{0:N0}}"></Run>
-                                    <Run Text="{Binding Unit}"></Run>
-                                </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-
-                <!--地图-->
-                <Viewbox Grid.Row="0" Margin="10 0 10 0">
-                    <uc:ChinaMapControl></uc:ChinaMapControl>
-                </Viewbox>
+                <Grid Grid.Row="0" Grid.RowSpan="2">
+                    <GroupBox Header="风机3d模型">
+                        <MediaElement Name="mediaElement" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+  LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+                        
+                    </GroupBox>
+                 
+                </Grid>
+                <GroupBox Header=" 风机部件监测数据" Tag="english" Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <Border Width="8" Height="8" Background=" #2BB6FE" Margin="3,0"/>
+                            <TextBlock Text="计划" Foreground="#44FFFFFF" FontSize="9"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="IndianRed" Margin="3,0"/>
+                            <TextBlock Text="叶轮转速" Foreground="#44FFFFFF" FontSize="9"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="AliceBlue" Margin="3,0"/>
+                            <TextBlock Text="发电机转速" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="DarkOliveGreen" Margin="3,0"/>
+                            <TextBlock Text="发电机有功功率" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="8" Height="8" Background="PeachPuff" Margin="3,0"/>
+                            <TextBlock Text="无功功率" Foreground="#44FFFFFF" FontSize="9"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        </StackPanel>
+                        <lvc:CartesianChart Grid.Row="1" DisableAnimations="True">
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries  Values="{Binding ScadaData}" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatb}" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatc}" LineSmoothness=" 0" Stroke="AliceBlue" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDatd}" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent"/>
+                                <lvc:LineSeries  Values="{Binding ScadaDate}" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent"/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Labels="1,2,3,4,5,6,7,8,9,10,11,12" Foreground=" #33ffffff">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator Step="1" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis MinValue="0" MaxValue="375" Foreground="#33FFFFFF">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator Step="75" Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </Grid>
+                </GroupBox>
+                
 
             </Grid>
+            <Grid Grid.Column="2" Margin="0,40,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="部件剩余寿命展示">
+                    <ItemsControl ItemsSource="{Binding BadScatter}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <zxc:CircularProgressBar Value="{Binding Value}"
+                                     Width="{Binding Size}" Height="{Binding Size}"
+                                     Title="{Binding Title}"
+                                     Foreground="Transparent"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Header="循环使用方案">
+                    <ItemsControl ItemsSource="{Binding Alarms}"
+                                  TextBlock.Foreground="#44FFFFFF"
+                                  TextBlock.LineHeight="23"
+                                  Margin="3,5,5,5">
+
+                    </ItemsControl>
+
+                </GroupBox>
+            
+            </Grid>
+
 
         </Grid>
-        
+
     </Grid>
 </Window>
