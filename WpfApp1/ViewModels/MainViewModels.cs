@@ -9,21 +9,96 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfApp1.Conmmon;
 using WpfApp1.Models;
+using System.Globalization;
+using System.IO;
+using System.Windows;
 
 namespace WpfApp1.ViewModels
 {
     public class MainViewModels : PropertyChangedBase
     {
-        public LiveCharts.SeriesCollection MyProperty { get; set; }
-        public ChartValues<ObservableValue> ScadaData { get; set; }
+        public SeriesCollection SeriesCollection { get; set; }
 
-        public ChartValues<ObservableValue> ScadaDatb { get; set; }
-        public ChartValues<ObservableValue> ScadaDatc { get; set; }
-        public ChartValues<ObservableValue> ScadaDatd { get; set; }
-        public ChartValues<ObservableValue> ScadaDate { get; set; }
-        public List <string> Alarms { get; set; }
-        public List<BadItemModel> BadScatter { get; set; }
+        
 
+        public ObservableCollection<string> TimeLabels { get; set; }
+
+        public ChartValues<double> WindSpeedValues { get; set; }
+        public ChartValues<double> TemperaturValues { get; set; }
+        public ChartValues<double> HumidityValues { get; set; }
+        public ChartValues<double> WindPowerDensity { get; set; }
+
+        //private ChartValues<double> windSpeedValues;
+        //public ChartValues<double> WindSpeedValues
+        //{
+        //    get { return windSpeedValues; }
+        //    set
+        //    {
+        //        windSpeedValues = value;
+        //        SetPropertyChanged(nameof(windSpeedValues));
+        //    }
+
+        //}
+        private ChartValues<double> adam;
+        public ChartValues<double> Adam
+        {
+            get { return adam; }
+            set
+            {
+                adam = value;
+                SetPropertyChanged(nameof(adam));
+            }
+
+        }
+        private ChartValues<double> adam1;
+        public ChartValues<double> Adam1
+        {
+            get { return adam1; }
+            set
+            {
+                adam = value;
+                SetPropertyChanged(nameof(adam1));
+            }
+
+        }
+        //private ChartValues<double> temperaturValues;
+        //public ChartValues<double> TemperaturValues
+        //{
+        //    get { return temperaturValues; }
+        //    set
+        //    {
+        //        windSpeedValues = value;
+        //        SetPropertyChanged(nameof(temperaturValues));
+        //    }
+
+        //}
+        //private ChartValues<double> humidityValues;
+        //public ChartValues<double> HumidityValues
+        //{
+        //    get { return humidityValues; }
+        //    set
+        //    {
+        //        windSpeedValues = value;
+        //        SetPropertyChanged(nameof(humidityValues));
+        //    }
+
+        //}
+        //private ChartValues<double> windPowerDensity;
+        //public ChartValues<double> WindPowerDensity
+        //{
+        //    get { return windPowerDensity; }
+        //    set
+        //    {
+        //        windSpeedValues = value;
+        //        SetPropertyChanged(nameof(windPowerDensity));
+        //    }
+
+        //}
+
+
+        public SelectDate StartDate { get; set; }     
+        public DateTime?  DateTime {  get; set; }
+        public SelectDate EndDate { get; set; } 
 
 
         private ObservableCollection<SaleBillboard> saleBillboards;
@@ -32,55 +107,153 @@ namespace WpfApp1.ViewModels
             get { return saleBillboards; }
             set { saleBillboards = value; }
         }
+        //private ObservableCollection<WindSpeedData> ReadWindSpeedDataFromCsv(string filePath)
+        //{
+        //    var data = new ObservableCollection<WindSpeedData>();
+
+        //    using (var reader = new StreamReader(filePath))
+        //    {
+        //        var line = reader.ReadLine();  // 跳过表头
+
+        //        while ((line = reader.ReadLine()) != null)
+        //        {
+        //            var values = line.Split(',');
+        //            var timeRange = values[0];  // 假设 values[0] = "2024-01-03 - 2024-01-05"
+        //            var startDateString = timeRange.Split(' ')[0];  // 提取日期 "2024-01-03"
+
+        //            var windSpeed = double.Parse(values[1]);
+        //            var temperature = double.Parse(values[2]);
+        //            var humidity = double.Parse(values[3]);
+        //            var windPowerDensity = double.Parse(values[4]);
+
+
+        //            data.Add(new WindSpeedData
+        //            {
+        //                WindSpeed = windSpeed
+        //                ,
+        //                Temperature = temperature
+        //                ,
+        //                Humidity = humidity,
+        //                WindPowerDensity = windPowerDensity
+        //            });
+        //        }
+        //    }
+
+        //    return data;
+        //}
+
+        private ObservableCollection<WindSpeedData> ReadWindSpeedDataFromCsv2(string filePath)
+        {
+            var data = new ObservableCollection<WindSpeedData>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                var line = reader.ReadLine();  // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var timeRange = values[0];  // 假设 values[0] = "2024-01-03 - 2024-01-05"
+                    var startDateString = timeRange.Split(' ')[0];  // 提取日期 "2024-01-03"
+
+                    var windSpeed = double.Parse(values[1]);
+
+                    data.Add(new WindSpeedData
+                    {
+                        WindSpeed = windSpeed
+                    });
+                }
+            }
+
+            return data;
+        }
+
+        private List<WindSpeedData> ReadWindSpeedDataFromCsv(string filePath)
+        {
+            var data = new List<WindSpeedData>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                var line = reader.ReadLine(); // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    if (values.Length < 5) continue; // 跳过不完整的数据行
+
+                    data.Add(new WindSpeedData
+                    {
+                        TimeRange = values[0],
+                        WindSpeed = double.TryParse(values[1], out var windSpeed) ? windSpeed : 0,
+                        Temperature = double.TryParse(values[2], out var temp) ? temp : 0,
+                        Humidity = double.TryParse(values[3], out var hum) ? hum : 0,
+                        WindPowerDensity = double.TryParse(values[4], out var wpd) ? wpd : 0
+                    });
+                }
+            }
+
+            return data;
+        }
+
+
+
+        private ObservableCollection<WindSpeedData> ReadWindSpeedDataFromCsv1(string filePath)
+        {
+            var data = new ObservableCollection<WindSpeedData>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                var line = reader.ReadLine();  // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var windSpeed = double.Parse(values[0]);
+                    var temperature = double.Parse(values[1]);
+                    var humidity = double.Parse(values[2]);
+                    var windPowerDensity = double.Parse(values[3]);
+
+
+                    data.Add(new WindSpeedData
+                    {
+                        WindSpeed = windSpeed
+                           ,
+                        Temperature = temperature
+                                        ,
+                        Humidity = humidity,
+                        WindPowerDensity = windPowerDensity
+                    });
+                }
+            }
+
+            return data;
+        }
 
         public MainViewModels()
         {
-            ScadaData = new ChartValues<ObservableValue>();   
-            ScadaDatb = new ChartValues<ObservableValue>();
-            ScadaDatc = new ChartValues<ObservableValue>();
-            ScadaDatd = new ChartValues<ObservableValue>();
-            ScadaDate = new ChartValues<ObservableValue>();
+            EndDate = new SelectDate();
+            StartDate = new SelectDate();
 
 
-            Random random = new Random();
-            for (int i = 0; i < 12; i++)
-            {
-                ScadaData.Add(new ObservableValue(random.Next(20, 380)));
-                ScadaDatb.Add(new ObservableValue(random.Next(20, 300)));
-                ScadaDatc.Add(new ObservableValue(random.Next(20, 300)));
-                ScadaDatd.Add(new ObservableValue(random.Next(20, 300)));
-                ScadaDate.Add(new ObservableValue(random.Next(20, 300)));
+            // 读取 CSV 文件并转换成 WindSpeedData 对象列表
+            var data = ReadWindSpeedDataFromCsv("E:\\gird\\weather_data_with_wpd.csv");
 
-            }
+            // 转化为 LiveCharts 图表数据
+            WindSpeedValues = new ChartValues<double>(data.Select(d => d.WindSpeed));
+            TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
+            HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
+            WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
+            var date1 = ReadWindSpeedDataFromCsv1("E:\\gird\\frequency_data.csv");
+            Adam   =new ChartValues<double>(date1.Select(d => d.WindSpeed));
 
-            Alarms = new List<string>();
-            Alarms.Add("扇片寿命大于50% 可以继续使用");
-            Alarms.Add("齿轮箱寿命大于50% 可以继续使用");
-            Alarms.Add("变速器寿命小于30% 建议维修");
-            Alarms.Add("变流器寿命小于10% 建议报废");
-            BadScatter = new List<BadItemModel>();
-            string[] BadNames = new string[] { "叶片", "齿轮箱", "发电机", "变流器"};
-            for (int i = 0; i < BadNames.Length; i++)
-            {
-                BadScatter.Add(new BadItemModel() { Title = BadNames[i], Size = 180 - 20 * i, Value = 0.9 - 0.1 * i });
-            }
+
+
+        
+
+
+
         }
 
-        private void Init()
-        {
-            SaleBillboards = new() {
-            new SaleBillboard{ Ranking=1,ProjectName="万科金域曦府",SaleCount=3621,SaleAmount=65421234},
-            new SaleBillboard{ Ranking=2,ProjectName="星河智荟",SaleCount=3214,SaleAmount=564363535},
-            new SaleBillboard{ Ranking=3,ProjectName="珠江天郦",SaleCount=3225,SaleAmount=45635},
-            new SaleBillboard{ Ranking=4,ProjectName="龙湖天著",SaleCount=3142,SaleAmount=64646},
-            new SaleBillboard{ Ranking=5,ProjectName="金地半山风华",SaleCount=2954,SaleAmount=34535},
-            new SaleBillboard{ Ranking=6,ProjectName="富力南驰·富颐华庭",SaleCount=2865,SaleAmount=45646},
-            new SaleBillboard{ Ranking=7,ProjectName="星河东悦湾",SaleCount=2841,SaleAmount=34534563},
-            new SaleBillboard{ Ranking=8,ProjectName="合生湖山国际",SaleCount=2754,SaleAmount=34536345},
-            new SaleBillboard{ Ranking=9,ProjectName="星瀚TOD",SaleCount=2541,SaleAmount=5464535},
-            new SaleBillboard{ Ranking=10,ProjectName="珠江铂世湾",SaleCount=2425,SaleAmount=3453535},
-            };
-        }
-        }
+    }
 
 }
