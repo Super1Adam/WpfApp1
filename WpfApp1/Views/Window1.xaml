@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-
+        xmlns:hv="http://helix-toolkit.org/wpf" 
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         xmlns:uc="clr-namespace:WpfApp1.Controls"
@@ -298,8 +298,32 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <GroupBox Header="3D模型" Margin="5">
+                    <hv:HelixViewport3D Name="viewPort3D" ZoomExtentsWhenLoaded="True"
+                    ShowViewCube="false" ShowCoordinateSystem="True"
+                    CoordinateSystemLabelForeground="White"
+                    CoordinateSystemVerticalPosition="Center"
+                    CoordinateSystemHorizontalPosition="Right"
                     
+                    CoordinateSystemHeight="50" 
+                    CoordinateSystemWidth="50"
                     
+                    RenderOptions.EdgeMode="Unspecified"
+                    BorderBrush="White"
+                    BorderThickness="0"
+                    ShowFrameRate="False"
+                    ShowCameraInfo="True"
+                    IsManipulationEnabled="True"
+                    Background="Transparent"
+                    >
+                        <!-- Remember to add light to the scene -->
+                        <hv:HelixViewport3D.DefaultCamera>
+                            <PerspectiveCamera LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918" FieldOfView="45" NearPlaneDistance="0.1"/>
+                        </hv:HelixViewport3D.DefaultCamera>
+                        <hv:SunLight/>
+
+                        <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
+                    </hv:HelixViewport3D>
+
                 </GroupBox>
                 <GroupBox Header="剩余寿命" Grid.Column="1" Margin="5,5,0,5">
                     <Grid>

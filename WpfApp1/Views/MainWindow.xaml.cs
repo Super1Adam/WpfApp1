@@ -59,6 +59,11 @@ namespace WpfApp1.Views
 
         }
 
+        private void CartesianChart_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         //{

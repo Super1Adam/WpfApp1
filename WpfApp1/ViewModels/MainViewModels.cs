@@ -28,6 +28,23 @@ namespace WpfApp1.ViewModels
         public ChartValues<double> HumidityValues { get; set; }
         public ChartValues<double> WindPowerDensity { get; set; }
 
+
+
+
+        public ChartValues<double> WindSpeedValuesZF { get; set; }
+        public ChartValues<double> TemperaturValuesZF { get; set; }
+        public ChartValues<double> HumidityValuesZF { get; set; }
+        public ChartValues<double> WindPowerDensityZF { get; set; }
+
+
+        public ChartValues<double> WindSpeed { get; set; }
+        public ChartValues<double> Power { get; set; }
+        public ChartValues<double> Vane { get; set; }
+        public ChartValues<double> GearboxSpeed { get; set; }
+        public ChartValues<double> Generator { get; set; }
+        public ChartValues<double> Voltage { get; set; }
+
+
         //private ChartValues<double> windSpeedValues;
         //public ChartValues<double> WindSpeedValues
         //{
@@ -39,28 +56,28 @@ namespace WpfApp1.ViewModels
         //    }
 
         //}
-        private ChartValues<double> adam;
-        public ChartValues<double> Adam
-        {
-            get { return adam; }
-            set
-            {
-                adam = value;
-                SetPropertyChanged(nameof(adam));
-            }
+        //private ChartValues<double> adam;
+        //public ChartValues<double> Adam
+        //{
+        //    get { return adam; }
+        //    set
+        //    {
+        //        adam = value;
+        //        SetPropertyChanged(nameof(adam));
+        //    }
 
-        }
-        private ChartValues<double> adam1;
-        public ChartValues<double> Adam1
-        {
-            get { return adam1; }
-            set
-            {
-                adam = value;
-                SetPropertyChanged(nameof(adam1));
-            }
+        //}
+        //private ChartValues<double> adam1;
+        //public ChartValues<double> Adam1
+        //{
+        //    get { return adam1; }
+        //    set
+        //    {
+        //        adam = value;
+        //        SetPropertyChanged(nameof(adam1));
+        //    }
 
-        }
+        //}
         //private ChartValues<double> temperaturValues;
         //public ChartValues<double> TemperaturValues
         //{
@@ -197,9 +214,9 @@ namespace WpfApp1.ViewModels
 
 
 
-        private ObservableCollection<WindSpeedData> ReadWindSpeedDataFromCsv1(string filePath)
+        private ObservableCollection<zhifangtu> ReadWindSpeedDataFromCsv1(string filePath)
         {
-            var data = new ObservableCollection<WindSpeedData>();
+            var data = new ObservableCollection<zhifangtu>();
 
             using (var reader = new StreamReader(filePath))
             {
@@ -214,7 +231,7 @@ namespace WpfApp1.ViewModels
                     var windPowerDensity = double.Parse(values[3]);
 
 
-                    data.Add(new WindSpeedData
+                    data.Add(new zhifangtu
                     {
                         WindSpeed = windSpeed
                            ,
@@ -222,6 +239,42 @@ namespace WpfApp1.ViewModels
                                         ,
                         Humidity = humidity,
                         WindPowerDensity = windPowerDensity
+                    });
+                }
+            }
+
+            return data;
+        }
+
+        private ObservableCollection<ScadaData> ReadWindSpeedDataFromCsvScada(string filePath)
+        {
+            var data = new ObservableCollection<ScadaData>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                var line = reader.ReadLine();  // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var windSpeed = double.Parse(values[0]);
+                    var temperature = double.Parse(values[1]);
+                    var humidity = double.Parse(values[2]);
+                    var windPowerDensity = double.Parse(values[3]);
+                    var Five = double.Parse(values[4]);
+                    var Six = double.Parse(values[5]);
+
+
+                    data.Add(new ScadaData 
+                    {
+                        WindSpeed = windSpeed
+                           ,
+                        Power = temperature
+                                        ,
+                        Vane = humidity,
+                        GearboxSpeed = windPowerDensity,
+                        Generator = Five,
+                        Voltage = Six
                     });
                 }
             }
@@ -243,12 +296,21 @@ namespace WpfApp1.ViewModels
             TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
             HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
             WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
-            var date1 = ReadWindSpeedDataFromCsv1("E:\\gird\\frequency_data.csv");
-            Adam   =new ChartValues<double>(date1.Select(d => d.WindSpeed));
+            var dataZF = ReadWindSpeedDataFromCsv1("E:\\gird\\frequency_data.csv");
+            WindSpeedValuesZF = new ChartValues<double>(dataZF.Select(d => d.WindSpeed));
+            TemperaturValuesZF = new ChartValues<double>(dataZF.Select(d => d.Temperature));
+            HumidityValuesZF = new ChartValues<double>(dataZF.Select(d => d.Humidity));
+            WindPowerDensityZF = new ChartValues<double>(dataZF.Select(d => d.WindPowerDensity));
+            var dataScada = ReadWindSpeedDataFromCsvScada("E:\\gird\\processed_output_12_bins.csv");
+            WindSpeed =new ChartValues<double> (dataScada.Select(d => d.WindSpeed));
+            Power = new ChartValues<double>(dataScada.Select(d => d.Power));
+            Vane =new ChartValues<double>(dataScada.Select ((d) => d.Vane));
+            GearboxSpeed = new ChartValues<double>(dataScada.Select (d => d.GearboxSpeed));
+            Generator = new ChartValues<double>(dataScada.Select ((d) => d.Generator));
+            Voltage = new ChartValues<double>(dataScada.Select (((d) => d.Voltage)));
 
 
 
-        
 
 
 
