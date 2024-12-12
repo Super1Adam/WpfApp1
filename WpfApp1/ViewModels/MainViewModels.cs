@@ -19,7 +19,7 @@ namespace WpfApp1.ViewModels
     {
         public SeriesCollection SeriesCollection { get; set; }
 
-        
+       
 
         public ObservableCollection<string> TimeLabels { get; set; }
 
@@ -102,6 +102,7 @@ namespace WpfApp1.ViewModels
                     data.Add(new WindSpeedData
                     {
                         TimeRange = values[0],
+                        
                         WindSpeed = double.TryParse(values[1], out var windSpeed) ? windSpeed : 0,
                         Temperature = double.TryParse(values[2], out var temp) ? temp : 0,
                         Humidity = double.TryParse(values[3], out var hum) ? hum : 0,
@@ -188,7 +189,7 @@ namespace WpfApp1.ViewModels
             EndDate = new SelectDate();
             StartDate = new SelectDate();
             string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
-            string dataZf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "frequency_data.csv");
+            string datazf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "frequency_data.csv");
             string datascada = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "processed_output_12_bins.csv");
 
             // 读取 CSV 文件并转换成 WindSpeedData 对象列表
@@ -199,7 +200,7 @@ namespace WpfApp1.ViewModels
             TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
             HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
             WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
-            var dataZF = ReadWindSpeedDataFromCsv1(dataZf);
+            var dataZF = ReadWindSpeedDataFromCsv1(datazf);
             WindSpeedValuesZF = new ChartValues<double>(dataZF.Select(d => d.WindSpeed));
             TemperaturValuesZF = new ChartValues<double>(dataZF.Select(d => d.Temperature));
             HumidityValuesZF = new ChartValues<double>(dataZF.Select(d => d.Humidity));

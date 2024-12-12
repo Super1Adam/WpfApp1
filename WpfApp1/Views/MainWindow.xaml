@@ -569,15 +569,15 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <GroupBox Grid.Row="0" Header="选择风机种类">
                     <UniformGrid Columns="4">
 
-                        <DatePicker SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
-                        <DatePicker  SelectedDate="{Binding EndDate,Mode=TwoWay }"/>
-                        <Button   Click="Button_Click" Height=" 25" Width="70"/>
-                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                            <TextBox  Text="{Binding StartDate.SelectedDate,Converter={StaticResource DateTimeToStringConverter}, Mode=TwoWay}"/>
-                            <TextBox  Text="{Binding StartDate.SelectedDate,Converter={StaticResource DateTimeToStringConverter}, Mode=TwoWay}"/>
 
-
-                        </StackPanel>
+                        <DatePicker x:Name="StartDatePicker"/>
+                        <DatePicker x:Name="EndDatePicker"/>
+                        <TextBox Name="LatitudeTextBox" />
+                        <TextBox Name="LongitudeTextBox"  />
+                        <Button Content="选择文件" Click="Button_Click_2"  Width="100" />
+                        <TextBox x:Name="FilePathTextBox" Width="300" Margin="10,10,0,0" IsReadOnly="True" />
+                        <Button Content="Run Python Script" Click="Button_Click_1"/>
+                        
                     </UniformGrid>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="导入SCADA数据并选择时间">
