@@ -11,6 +11,7 @@
         WindowStyle="None" 
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"   
+         MouseDown="Window_MouseDown"
         FontFamily="Microsoft YaHei"
         FontWeight="ExtraLight"
         xmlns:zxc="clr-namespace:WpfApp1.Contorls"     
@@ -27,7 +28,6 @@
 
     </Window.Background>
     <Window.Resources>
-        <models:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
         <!--DataGrid样式-->
         <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="Transparent"/>
@@ -299,15 +299,15 @@
                 <GroupBox Header="选择ERA5数据" Grid.Row="0" >
                     <UniformGrid Columns="4">
 
-                        <DatePicker SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
-                        <DatePicker  SelectedDate="{Binding EndDate,Mode=TwoWay }"/>
-                         <StackPanel VerticalAlignment="Center" Orientation="Horizontal" >
-                            <ComboBox x:Name="comboBox1" Width="20" Margin="10" />
-                            <TextBox  Width="40"/>
-                        </StackPanel>  
-                        
-                         <Button   Click="Button_Click"  Height="25" Width="70" />
-              
+                        <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
+                        <DatePicker x:Name="EndDatePicker" SelectedDate ="{Binding EndDate,Mode=TwoWay }"/>
+                        <TextBlock Text="经度"/>
+                        <TextBox Name="LatitudeTextBox" />
+                        <TextBox Name="LongitudeTextBox"  />
+                        <Button Content="选择文件" Click="Button_Click_2"  Width="100" />
+                        <TextBox x:Name="FilePathTextBox" Width="300"  IsReadOnly="True" />
+                        <Button Content="Run Python Script" Click="Button_Click_1"/>
+
                     </UniformGrid>
 
 
@@ -440,7 +440,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
 
 
                 </GroupBox>
-                <GroupBox Header="选择SCADA数据" Grid.Row="2">
+                <GroupBox Header="EAR5统计直方图" Grid.Row="2">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
@@ -568,16 +568,10 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="选择风机种类">
                     <UniformGrid Columns="4">
+                        <Button Content="进入寿命计算页面" Click="Button_Click_3"/>
 
 
-                        <DatePicker x:Name="StartDatePicker"/>
-                        <DatePicker x:Name="EndDatePicker"/>
-                        <TextBox Name="LatitudeTextBox" />
-                        <TextBox Name="LongitudeTextBox"  />
-                        <Button Content="选择文件" Click="Button_Click_2"  Width="100" />
-                        <TextBox x:Name="FilePathTextBox" Width="300" Margin="10,10,0,0" IsReadOnly="True" />
-                        <Button Content="Run Python Script" Click="Button_Click_1"/>
-                        
+
                     </UniformGrid>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="导入SCADA数据并选择时间">
@@ -587,7 +581,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <DatePicker  SelectedDate="{Binding EndDate,Mode=TwoWay }"/>
                         <Button   Click="Button_Click" Height="25" Width="70" />
                         <StackPanel  >
-                            <TextBox  Text="{Binding StartDate.SelectedDate,Converter={StaticResource DateTimeToStringConverter}, Mode=TwoWay}"/>
+                            <!--<DatePicker SelectedDate="{Binding StartDatePicker XPath}"-->
 
                         </StackPanel>
                     </UniformGrid>

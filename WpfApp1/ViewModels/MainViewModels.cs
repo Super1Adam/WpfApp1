@@ -90,6 +90,11 @@ namespace WpfApp1.ViewModels
         {
             var data = new List<WindSpeedData>();
 
+            double totalTemperature = 0; // 累加温度
+            double totalHumidity = 0;    // 累加湿度
+            double totalWindSpeed = 0;   //累加风速
+            int validEntries = 0;        // 有效数据行计数
+
             using (var reader = new StreamReader(filePath))
             {
                 var line = reader.ReadLine(); // 跳过表头
@@ -98,6 +103,11 @@ namespace WpfApp1.ViewModels
                 {
                     var values = line.Split(',');
                     if (values.Length < 5) continue; // 跳过不完整的数据行
+                    totalWindSpeed += double.TryParse(values[1], out var windSpeed1) ? windSpeed1 : 0;
+                    totalTemperature += double.TryParse(values[2], out var temp1) ? temp1 : 0;
+                    totalHumidity += double.TryParse(values[3], out var hum1) ? hum1 : 0;
+                    validEntries ++;
+                    
 
                     data.Add(new WindSpeedData
                     {
@@ -107,10 +117,16 @@ namespace WpfApp1.ViewModels
                         Temperature = double.TryParse(values[2], out var temp) ? temp : 0,
                         Humidity = double.TryParse(values[3], out var hum) ? hum : 0,
                         WindPowerDensity = double.TryParse(values[4], out var wpd) ? wpd : 0
+
+                        
                     });
+
+
                 }
             }
-
+            GlobalVariables.AvgTemperature = validEntries > 0 ? totalTemperature / validEntries : 0;
+            GlobalVariables.AvgHumidity = validEntries > 0 ? totalHumidity / validEntries : 0;
+            GlobalVariables.AvgWindSpeed = validEntries > 0 ? totalWindSpeed / validEntries : 0;
             return data;
         }
 

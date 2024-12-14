@@ -7,6 +7,7 @@
         xmlns:hv="http://helix-toolkit.org/wpf" 
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
+        MouseDown="Window_MouseDown"
         xmlns:uc="clr-namespace:WpfApp1.Controls"
                 xmlns:models="clr-namespace:WpfApp1.Models"
 
@@ -17,7 +18,7 @@
         FontWeight="ExtraLight"
         xmlns:zxc="clr-namespace:WpfApp1.Contorls"     
         ResizeMode="CanResizeWithGrip"
-         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         
 
         Title="Window" Height="768" Width="1366">
@@ -30,7 +31,6 @@
 
     </Window.Background>
     <Window.Resources>
-        <models:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
         <!--DataGrid样式-->
         <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="Transparent"/>
@@ -159,9 +159,14 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="DataGridCell">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                        </Grid>
+                        <TextBlock TextWrapping="Wrap" 
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                            <TextBlock.Inlines>
+                                <!-- 将内容绑定到 ContentPresenter -->
+                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
                     </ControlTemplate>
                 </Setter.Value>
 
@@ -263,7 +268,8 @@
             </Border.Background>
 
         </Border>
-        <TextBlock Text="&#xe645;"  FontFamily="../Assets/Fonts/#iconfont" Foreground="#2BB6FE" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Left" Margin=" 20,0,0,0"/>
+        <TextBlock Text="&#xe645;"  FontFamily="../Assets/Fonts/#iconfont" Foreground="#2BB6FE" FontSize="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,8" />
+
         <TextBlock Text="风电装备数字化可循环性设计软件" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Bottom" FontSize="22" />
         <TextBlock Grid.Row=" 1" HorizontalAlignment="Center" VerticalAlignment="Top" >
      <Run Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " Foreground="#2bb" />
@@ -281,6 +287,7 @@
             <TextBlock Text="&#xebb1;"  FontFamily="../Assets/Fonts/#iconfont" Margin=" 2" FontSize=" 18"  VerticalAlignment="Center"/>
             <TextBlock Text="日期" Margin=" 2"/>
             <TextBlock Text="2024/11/20" VerticalAlignment="Center" Margin=" 2"/>
+            <Button Width="20" Content="&#xe608;" Click="Button_ClickBack"/>
         </StackPanel>
         <Grid Grid.Row=" 1"  Margin="20,15,20,15">
             <Grid.ColumnDefinitions>
@@ -293,10 +300,7 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions >
             <Grid Grid.Column="0" Grid.Row="0" Margin="2,15,20,15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
+              
                 <GroupBox Header="3D模型" Margin="5">
                     <hv:HelixViewport3D Name="viewPort3D" ZoomExtentsWhenLoaded="True"
                     ShowViewCube="false" ShowCoordinateSystem="True"
@@ -325,82 +329,110 @@
                     </hv:HelixViewport3D>
 
                 </GroupBox>
-                <GroupBox Header="剩余寿命" Grid.Column="1" Margin="5,5,0,5">
+
+            </Grid>
+            <GroupBox Grid.Column="0" Grid.Row="1" Margin="5,0,20,5" Header="经济型分析">
+              
+
+            </GroupBox>
+            <Grid Grid.Column="1" Grid.Row="0" Margin="2,15,20,15" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="剩余寿命" Grid.Row="0" Margin="5,5,0,5">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                               
-                            </Grid.RowDefinitions>
-                            <UniformGrid Grid.Row="0" Columns="3" >
-                                <StackPanel Grid.Column="3" HorizontalAlignment="Center">
-                                    <TextBlock Text="A产品良品率" Foreground="#AA999999" FontSize="11"/>
-                                    <zxc:CircularProgressBar Value="0.75" Foreground="White" BackColor="#11FFFFFF"
-                                              Width="55" Height="55" Margin="0,0,0,0"/>
+                        
+                            <UniformGrid Grid.Row="0" Columns="4" >
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                    <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BladeResultTextBlock" Text="26" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/> 
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                    <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="GearboxResultTextBlock" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="4" HorizontalAlignment="Center">
-                                    <TextBlock Text="B产品良品率" Foreground="#AA999999" FontSize="11"/>
-                                    <zxc:CircularProgressBar Value="0.95" Foreground="White" BackColor="#11FFFFFF"
-                                              Width="55" Height="55" Margin="0,0,0,0"/>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                    <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="GeneratorResultTextBlock" Text="13" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="5" HorizontalAlignment="Center">
-                                    <TextBlock Text="C产品良品率" Foreground="#AA999999" FontSize="11"/>
-                                    <zxc:CircularProgressBar Value="0.45" Foreground="White" BackColor="#11FFFFFF"
-                                              Width="55" Height="55" Margin="0,0,0,0"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                    <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="ConverterResultTextBlock" Text="5" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
                                 </StackPanel>
 
                             </UniformGrid>
-                            <UniformGrid Grid.Row="1" Columns="3">
+                            <UniformGrid Grid.Row="1" Columns="4">
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                    <TextBlock Text="计划产量" Foreground="#AA999999" FontSize="12" Margin="0,5"/>
-                                    <TextBlock Text="196000" Foreground="#CC2BB6FE" FontSize="20"/>
+                                    <TextBlock Text="风机型号" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="196000" Foreground="#CC2BB6FE" FontSize="20" HorizontalAlignment="Center"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                    <TextBlock Text="计划产量" Foreground="#AA999999" FontSize="12" Margin="0,5"/>
-                                    <TextBlock Text="196000" Foreground="#CC2BB6FE" FontSize="20"/>
+                                    <TextBlock Text="运行年限(年）" Foreground="#AA999999" FontSize="12" HorizontalAlignment="Center"/>
+
+                                    <TextBox x:Name="UsedLifetimeTextBox" Text="4" Foreground="#CC2BB6FE" Background="Transparent"  FontSize="20"/>
+                                        <Button Content="确定" Background="Transparent" Foreground="#cc2bb6fe" Click="Button_Click"/>
+                           
+
+                                    
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                    <TextBlock Text="计划产量" Foreground="#AA999999" FontSize="12" Margin="0,5"/>
-                                    <TextBlock Text="196000" Foreground="#CC2BB6FE" FontSize="20"/>
+                                    <TextBlock Text="剩余寿命" Foreground="#AA999999" FontSize="12" Margin="0,5" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="OverallResultTextBlock" Text="20" Foreground="#CC2BB6FE" FontSize="20" HorizontalAlignment="Center"/>
                                 </StackPanel>
+                            <Button Content="进入循环利用策略模块" Click="Button_Click_1"/>
 
 
-                            </UniformGrid>
-                          
-                        </Grid>
+                        </UniformGrid>
+
                         
 
 
 
-                        <lvc:CartesianChart Grid.Row="1">
 
-                        </lvc:CartesianChart>
-
+                     
 
                     </Grid>
                 </GroupBox>
-            </Grid>
-            <GroupBox Grid.Column="0" Grid.Row="1" Margin="5,0,20,5" Header="经济型分析">
-                
-            </GroupBox>
-            <Grid Grid.Column="1" Grid.Row="0" Margin="2,15,20,15" >
-                <GroupBox Grid.Column="1" Grid.Row="0" Header="循环利用知识库">
-                    
-                    
+                <GroupBox Header="发电机功率变化图" Grid.Row="1">
+                    <lvc:CartesianChart Grid.Row="2" >
+
+
+                        <lvc:CartesianChart.Series >
+                            <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+
+                        </lvc:CartesianChart.Series>
+
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis  Foreground=" #33ffffff" >
+                                <lvc:Axis.Separator >
+                                    <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Foreground="#33FFFFFF" >
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator  Stroke="#10FFFFFF"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
                 </GroupBox>
             </Grid>
             <GroupBox Grid.Column="1" Grid.Row="1" Margin="5,0,20,5" Header="循环利用策略">
                 <ItemsControl ItemsSource="{Binding Alarms}"
                  TextBlock.Foreground="#44FFFFFF"
                  TextBlock.LineHeight="23"
-                 Margin="3,5,5,5">
+                 Margin="5,0,3,0">
 
                 </ItemsControl>
 
