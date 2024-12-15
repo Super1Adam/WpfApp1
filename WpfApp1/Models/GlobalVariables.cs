@@ -51,7 +51,7 @@ namespace WpfApp1.Models
         public static double ConverterAccelerationFactor { get; private set; }
 
         // 运维策略影响因子 k，范围 0.8 ~ 1.2
-        public static double MaintenanceFactor { get; set; } = 1.0;
+        public static double MaintenanceFactor { get; set; } = 0.5;
 
         // 参考参数
         public static double ReferenceHumidity { get; set; } = 50.0; // RH_s
@@ -59,11 +59,11 @@ namespace WpfApp1.Models
         public static double ReferenceWindSpeed { get; set; } = 12.0; // v_s
 
         // k1, k2, k3 参数（针对不同部件）
-        public static (double K1, double K2, double K3) OverallKs { get; set; } = (1.0, 1.0, 1.0);
-        public static (double K1, double K2, double K3) BladeKs { get; set; } = (1.0, 1.0, 1.0);
-        public static (double K1, double K2, double K3) GearboxKs { get; set; } = (1.0, 1.0, 1.0);
-        public static (double K1, double K2, double K3) GeneratorKs { get; set; } = (1.0, 1.0, 1.0);
-        public static (double K1, double K2, double K3) ConverterKs { get; set; } = (1.0, 1.0, 1.0);
+        public static (double K1, double K2, double K3) OverallKs { get; set; } = (1.0, 1, 1);
+        public static (double K1, double K2, double K3) BladeKs { get; set; } = (1.0, 1.5, 1);
+        public static (double K1, double K2, double K3) GearboxKs { get; set; } = (1.0, 0.5, 0.5);
+        public static (double K1, double K2, double K3) GeneratorKs { get; set; } = (1.0, 0.7, 0.7);
+        public static (double K1, double K2, double K3) ConverterKs { get; set; } = (1.0, 0.3, 0.3);
 
         /// <summary>
         /// 更新加速因子 A 的计算

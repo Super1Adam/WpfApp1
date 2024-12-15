@@ -298,13 +298,13 @@ namespace WpfApp1.Views
 
                     if (!string.IsNullOrEmpty(output))
                     {
-                        MessageBox.Show("Output: " + output);
+                        MessageBox.Show("Output: " + "weather_data && frequence_data");
                     }
 
-                    if (!string.IsNullOrEmpty(error))
-                    {
-                        MessageBox.Show("Error: " + error);
-                    }
+                    //if (!string.IsNullOrEmpty(error))
+                    //{
+                    //    MessageBox.Show("Error: " + error);
+                    //}
                 }
             }
             catch (Exception ex)
@@ -392,8 +392,7 @@ namespace WpfApp1.Views
         {
             
             var window1 =new Window1(this);
-            this.Hide();
-            window1.Show();
+            window1.ShowDialog();
         }
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

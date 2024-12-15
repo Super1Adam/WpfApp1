@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace WpfApp1.ViewModels
 {
-    public class MainViewModels : PropertyChangedBase
+    public class   MainViewModels : PropertyChangedBase
     {
         public SeriesCollection SeriesCollection { get; set; }
 

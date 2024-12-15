@@ -15,11 +15,16 @@ namespace WpfApp1.ViewModels
           public ObservableCollection<FangAnChiLun>FangAnChiLuns { get; set; }
           public ObservableCollection<FangAnFaDianJi>fangAnFaDianJis { get; set; }  
           public ObservableCollection<FangAnBianLiuQi>FangAnBianLiuQis { get; set; }
+          public List<string> Alarms { get; set; }
 
         public CycleViewsModels()
         {
 
-
+            Alarms = new List<string>();
+            Alarms.Add("扇片寿命大于50% 可以继续使用");
+            Alarms.Add("齿轮箱寿命大于50% 可以继续检查叶片是否存在哨声，是否存在3个叶片声音不一致现象，存在时应停机进一步检查使用");
+            Alarms.Add("变速器寿命小于30% 建议维修");
+            Alarms.Add("变流器寿命小于10% 建议报废");
 
 
 

@@ -73,19 +73,28 @@ namespace WpfApp1.Contorls
 
         private void UpdateValue()
         {
+            // Check if the Value is 0 and handle it separately
+            if (Value == 0)
+            {
+                this.path.Data = Geometry.Empty;  // Remove the visual representation of the progress
+                return;
+            }
+
             this.layout.Width = Math.Min(this.RenderSize.Width, this.RenderSize.Height);
             double radius = this.layout.Width / 2;
-            if (radius == 0 || Value == 0) return;
+
+            if (radius == 0) return;
 
             double newX = 0.0, newY = 0.0;
             newX = radius + (radius - 3) * Math.Cos((Value % 100 * 100 * 3.6 - 90) * Math.PI / 180);
             newY = radius + (radius - 3) * Math.Sin((Value % 100 * 100 * 3.6 - 90) * Math.PI / 180);
 
             string pathStr = $"M{radius + 0.01} 3 " +
-                $"A{radius - 3} {radius - 3} 0 {(this.Value < 0.5 ? 0 : 1)} 1 {newX} {newY}";
+                             $"A{radius - 3} {radius - 3} 0 {(this.Value < 0.5 ? 0 : 1)} 1 {newX} {newY}";
 
             var converter = TypeDescriptor.GetConverter(typeof(Geometry));
             this.path.Data = (Geometry)converter.ConvertFrom(pathStr);
         }
+
     }
 }

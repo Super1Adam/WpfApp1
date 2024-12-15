@@ -78,13 +78,18 @@ namespace WpfApp1.Views
 
 
         }
+        private void Button_ClickBack(object sender, RoutedEventArgs e)
+
+        {
+            this.Close();
+        }
         private void UpdateContentForRange(ObservableCollection<FangAn> fangAns, string range)//叶片跟新逻辑
         {
             fangAns.Clear();
 
             if (range == "80-30")
             {
-                celue.Text = "       当叶片出现不同的故障时，需要根据不同的表现去排查维修或更换。例如出现裂纹时需要用环氧树脂等涂料进行填充加强，叶根断裂时则直接更换新叶片，旧叶片则参照剩余寿命为零进行循环利用。";
+                celue.Text = "       叶片出现故障时，需要根据不同的表现去排查维修或更换。例如出现裂纹时需要用环氧树脂等涂料进行填充加强，叶根断裂时则直接更换新叶片，旧叶片则参照剩余寿命为零进行循环利用。";
                             
     
                 fangAns.Add(new FangAn

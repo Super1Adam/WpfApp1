@@ -287,6 +287,8 @@
             <TextBlock Text="&#xebb1;"  FontFamily="../Assets/Fonts/#iconfont" Margin=" 2" FontSize=" 18"  VerticalAlignment="Center"/>
             <TextBlock Text="日期" Margin=" 2"/>
             <TextBlock Text="2024/11/20" VerticalAlignment="Center" Margin=" 2"/>
+            <Button Width="20" Content="&#xe608;" Click="Button_ClickBack"/>
+
         </StackPanel>
         <Grid Grid.Row=" 1"  Margin="20,15,20,15">
             <Grid.ColumnDefinitions>
@@ -319,7 +321,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <TextBlock Text="寿命" Foreground="#AA999999" FontSize="20" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="BladeResultTextBlock1" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="BladeResultTextBlock1" Text="14" Foreground="Red"  FontSize="25" HorizontalAlignment="Center"/>
                         </StackPanel>
 
 
@@ -391,7 +393,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <TextBlock Text="寿命" Foreground="#AA999999" FontSize="20" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="GearboxResultTextBlock" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="GearboxResultTextBlock" Text="14" Foreground="Red" FontSize="25" HorizontalAlignment="Center"/>
                         </StackPanel>
 
 
@@ -464,7 +466,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <TextBlock Text="寿命" Foreground="#AA999999" FontSize="20" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="GeneratorResultTextBlock" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="GeneratorResultTextBlock" Text="14" Foreground="Red"  FontSize="25" HorizontalAlignment="Center"/>
                         </StackPanel>
 
 
@@ -537,7 +539,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <TextBlock Text="寿命" Foreground="#AA999999" FontSize="20" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="ConverterResultTextBlock" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="ConverterResultTextBlock" Text="14" Foreground="Red" FontSize="25" HorizontalAlignment="Center"/>
                         </StackPanel>
 
 

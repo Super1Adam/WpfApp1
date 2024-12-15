@@ -48,14 +48,13 @@ namespace WpfApp1.Views
             viewPort3D.Children.Add(modelVisual3d1);
             double A = GlobalVariables.OverallAccelerationFactor;
             string AS = A.ToString();
-            MessageBox.Show(AS);
+            //MessageBox.Show(AS);
         }
 
         private void Button_ClickBack(object sender, RoutedEventArgs e)
 
         {
             this.Close();
-            _previousWindow.Show();
         }
 
         private void UpdateModelColors(double usedLifetime)
@@ -80,25 +79,25 @@ namespace WpfApp1.Views
                 var model = initGroup1.Children[targetIndex];
                 if (model is GeometryModel3D geometryModel)
                 {
-                    // 根据剩余寿命百分比设置颜色
-                    Color color;
-                    if (remainingLifePercentage >= 80)
-                    {
-                        color = Colors.Green;
-                    }
-                    else if (remainingLifePercentage >= 30)
-                    {
-                        color = Colors.Yellow;
-                    }
-                    else
-                    {
-                        color = Colors.Red;
-                    }
+                    // 计算渐变颜色
+                    Color color = GetColorForPercentage(remainingLifePercentage);
 
                     // 修改材质颜色
                     geometryModel.Material = new DiffuseMaterial(new SolidColorBrush(color));
                 }
             }
+        }
+
+        private Color GetColorForPercentage(double percentage)
+        {
+            // 将百分比限制在 0 到 100 的范围
+            double normalizedPercentage = Math.Clamp(percentage, 0, 100) / 100.0;
+
+            // 红色到绿色过渡
+            byte red = (byte)(255 * (1 - normalizedPercentage));  // 红色从 255 过渡到 0
+            byte green = (byte)(255 * normalizedPercentage);      // 绿色从 0 过渡到 255
+
+            return Color.FromRgb(red, green, 0);
         }
 
 
@@ -155,18 +154,24 @@ namespace WpfApp1.Views
             GlobalLifetimes.ConverterLife = converterResult.RemainingLifePercentage;
 
             // 显示结果
-            OverallResultTextBlock.Text = $"剩余寿命: {overallResult.RemainingLife:F2} 年\n剩余寿命百分比: {overallResult.RemainingLifePercentage:F2}%";
-            BladeResultTextBlock.Text = $"剩余寿命: {bladeResult.RemainingLife:F2} 年\n剩余寿命百分比: {bladeResult.RemainingLifePercentage:F2}%";
-            GearboxResultTextBlock.Text = $"剩余寿命: {gearboxResult.RemainingLife:F2} 年\n剩余寿命百分比: {gearboxResult.RemainingLifePercentage:F2}%";
-            GeneratorResultTextBlock.Text = $"剩余寿命: {generatorResult.RemainingLife:F2} 年\n剩余寿命百分比: {generatorResult.RemainingLifePercentage:F2}%";
-            ConverterResultTextBlock.Text = $"剩余寿命: {converterResult.RemainingLife:F2} 年\n剩余寿命百分比: {converterResult.RemainingLifePercentage:F2}%";
+            OverallResultTextBlock.Text = $"{LimitRange(overallResult.RemainingLife, 20, 25):F2} 年";
+      BladeResultTextBlock.Value = Math.Round(bladeResult.RemainingLifePercentage / 100, 2);
+GearboxResultTextBlock.Value = Math.Round(gearboxResult.RemainingLifePercentage / 100, 2);
+GeneratorResultTextBlock.Value = Math.Round(generatorResult.RemainingLifePercentage / 100, 2);
+ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercentage / 100, 2);
+
         }
 
+        // 限制寿命范围的函数
+        private double LimitRange(double value, double min, double max)
+        {
+            return Math.Max(min, Math.Min(max, value));
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            
             var window2 =new CycleWindow();
-            window2.Show();
+            window2.ShowDialog();
         }
     }
 
@@ -175,6 +180,9 @@ namespace WpfApp1.Views
 
 
     }
+
+
+
         public static class LifeCalculator
         {
             private const double ReferenceLifetime = 25.0; // 参考风机寿命（年）

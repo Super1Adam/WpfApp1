@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:WpfApp1.Models"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:uc="clr-namespace:WpfApp1.Controls"
@@ -301,12 +303,15 @@
 
                         <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
                         <DatePicker x:Name="EndDatePicker" SelectedDate ="{Binding EndDate,Mode=TwoWay }"/>
-                        <TextBlock Text="经度"/>
-                        <TextBox Name="LatitudeTextBox" />
-                        <TextBox Name="LongitudeTextBox"  />
-                        <Button Content="选择文件" Click="Button_Click_2"  Width="100" />
-                        <TextBox x:Name="FilePathTextBox" Width="300"  IsReadOnly="True" />
-                        <Button Content="Run Python Script" Click="Button_Click_1"/>
+
+                        <TextBox Name="LatitudeTextBox" Text="请输入经度" Margin="2,1"/>
+                        <TextBox Name="LongitudeTextBox" Text="请输入纬度" Margin="2,1" />
+                        <Button Content="选择文件" Click="Button_Click_2"  Margin="2,1" />
+                        <TextBox x:Name="FilePathTextBox" Width="300"  IsReadOnly="True" Margin="2,1" />
+                        <Button Content="气象数据计算" Click="Button_Click_1" Margin="2,1"/>
+                        <Button Content="寿命计算" Click="Button_Click_3" Margin="2,1"/>
+
+
 
                     </UniformGrid>
 
@@ -329,26 +334,24 @@
                     </lvc:PieChart>-->
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                     HorizontalAlignment="Left">
-                            <Border Width="8" Height="8" Background=" #2BB6FE" Margin="3,0"/>
-                            <TextBlock Text="计划" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                            <TextBlock Text="风速(m/s)" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="IndianRed" Margin="3,0"/>
-                            <TextBlock Text="叶轮转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                            <TextBlock Text="温度(℃)" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="AliceBlue" Margin="3,0"/>
-                            <TextBlock Text="发电机转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                            <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="DarkOliveGreen" Margin="3,0"/>
-                            <TextBlock Text="发电机有功功率" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                            <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="PeachPuff" Margin="3,0"/>
-                            <TextBlock Text="无功功率" Foreground="#44FFFFFF" FontSize="9"
-VerticalAlignment="Center" Margin="0,0,10,0"/>
+
                         </StackPanel>
                         <UniformGrid Columns="4" Grid.Row="1" Margin="5">
                             <lvc:CartesianChart >
@@ -443,26 +446,24 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <GroupBox Header="EAR5统计直方图" Grid.Row="2">
                     <Grid >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                     HorizontalAlignment="Left">
-                            <Border Width="8" Height="8" Background=" #2BB6FE" Margin="3,0"/>
-                            <TextBlock Text="计划" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                            <TextBlock Text="风速(m/s)" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="IndianRed" Margin="3,0"/>
-                            <TextBlock Text="叶轮转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                            <TextBlock Text="温度(℃)" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="AliceBlue" Margin="3,0"/>
-                            <TextBlock Text="发电机转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                            <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="DarkOliveGreen" Margin="3,0"/>
-                            <TextBlock Text="发电机有功功率" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                            <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="PeachPuff" Margin="3,0"/>
-                            <TextBlock Text="无功功率" Foreground="#44FFFFFF" FontSize="9"
-VerticalAlignment="Center" Margin="0,0,10,0"/>
+
                         </StackPanel>
                         <UniformGrid Columns="4" Grid.Row="1" Margin="5">
                             <lvc:CartesianChart >
@@ -562,31 +563,19 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
 
             <Grid Grid.Column="1" Margin="10,40,0,10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1.5*"/>
+               
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="选择风机种类">
                     <UniformGrid Columns="4">
-                        <Button Content="进入寿命计算页面" Click="Button_Click_3"/>
 
 
 
                     </UniformGrid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Header="导入SCADA数据并选择时间">
-                    <UniformGrid Columns="4">
-
-                        <DatePicker SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
-                        <DatePicker  SelectedDate="{Binding EndDate,Mode=TwoWay }"/>
-                        <Button   Click="Button_Click" Height="25" Width="70" />
-                        <StackPanel  >
-                            <!--<DatePicker SelectedDate="{Binding StartDatePicker XPath}"-->
-
-                        </StackPanel>
-                    </UniformGrid>
-                </GroupBox>
-                <GroupBox Grid.Row="2" Header="导入SCADA数据并选择时间">
+              
+                <GroupBox Grid.Row="2" Header="SCADA数据">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
@@ -594,21 +583,27 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                     HorizontalAlignment="Left">
-                            <Border Width="8" Height="8" Background=" #2BB6FE" Margin="3,0"/>
-                            <TextBlock Text="计划" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                            <TextBlock Text="环境量" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="IndianRed" Margin="3,0"/>
-                            <TextBlock Text="叶轮转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                            <TextBlock Text="发电信息" Foreground="#44FFFFFF" FontSize="15"
            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="AliceBlue" Margin="3,0"/>
-                            <TextBlock Text="发电机转速" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                            <TextBlock Text="叶片" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="DarkOliveGreen" Margin="3,0"/>
-                            <TextBlock Text="发电机有功功率" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                            <TextBlock Text="齿轮箱" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
-                            <Border Width="8" Height="8" Background="PeachPuff" Margin="3,0"/>
-                            <TextBlock Text="无功功率" Foreground="#44FFFFFF" FontSize="9"
+                            <Border Width="15" Height="15" Background="Yellow" Margin="3,0"/>
+                            <TextBlock Text="发电机" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Width="15" Height="15" Background="Gainsboro" Margin="3,0"/>
+                            <TextBlock Text="变流器" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+
+
                         </StackPanel>
                         <UniformGrid Grid.Row="1" Rows="3" Columns="2">
                             <lvc:CartesianChart >
@@ -636,7 +631,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <lvc:CartesianChart >
 
                                 <lvc:CartesianChart.Series >
-                                    <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
 
                                 </lvc:CartesianChart.Series>
 
@@ -658,7 +653,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <lvc:CartesianChart >
 
                                 <lvc:CartesianChart.Series >
-                                    <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness=" 0" Stroke="AliceBlue" Fill="Transparent" PointGeometry=""/>
 
                                 </lvc:CartesianChart.Series>
 
@@ -680,7 +675,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <lvc:CartesianChart >
 
                                 <lvc:CartesianChart.Series >
-                                    <lvc:LineSeries  Values="{Binding GearboxSpeed }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding GearboxSpeed }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
 
                                 </lvc:CartesianChart.Series>
 
@@ -703,7 +698,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <lvc:CartesianChart >
 
                                 <lvc:CartesianChart.Series >
-                                    <lvc:LineSeries  Values="{Binding Generator }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding Generator }" LineSmoothness=" 0" Stroke="Yellow" Fill="Transparent" PointGeometry=""/>
 
                                 </lvc:CartesianChart.Series>
 
@@ -725,7 +720,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <lvc:CartesianChart >
 
                                 <lvc:CartesianChart.Series >
-                                    <lvc:LineSeries  Values="{Binding Voltage }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding Voltage }" LineSmoothness=" 0" Stroke="Gainsboro" Fill="Transparent" PointGeometry=""/>
 
                                 </lvc:CartesianChart.Series>
 

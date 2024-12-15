@@ -14,7 +14,7 @@
 
         <Viewbox Margin="14">
             <TextBlock Text="{Binding Value,ElementName=root,StringFormat={}{0:P0}}"
-                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                     VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
         </Viewbox>
 
         <Grid VerticalAlignment="Top" Margin="0,-3,0,0">
