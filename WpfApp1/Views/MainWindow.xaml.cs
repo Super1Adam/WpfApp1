@@ -69,6 +69,44 @@ namespace WpfApp1.Views
 
 
         }
+        private void Button_ShuJuDaoRu(object sender, RoutedEventArgs e)
+
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.ShowDialog();
+
+        }
+        private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
+
+        {
+            Window1 mainWindow = new Window1();
+            mainWindow.ShowDialog();
+        }
+        private void Button_XunHuan(object sender, RoutedEventArgs e)
+
+        {
+            CycleWindow window1 = new CycleWindow();
+            window1.ShowDialog();
+        }
+        private void Button_JingJi(object sender, RoutedEventArgs e)
+
+        {
+            jingjixingfenxi jingjixingfenxi = new jingjixingfenxi();
+            jingjixingfenxi.ShowDialog();
+        }
+        private void Button_Genxing(object sender, RoutedEventArgs e)
+
+        {
+            ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
+            shuJuGengXingWindow.ShowDialog();
+
+        }
+        private void Button_ShouMing(object sender, RoutedEventArgs e)
+
+        {
+            MessageBox.Show("本软件集数据可视化、剩余寿命预测及循环利用三大模块于一体，显著提升运维效率与资源利用率。未来，该软件将深化智能分析，优化预测精度，促进风电装备更高效、可持续地循环利用，引领风电行业绿色转型。 ");
+
+        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -147,6 +185,32 @@ namespace WpfApp1.Views
             }
         }
 
+        private ObservableCollection<YunXingShuJu> ReadYunXingShuJucsv(string filename)
+        {
+            var data = new ObservableCollection<YunXingShuJu>();
+            using (var reader = new StreamReader(filename))
+            {
+                var line = reader.ReadLine();  // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var windSpeed = double.Parse(values[1]);
+                    var temperature = values[0];
+
+
+                    data.Add(new YunXingShuJu
+                    {
+                        YunXingShuJuValues = windSpeed
+                           ,
+                        XLabels = temperature
+                                        ,
+
+                    });
+                }
+            }
+            return data;
+        }
         private List<WindSpeedData> ReadWindSpeedDataFromCsv(string filePath)
         {
             var data = new List<WindSpeedData>();
@@ -367,6 +431,152 @@ namespace WpfApp1.Views
             //}
         }
 
+
+        private void RunPythonScript1()//运行python脚本，计算月均数据变化折线图，和数据统计直方图
+        {
+
+
+            string filePathToCsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "top_10_codes.csv");
+
+
+       
+            string? filePath = FilePathTextBox1.Text;
+
+            if ( filePath == null)
+            {
+                MessageBox.Show("请选择有效的输入文件路径！");
+                return;
+            }
+
+
+
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
+            string pythonScriptPath = @"E:\gird\pythonProject\guzhang.py";
+
+
+            // 拼接参数字符串，注意空格分隔
+            string arguments = $"\"{pythonScriptPath}\"  \"{filePath}\" \"{filePathToCsv}\" ";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = pythonExePath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            // 添加环境变量（如果需要设置路径）
+            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
+            startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
+
+            try
+            {
+                using (Process process = Process.Start(startInfo))
+                {
+                    if (process == null)
+                    {
+                        MessageBox.Show("Failed to start process.");
+                        return;
+                    }
+
+                    // 读取输出
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        MessageBox.Show("读取成功");
+                    }
+
+                    //if (!string.IsNullOrEmpty(error))
+                    //{
+                    //    MessageBox.Show("Error: " + error);
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+    
+        }
+
+        private void RunPythonScript2()//运行python脚本，计算月均数据变化折线图，和数据统计直方图
+        {
+
+
+            string filePathToCsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "processed_output_12_bins.csv");
+
+
+
+            string? filePath = FilePathTextBox2.Text;
+
+            if (filePath == null)
+            {
+                MessageBox.Show("请选择有效的输入文件路径！");
+                return;
+            }
+
+
+
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
+            string pythonScriptPath = @"E:\gird\pythonProject\scad.py";
+
+
+            // 拼接参数字符串，注意空格分隔
+            string arguments = $"\"{pythonScriptPath}\"  \"{filePath}\" \"{filePathToCsv}\" ";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = pythonExePath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            // 添加环境变量（如果需要设置路径）
+            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
+            startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
+
+            try
+            {
+                using (Process process = Process.Start(startInfo))
+                {
+                    if (process == null)
+                    {
+                        MessageBox.Show("Failed to start process.");
+                        return;
+                    }
+
+                    // 读取输出
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        MessageBox.Show("读取成功");
+                    }
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        MessageBox.Show("Error: " + error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+        }
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -391,7 +601,7 @@ namespace WpfApp1.Views
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             
-            var window1 =new Window1(this);
+            var window1 =new Window1();
             window1.ShowDialog();
         }
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -402,6 +612,160 @@ namespace WpfApp1.Views
             }
         }
 
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "选择文件",
+                Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
+                InitialDirectory = @"C:\"
+            };
+
+            // 如果用户选择了文件并点击确定
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // 获取文件路径并显示到 TextBox
+                string selectedFilePath = openFileDialog.FileName;
+                FilePathTextBox1.Text = selectedFilePath;
+
+                // 进一步处理选定文件路径
+                MessageBox.Show($"您选择的文件路径为：{selectedFilePath}");
+            }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript1();
+
+
+            var viewModel = this.DataContext as MainViewModels;
+            if (viewModel != null)
+            {
+                viewModel.YunXingShuJuValues.Clear();
+                viewModel.XLabels.Clear();
+
+                string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "top_10_codes.csv");
+
+                var data = ReadYunXingShuJucsv(datacsv);
+                foreach (var value in data.Select(d => d.YunXingShuJuValues))
+                {
+                    viewModel.YunXingShuJuValues.Add(value);
+
+                }
+                foreach (var value in data.Select(d => d.XLabels))
+                {
+                    viewModel.XLabels.Add(value);
+                }
+
+
+
+            }
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "选择文件",
+                Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
+                InitialDirectory = @"C:\"
+            };
+
+            // 如果用户选择了文件并点击确定
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // 获取文件路径并显示到 TextBox
+                string selectedFilePath = openFileDialog.FileName;
+                FilePathTextBox2.Text = selectedFilePath;
+
+                // 进一步处理选定文件路径
+                MessageBox.Show($"您选择的文件路径为：{selectedFilePath}");
+            }
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+       
+            RunPythonScript2();
+            var viewModel = this.DataContext as MainViewModels;
+            if (viewModel != null)
+            {
+                viewModel.WindSpeed.Clear();
+                viewModel.Power.Clear();
+                viewModel.Vane.Clear();
+                viewModel.GearboxSpeed.Clear();
+                viewModel.Generator.Clear();
+                viewModel.Voltage.Clear();
+                string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "processed_output_12_bins.csv");
+
+                var data = ReadWindSpeedDataFromCsvScada(datacsv);
+                foreach (var value in data.Select(d => d.WindSpeed))
+                {
+                    viewModel.WindSpeed.Add(value);
+
+                }
+                foreach (var value in data.Select(d => d.Power))
+                {
+                    viewModel.Power.Add(value);
+                }
+                foreach (var value in data.Select(d => d.Vane))
+                {
+                    viewModel.Vane.Add(value);
+                }
+                foreach (var value in data.Select(d => d.GearboxSpeed))
+                {
+                    viewModel.GearboxSpeed.Add(value);
+                }
+                foreach (var value in data.Select(d => d.Generator))
+                {
+                    viewModel.Generator.Add(value);
+                }
+                foreach (var value in data.Select(d => d.Voltage))
+                {
+                    viewModel.Voltage.Add(value);
+                }
+
+
+
+
+            }
+
+        }
+        private ObservableCollection<ScadaData> ReadWindSpeedDataFromCsvScada(string filePath)
+        {
+            var data = new ObservableCollection<ScadaData>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                var line = reader.ReadLine();  // 跳过表头
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var windSpeed = double.Parse(values[0]);
+                    var temperature = double.Parse(values[1]);
+                    var humidity = double.Parse(values[2]);
+                    var windPowerDensity = double.Parse(values[3]);
+                    var Five = double.Parse(values[4]);
+                    var Six = double.Parse(values[5]);
+
+
+                    data.Add(new ScadaData
+                    {
+                        WindSpeed = windSpeed
+                           ,
+                        Power = temperature
+                                        ,
+                        Vane = humidity,
+                        GearboxSpeed = windPowerDensity,
+                        Generator = Five,
+                        Voltage = Six
+                    });
+                }
+            }
+
+            return data;
+        }
         //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         //{
         //    OpenFileDialog openFileDialog = new OpenFileDialog();

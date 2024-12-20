@@ -23,6 +23,8 @@ namespace WpfApp1.Views
         public LoginPage()
         {
             InitializeComponent();
+            mediaElement.MediaEnded += MediaElement_MediaEnded;
+            mediaElement.Play();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -31,9 +33,21 @@ namespace WpfApp1.Views
             string psw = usepsw.Text;
             if (use == "123" && psw == "123")
             {
-                MessageBox.Show("ok");
-            }
+                MessageBox.Show("登录成功");
+                var mainwindow = new MainWindow();
+                mainwindow.Show();
 
+                // 关闭当前窗口
+                Window.GetWindow(this)?.Close();
+
+            }
+        
+        }
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            // 视频播放完毕后重新播放
+            mediaElement.Position = TimeSpan.Zero;  // 将视频进度设置为开头
+            mediaElement.Play();                    // 重新播放视频
         }
     }
 }

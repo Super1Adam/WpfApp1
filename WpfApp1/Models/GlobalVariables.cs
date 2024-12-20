@@ -55,15 +55,15 @@ namespace WpfApp1.Models
 
         // 参考参数
         public static double ReferenceHumidity { get; set; } = 50.0; // RH_s
-        public static double ReferenceTemperature { get; set; } = 25; // T_s (25°C in Kelvin)
+        public static double ReferenceTemperature { get; set; } = 273.15; // T_s (25°C in Kelvin)
         public static double ReferenceWindSpeed { get; set; } = 12.0; // v_s
 
         // k1, k2, k3 参数（针对不同部件）
-        public static (double K1, double K2, double K3) OverallKs { get; set; } = (1.0, 1, 1);
-        public static (double K1, double K2, double K3) BladeKs { get; set; } = (1.0, 1.5, 1);
-        public static (double K1, double K2, double K3) GearboxKs { get; set; } = (1.0, 0.5, 0.5);
-        public static (double K1, double K2, double K3) GeneratorKs { get; set; } = (1.0, 0.7, 0.7);
-        public static (double K1, double K2, double K3) ConverterKs { get; set; } = (1.0, 0.3, 0.3);
+        public static (double K1, double K2, double K3) OverallKs { get; set; } = (-0.171, 397.31, -0.345);
+        public static (double K1, double K2, double K3) BladeKs { get; set; } = (-0.371, 657.412, -0.595);
+        public static (double K1, double K2, double K3) GearboxKs { get; set; } = (-0.344, 1572.89, -0.1);
+        public static (double K1, double K2, double K3) GeneratorKs { get; set; } = (-0.344, 2413.82, -0.71);
+        public static (double K1, double K2, double K3) ConverterKs { get; set; } = (-0.619, 3151.76, -1.913);
 
         /// <summary>
         /// 更新加速因子 A 的计算
@@ -104,7 +104,7 @@ namespace WpfApp1.Models
 
             return MaintenanceFactor * Math.Exp(
                 //k1 * Math.Log(ReferenceHumidity / _avgHumidity) +
-                k2 * (1 / _avgTemperature - 1 / ReferenceTemperature) +
+                k2 * (1 / (_avgTemperature+273.15) - 1 / ReferenceTemperature) +
                 k3 * Math.Log(_avgWindSpeed / ReferenceWindSpeed)
             );
         }

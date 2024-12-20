@@ -16,7 +16,8 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-            
+            <MediaElement Name="mediaElement" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+LoadedBehavior="Manual" UnloadedBehavior="Manual" Grid.Row="3" Grid.RowSpan="2"/>
             <TextBlock Margin="5" Grid.Row="0" Grid.Column ="0" Text="风电装备数字化可循环性设计软件" FontSize="18" HorizontalAlignment="Center" />
             <StackPanel  Grid.Row="1" Background="#0078d4">
                 <TextBlock Text="登录" FontSize="22" HorizontalAlignment="Center" Foreground="White" Margin="5"/>

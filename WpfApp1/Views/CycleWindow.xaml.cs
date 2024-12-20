@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Models;
 using WpfApp1.ViewModels;
+using static MaterialDesignThemes.Wpf.Theme;
 
 namespace WpfApp1.Views
 {
@@ -78,6 +79,58 @@ namespace WpfApp1.Views
 
 
         }
+        private void Button_ShuJuDaoRu(object sender, RoutedEventArgs e)
+
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.ShowDialog();
+
+        }
+        private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
+
+        {
+            Window1 mainWindow = new Window1();
+            mainWindow.ShowDialog();
+        }
+        private void Button_XunHuan(object sender, RoutedEventArgs e)
+
+        {
+            CycleWindow window1 = new CycleWindow();
+            window1.ShowDialog();
+        }
+        private void Button_JingJi(object sender, RoutedEventArgs e)
+
+        {
+            jingjixingfenxi jingjixingfenxi = new jingjixingfenxi();
+            jingjixingfenxi.ShowDialog();
+        }
+        private void Button_Genxing(object sender, RoutedEventArgs e)
+
+        {
+            ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
+            shuJuGengXingWindow.ShowDialog();
+
+        }
+        private void Button_ShouMing(object sender, RoutedEventArgs e)
+
+        {
+            MessageBox.Show("本软件集数据可视化、剩余寿命预测及循环利用三大模块于一体，显著提升运维效率与资源利用率。未来，该软件将深化智能分析，优化预测精度，促进风电装备更高效、可持续地循环利用，引领风电行业绿色转型。 ");
+
+        }
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (MyDataGrid2.SelectedItem is FangAnFaDianJi selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再制造" )
+                {
+                    MessageBox.Show("点击了【再制造】的【机组改造】行！", "提示");
+                }
+              
+            }
+        }
+   
+
         private void Button_ClickBack(object sender, RoutedEventArgs e)
 
         {
@@ -243,25 +296,20 @@ namespace WpfApp1.Views
             {
                 celue2.Text = "当发电机寿命降至25%以下时，优先考虑更换或材料回收以降低运行风险。";
 
-                fangAnFaDianJis.Add(new FangAnFaDianJi
-                {
-                    ProjectName = "再利用",
-                    Content = "将发电机直接用到其他风电场",
-                    Time = "几乎不需要成本，利用价值高，但是性能不如新产品"
-                });
-                fangAnFaDianJis.Add(new FangAnFaDianJi
-                {
-                    ProjectName = "再制造",
-                    Content = "在原有制造的基础上进行一次新的制造",
-                    Time = "再制造产品可以做到接近甚至超过新品品质，但是成本更高"
-                });
-                fangAnFaDianJis.Add(new FangAnFaDianJi
-                {
-                    ProjectName = "再制造",
-                    Content = "机组改造",
-                    Time = "铜线拆解后用于金属回收"
-                });
-         
+                List<FangAnFaDianJi> predefinedRecords = new List<FangAnFaDianJi>
+        {
+            new FangAnFaDianJi { ProjectName = "再利用", Content = "将发电机直接用到其他风电场", Time = "几乎不需要成本，利用价值高，但是性能不如新产品" },
+            new FangAnFaDianJi { ProjectName = "再制造", Content = "在原有制造的基础上进行一次新的制造", Time = "再制造产品可以做到接近甚至超过新品品质，但是成本更高" },
+            new FangAnFaDianJi { ProjectName = "机组改造", Content = "铜线拆解后用于金属回收", Time = "材料回收利用，降低浪费" }
+        };
+
+              
+
+                // 随机添加一个记录
+                Random random = new Random();
+                int randomIndex = random.Next(predefinedRecords.Count);
+                fangAnFaDianJis.Add(predefinedRecords[randomIndex]);
+
             }
         }
 

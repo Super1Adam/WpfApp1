@@ -24,31 +24,65 @@ namespace WpfApp1.Views
     public partial class Window1 : Window
     {
         private Window _previousWindow;
+        private Model3DGroup initGroup;
         private Model3DGroup initGroup1;
-        public Window1(Window previousWindow)
+        private Model3DGroup initGroup2;
+        private Model3DGroup initGroup3;
+        private Model3DGroup initGroup4;
+        public Window1()
         {
             InitializeComponent();
-            _previousWindow = previousWindow;
 
             string objPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "obj.obj");
+
+
             this.DataContext = new MainViewModels();
+            //主视角
             string modelPath1 = objPath;
             ModelImporter import = new ModelImporter();
+            initGroup = import.Load(modelPath1);
+            ModelVisual3D modelVisual3d = new ModelVisual3D();
+          
+            modelVisual3d.Content = initGroup;
+            viewPort3D.Children.Add(modelVisual3d);
+
+
+            //叶片
             initGroup1 = import.Load(modelPath1);
-
-
-            // // 加载第二个模型
-            // string modelPath2 = "E:\\OBJ格式\\Z更新2.obj";
-            // var initGroup2 = import.Load(modelPath2);
-
-            // 创建第一个 ModelVisual3D 并为每个 GeometryModel3D 设置红色
             ModelVisual3D modelVisual3d1 = new ModelVisual3D();
-            //SetModelColor(initGroup1, Colors.Red); // 设置颜色为红色
+
             modelVisual3d1.Content = initGroup1;
-            viewPort3D.Children.Add(modelVisual3d1);
-            double A = GlobalVariables.OverallAccelerationFactor;
-            string AS = A.ToString();
-            //MessageBox.Show(AS);
+            viewPort3D1.Children .Add(modelVisual3d1);
+
+            //齿轮箱
+            initGroup2 = import.Load(modelPath1);
+            ModelVisual3D modelVisual3d2 = new ModelVisual3D();
+
+            modelVisual3d2.Content = initGroup2;
+            viewPort3D2.Children.Add(modelVisual3d2);
+
+            //发电机
+            initGroup3 = import.Load(modelPath1);
+            ModelVisual3D modelVisual3d3 = new ModelVisual3D();
+            modelVisual3d3.Content = initGroup3;
+            viewPort3D3.Children.Add(modelVisual3d3);
+
+            //变流器
+            initGroup4 = import.Load(modelPath1);
+    
+            ModelVisual3D modelVisual3d4 = new ModelVisual3D();
+            modelVisual3d4.Content = initGroup4;
+            viewPort3D4.Children.Add(modelVisual3d4);
+            
+   
+
+
+
+
+
+
+
+
         }
 
         private void Button_ClickBack(object sender, RoutedEventArgs e)
@@ -56,27 +90,110 @@ namespace WpfApp1.Views
         {
             this.Close();
         }
+        private void Button_ShuJuDaoRu(object sender, RoutedEventArgs e)
 
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.ShowDialog();
+
+        }
+        private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
+
+        {
+            Window1 mainWindow = new Window1();
+            mainWindow.ShowDialog();
+        }
+        private void Button_XunHuan(object sender, RoutedEventArgs e)
+
+        {
+            CycleWindow window1 = new CycleWindow();
+            window1.ShowDialog();
+        }
+        private void Button_JingJi(object sender, RoutedEventArgs e)
+
+        {
+            jingjixingfenxi jingjixingfenxi = new jingjixingfenxi();
+            jingjixingfenxi.ShowDialog();
+        }
+        private void Button_Genxing(object sender, RoutedEventArgs e)
+
+        {
+            ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
+            shuJuGengXingWindow.ShowDialog();
+
+        }
+        private void Button_ShouMing(object sender, RoutedEventArgs e)
+
+        {
+            MessageBox.Show("本软件集数据可视化、剩余寿命预测及循环利用三大模块于一体，显著提升运维效率与资源利用率。未来，该软件将深化智能分析，优化预测精度，促进风电装备更高效、可持续地循环利用，引领风电行业绿色转型。 ");
+
+        }
         private void UpdateModelColors(double usedLifetime)
         {
             // 计算每个部件的剩余寿命百分比
-            var bladeResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.BladeAccelerationFactor, usedLifetime);
-            var gearboxResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.GearboxAccelerationFactor, usedLifetime);
-            var generatorResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.GeneratorAccelerationFactor, usedLifetime);
-            var converterResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.ConverterAccelerationFactor, usedLifetime);
+            var bladeResult = LifeCalculator.CalculateBladeLife(GlobalVariables.BladeAccelerationFactor, usedLifetime);
+            var gearboxResult = LifeCalculator.CalculateGearboxLife(GlobalVariables.GearboxAccelerationFactor, usedLifetime);
+            var generatorResult = LifeCalculator.CalculateGeneratorLife(GlobalVariables.GeneratorAccelerationFactor, usedLifetime);
+            var converterResult = LifeCalculator.CalculateConverterLife(GlobalVariables.ConverterAccelerationFactor, usedLifetime);
 
             // 根据百分比设置颜色
-            UpdateModelColor(66, bladeResult.RemainingLifePercentage);    // 叶片
-            UpdateModelColor(84, gearboxResult.RemainingLifePercentage); // 齿轮箱
-            UpdateModelColor(49, generatorResult.RemainingLifePercentage); // 发电机
-            UpdateModelColor(37, converterResult.RemainingLifePercentage); // 变流器
+            UpdateModelColor1(66, bladeResult.RemainingLifePercentage);    // 叶片
+            UpdateModelColor2(84, gearboxResult.RemainingLifePercentage); // 齿轮箱
+            UpdateModelColor4(40, converterResult.RemainingLifePercentage); // 发电机
+            UpdateModelColor3(34, generatorResult.RemainingLifePercentage); // 变流器
+          
         }
 
-        private void UpdateModelColor(int targetIndex, double remainingLifePercentage)
+        private void UpdateModelColor1(int targetIndex, double remainingLifePercentage)
         {
             if (targetIndex >= 0 && targetIndex < initGroup1.Children.Count)
             {
                 var model = initGroup1.Children[targetIndex];
+                if (model is GeometryModel3D geometryModel)
+                {
+                    // 计算渐变颜色
+                    Color color = GetColorForPercentage(remainingLifePercentage);
+
+                    // 修改材质颜色
+                    geometryModel.Material = new DiffuseMaterial(new SolidColorBrush(color));
+                }
+            }
+        }
+        private void UpdateModelColor2(int targetIndex, double remainingLifePercentage)
+        {
+            if (targetIndex >= 0 && targetIndex < initGroup2.Children.Count)
+            {
+                var model = initGroup2.Children[targetIndex];
+                if (model is GeometryModel3D geometryModel)
+                {
+                    // 计算渐变颜色
+                    Color color = GetColorForPercentage(remainingLifePercentage);
+
+                    // 修改材质颜色
+                    geometryModel.Material = new DiffuseMaterial(new SolidColorBrush(color));
+                }
+            }
+        }
+        private void UpdateModelColor3(int targetIndex, double remainingLifePercentage)
+        {
+            if (targetIndex >= 0 && targetIndex < initGroup3.Children.Count)
+            {
+                var model = initGroup3.Children[targetIndex];
+                if (model is GeometryModel3D geometryModel)
+                {
+                    // 计算渐变颜色
+                    Color color = GetColorForPercentage(remainingLifePercentage);
+
+                    // 修改材质颜色
+                    geometryModel.Material = new DiffuseMaterial(new SolidColorBrush(color));
+                }
+            }
+        }
+        private void UpdateModelColor4(int targetIndex, double remainingLifePercentage)
+        {
+            if (targetIndex >= 0 && targetIndex < initGroup4.Children.Count)
+            {
+                var model = initGroup4.Children[targetIndex];
                 if (model is GeometryModel3D geometryModel)
                 {
                     // 计算渐变颜色
@@ -93,12 +210,46 @@ namespace WpfApp1.Views
             // 将百分比限制在 0 到 100 的范围
             double normalizedPercentage = Math.Clamp(percentage, 0, 100) / 100.0;
 
-            // 红色到绿色过渡
-            byte red = (byte)(255 * (1 - normalizedPercentage));  // 红色从 255 过渡到 0
-            byte green = (byte)(255 * normalizedPercentage);      // 绿色从 0 过渡到 255
+            byte red, green, blue;
 
-            return Color.FromRgb(red, green, 0);
+            if (normalizedPercentage <= 0.5)
+            {
+                // 红色到蓝色过渡 (0% - 50%)
+                double transition = normalizedPercentage / 0.5; // 0 到 1
+                red = (byte)(255 * (1 - transition));          // 红色从 255 减少到 0
+                green = 0;                                    // 绿色保持为 0
+                blue = (byte)(255 * transition);              // 蓝色从 0 增加到 255
+            }
+            else
+            {
+                // 蓝色到绿色过渡 (50% - 100%)
+                double transition = (normalizedPercentage - 0.5) / 0.5; // 0 到 1
+                red = 0;                                    // 红色保持为 0
+                green = (byte)(255 * transition);           // 绿色从 0 增加到 255
+                blue = (byte)(255 * (1 - transition));      // 蓝色从 255 减少到 0
+            }
+
+            return Color.FromRgb(red, green, blue);
         }
+
+        //private Color GetColorForPercentage(double percentage)
+        //{
+        //    // 将百分比限制在 0 到 100 的范围
+        //    double normalizedPercentage = Math.Clamp(percentage, 0, 100) / 100.0;
+
+        //    // 红色到绿色过渡
+        //    byte red = (byte)(255 * (1 - normalizedPercentage));  // 红色从 255 过渡到 0
+        //    byte green = (byte)(255 * normalizedPercentage);      // 绿色从 0 过渡到 255
+
+        //    return Color.FromRgb(red, green, 0);
+        //    //double normalizedPercentage = Math.Clamp(percentage, 0, 100) / 100.0;
+
+        //    //// 根据百分比调整红色的透明度（深浅）
+        //    //byte red = 255; // 红色分量固定
+        //    //byte alpha = (byte)(255*(1- normalizedPercentage)); // 透明度从 0 到 255
+
+        //    //return Color.FromArgb(alpha, red, 0, 0);
+        //}
 
 
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -142,11 +293,11 @@ namespace WpfApp1.Views
         private void UpdateTextBlocks(double usedLifetime)
         {
             // 使用全局变量中的加速因子计算剩余寿命和百分比
-            var overallResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.OverallAccelerationFactor, usedLifetime);
-            var bladeResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.BladeAccelerationFactor, usedLifetime);
-            var gearboxResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.GearboxAccelerationFactor, usedLifetime);
-            var generatorResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.GeneratorAccelerationFactor, usedLifetime);
-            var converterResult = LifeCalculator.CalculateRemainingLife(GlobalVariables.ConverterAccelerationFactor, usedLifetime);
+            var overallResult = LifeCalculator.CalculateOverallLife(GlobalVariables.OverallAccelerationFactor, usedLifetime);
+            var bladeResult = LifeCalculator.CalculateBladeLife(GlobalVariables.BladeAccelerationFactor, usedLifetime);
+            var gearboxResult = LifeCalculator.CalculateGearboxLife(GlobalVariables.GearboxAccelerationFactor, usedLifetime);
+            var generatorResult = LifeCalculator.CalculateGeneratorLife(GlobalVariables.GeneratorAccelerationFactor, usedLifetime);
+            var converterResult = LifeCalculator.CalculateConverterLife(GlobalVariables.ConverterAccelerationFactor, usedLifetime);
             // 更新全局变量
             GlobalLifetimes.BladeLife = bladeResult.RemainingLifePercentage;
             GlobalLifetimes.GearboxLife = gearboxResult.RemainingLifePercentage;
@@ -183,25 +334,70 @@ ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercent
 
 
 
-        public static class LifeCalculator
-        {
-            private const double ReferenceLifetime = 25.0; // 参考风机寿命（年）
 
-            public static (double RemainingLife, double RemainingLifePercentage) CalculateRemainingLife(double accelerationFactor, double usedLifetime)
-            {
-                if (accelerationFactor <= 0) throw new ArgumentException("加速因子必须大于0", nameof(accelerationFactor));
-                if (usedLifetime < 0) throw new ArgumentException("已使用寿命不能为负", nameof(usedLifetime));
+public static class LifeCalculator
+{
+    // 各个部件的参考寿命
+    private const double OverallReferenceLifetime = 23.0;  // 风机整体参考寿命
+    private const double BladeReferenceLifetime = 28.0;    // 叶片参考寿命
+    private const double GearboxReferenceLifetime = 12.0;  // 齿轮箱参考寿命
+    private const double GeneratorReferenceLifetime = 12.0; // 发电机参考寿命
+    private const double ConverterReferenceLifetime = 5.0; // 变流器参考寿命
 
-                double remainingLife = ReferenceLifetime / accelerationFactor - usedLifetime;
-                double remainingLifePercentage = 100 * (1 - (accelerationFactor * usedLifetime) / ReferenceLifetime);
+    /// <summary>
+    /// 通用寿命计算方法
+    /// </summary>
+    private static (double RemainingLife, double RemainingLifePercentage) CalculateRemainingLife(
+        double referenceLifetime, double accelerationFactor, double usedLifetime)
+    {
+        if (accelerationFactor <= 0) throw new ArgumentException("加速因子必须大于0", nameof(accelerationFactor));
+        if (usedLifetime < 0) throw new ArgumentException("已使用寿命不能为负", nameof(usedLifetime));
 
-                remainingLife = Math.Max(0, remainingLife);
-                remainingLifePercentage = Math.Max(0, remainingLifePercentage);
+        double remainingLife = referenceLifetime / accelerationFactor - usedLifetime;
+        double remainingLifePercentage = 100 * (1 - (accelerationFactor * usedLifetime) / referenceLifetime);
 
-                return (remainingLife, remainingLifePercentage);
-            }
-        }
-     
+        remainingLife = Math.Max(0, remainingLife);
+        remainingLifePercentage = Math.Max(0, remainingLifePercentage);
+
+        return (remainingLife, remainingLifePercentage);
+    }
+
+    // 各个部件的专属计算方法
+    public static (double RemainingLife, double RemainingLifePercentage) CalculateOverallLife(double accelerationFactor, double usedLifetime)
+        => CalculateRemainingLife(OverallReferenceLifetime, accelerationFactor, usedLifetime);
+
+    public static (double RemainingLife, double RemainingLifePercentage) CalculateBladeLife(double accelerationFactor, double usedLifetime)
+        => CalculateRemainingLife(BladeReferenceLifetime, accelerationFactor, usedLifetime);
+
+    public static (double RemainingLife, double RemainingLifePercentage) CalculateGearboxLife(double accelerationFactor, double usedLifetime)
+        => CalculateRemainingLife(GearboxReferenceLifetime, accelerationFactor, usedLifetime);
+
+    public static (double RemainingLife, double RemainingLifePercentage) CalculateGeneratorLife(double accelerationFactor, double usedLifetime)
+        => CalculateRemainingLife(GeneratorReferenceLifetime, accelerationFactor, usedLifetime);
+
+    public static (double RemainingLife, double RemainingLifePercentage) CalculateConverterLife(double accelerationFactor, double usedLifetime)
+        => CalculateRemainingLife(ConverterReferenceLifetime, accelerationFactor, usedLifetime);
+}
+
+//public static class LifeCalculator
+//{
+//    private const double ReferenceLifetime = 25.0; // 参考风机寿命（年）
+
+//    public static (double RemainingLife, double RemainingLifePercentage) CalculateRemainingLife(double accelerationFactor, double usedLifetime)
+//    {
+//        if (accelerationFactor <= 0) throw new ArgumentException("加速因子必须大于0", nameof(accelerationFactor));
+//        if (usedLifetime < 0) throw new ArgumentException("已使用寿命不能为负", nameof(usedLifetime));
+
+//        double remainingLife = ReferenceLifetime / accelerationFactor - usedLifetime;
+//        double remainingLifePercentage = 100 * (1 - (accelerationFactor * usedLifetime) / ReferenceLifetime);
+
+//        remainingLife = Math.Max(0, remainingLife);
+//        remainingLifePercentage = Math.Max(0, remainingLifePercentage);
+
+//        return (remainingLife, remainingLifePercentage);
+//    }
+//}
+
 
 
 

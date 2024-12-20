@@ -24,6 +24,9 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<string> TimeLabels { get; set; }
 
         public ChartValues<double> WindSpeedValues { get; set; }
+        public ChartValues<double> YunXingShuJuValues { get; set; }
+
+        public List<string> XLabels { get; set; }
         public ChartValues<double> TemperaturValues { get; set; }
         public ChartValues<double> HumidityValues { get; set; }
         public ChartValues<double> WindPowerDensity { get; set; }
@@ -45,7 +48,8 @@ namespace WpfApp1.ViewModels
         public ChartValues<double> Voltage { get; set; }
 
 
-    
+
+        public ObservableCollection<string> Alarms { get; set; }
 
 
         public SelectDate StartDate { get; set; }     
@@ -130,7 +134,32 @@ namespace WpfApp1.ViewModels
             return data;
         }
 
+        private ObservableCollection<YunXingShuJu> ReadYunXingShuJucsv(string filename)
+        {
+            var data = new ObservableCollection<YunXingShuJu>();
+            using (var reader = new StreamReader(filename))
+            {
+                var line = reader.ReadLine();  // 跳过表头
 
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var values = line.Split(',');
+                    var windSpeed = double.Parse(values[1]);
+                    var temperature = values[0];
+            
+
+                    data.Add(new YunXingShuJu 
+                    {
+                        YunXingShuJuValues = windSpeed
+                           ,
+                        XLabels  = temperature
+                                        ,
+                    
+                    });
+                }
+            }
+            return data ;
+        }
 
         private ObservableCollection<zhifangtu> ReadWindSpeedDataFromCsv1(string filePath)
         {
@@ -202,11 +231,18 @@ namespace WpfApp1.ViewModels
 
         public MainViewModels()
         {
+
+            Alarms = new ObservableCollection<string>();
+            Alarms.Add("扇片寿命大于50% 可以继续使用");
+            Alarms.Add("齿轮箱寿命大于50% 可以继续检查叶片是否存在哨声，是否存在3个叶片声音不一致现象，存在时应停机进一步检查使用");
+            Alarms.Add("变速器寿命小于30% 建议维修");
+            Alarms.Add("变流器寿命小于10% 建议报废");
             EndDate = new SelectDate();
             StartDate = new SelectDate();
             string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
             string datazf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "frequency_data.csv");
             string datascada = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "processed_output_12_bins.csv");
+            string dataYunXingShuJu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "top_10_codes.csv");
 
             // 读取 CSV 文件并转换成 WindSpeedData 对象列表
             var data = ReadWindSpeedDataFromCsv(datacsv);
@@ -229,6 +265,9 @@ namespace WpfApp1.ViewModels
             Generator = new ChartValues<double>(dataScada.Select ((d) => d.Generator));
             Voltage = new ChartValues<double>(dataScada.Select (((d) => d.Voltage)));
 
+            var datayxsj = ReadYunXingShuJucsv(dataYunXingShuJu);
+            YunXingShuJuValues = new ChartValues<double>(datayxsj.Select(d => d.YunXingShuJuValues));
+            XLabels = new List<string>(datayxsj.Select(d => d.XLabels));
 
 
 
