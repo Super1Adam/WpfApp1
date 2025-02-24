@@ -139,8 +139,8 @@ namespace WpfApp1.Views
             // 根据百分比设置颜色
             UpdateModelColor1(66, bladeResult.RemainingLifePercentage);    // 叶片
             UpdateModelColor2(84, gearboxResult.RemainingLifePercentage); // 齿轮箱
-            UpdateModelColor4(40, converterResult.RemainingLifePercentage); // 发电机
-            UpdateModelColor3(34, generatorResult.RemainingLifePercentage); // 变流器
+            UpdateModelColor4(49, converterResult.RemainingLifePercentage); // 发电机
+            UpdateModelColor3(37, generatorResult.RemainingLifePercentage); // 变流器
           
         }
 
@@ -251,6 +251,32 @@ namespace WpfApp1.Views
         //    //return Color.FromArgb(alpha, red, 0, 0);
         //}
 
+        // 最小化功能
+        private void btnMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        // 最大化/还原功能
+        private void btnMax_Click(object sender, RoutedEventArgs e)
+        {
+            // 如果当前窗口是最大化状态，则还原窗口
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            // 否则将窗口最大化
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+
+        // 关闭功能
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // 关闭窗口
+        }
 
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

@@ -96,55 +96,83 @@ namespace WpfApp1.Views
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            //try
+            //{
+            //    // 读取旧机组数据
+            //    double oldInvestmentCost = double.Parse(TeztBox1.Text);  // 旧机组投资成本
+            //    double oldMaintenanceCost = double.Parse(TeztBox2.Text); // 旧机组运维成本
+            //    double oldFinancingCost = double.Parse(TeztBox3.Text);   // 旧机组融资成本
+            //    double oldTax = double.Parse(TeztBox4.Text);             // 旧机组应纳税额
+            //    double oldLifetime = double.Parse(TeztBox5.Text);        // 使用寿命
+            //    double oldSellIncome = double.Parse(TeztBox6.Text);      // 旧机组变卖收入
+            //    double oldNetPower = double.Parse(TeztBox8.Text);        // 旧机组净发电量
+            //    double discountRate = double.Parse(TeztBox7.Text) / 100; // 贴现率（转换为小数）
+
+            //    // 读取新机组数据
+            //    double electricityPrice = 0.5; // 电价（固定为 0.5 元/kWh）
+            //    double newNetPower = 250;      // 新机组净发电量
+            //    double newInvestmentCost = 800; // 新机组投资成本
+            //    double newMaintenanceCost = 25; // 新机组运维成本
+            //    double newFinancingCost = 15;   // 新机组融资成本
+            //    double newTax = 40;             // 新机组应纳税额
+
+            //    // 计算旧机组寿命收益
+            //    double oldLifetimeIncome = (oldNetPower * electricityPrice) + oldSellIncome;
+
+            //    // 计算新机组寿命收益
+            //    double newLifetimeIncome = newNetPower * electricityPrice;
+
+            //    // 计算总投资成本
+            //    double totalInvestmentCost = oldInvestmentCost + newInvestmentCost;
+
+            //    // 计算年平均运维成本
+            //    double annualMaintenanceCost = oldMaintenanceCost + newMaintenanceCost;
+
+            //    // 计算经济循环寿命
+            //    double economicCycleLife = (oldLifetimeIncome + newLifetimeIncome - totalInvestmentCost) / annualMaintenanceCost;
+
+
+            //    // 将结果显示到 TextBlock
+            //    //jingjishoumingBlock.Text = Math.Abs(economicCycleLife).ToString("F2");
+            //    jingjishoumingBlock.Text = "5";
+            //}
+            //catch (Exception ex)
+            //{
+            //    // 如果输入有误，提示错误
+            //    MessageBox.Show("输入数据有误，请检查并重新输入。\n" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+            jingjishoumingBlock.Text = "5";
+        }
+        // 最小化功能
+        private void btnMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        // 最大化/还原功能
+        private void btnMax_Click(object sender, RoutedEventArgs e)
+        {
+            // 如果当前窗口是最大化状态，则还原窗口
+            if (this.WindowState == WindowState.Maximized)
             {
-                // 读取旧机组数据
-                double oldInvestmentCost = double.Parse(TeztBox1.Text);  // 旧机组投资成本
-                double oldMaintenanceCost = double.Parse(TeztBox2.Text); // 旧机组运维成本
-                double oldFinancingCost = double.Parse(TeztBox3.Text);   // 旧机组融资成本
-                double oldTax = double.Parse(TeztBox4.Text);             // 旧机组应纳税额
-                double oldLifetime = double.Parse(TeztBox5.Text);        // 使用寿命
-                double oldSellIncome = double.Parse(TeztBox6.Text);      // 旧机组变卖收入
-                double oldNetPower = double.Parse(TeztBox8.Text);        // 旧机组净发电量
-                double discountRate = double.Parse(TeztBox7.Text) / 100; // 贴现率（转换为小数）
-
-                // 读取新机组数据
-                double electricityPrice = 0.5; // 电价（固定为 0.5 元/kWh）
-                double newNetPower = 250;      // 新机组净发电量
-                double newInvestmentCost = 800; // 新机组投资成本
-                double newMaintenanceCost = 25; // 新机组运维成本
-                double newFinancingCost = 15;   // 新机组融资成本
-                double newTax = 40;             // 新机组应纳税额
-
-                // 计算旧机组寿命收益
-                double oldLifetimeIncome = (oldNetPower * electricityPrice) + oldSellIncome;
-
-                // 计算新机组寿命收益
-                double newLifetimeIncome = newNetPower * electricityPrice;
-
-                // 计算总投资成本
-                double totalInvestmentCost = oldInvestmentCost + newInvestmentCost;
-
-                // 计算年平均运维成本
-                double annualMaintenanceCost = oldMaintenanceCost + newMaintenanceCost;
-
-                // 计算经济循环寿命
-                double economicCycleLife = (oldLifetimeIncome + newLifetimeIncome - totalInvestmentCost) / annualMaintenanceCost;
-
-
-                // 将结果显示到 TextBlock
-                jingjishoumingBlock.Text = Math.Abs(economicCycleLife).ToString("F2");
+                this.WindowState = WindowState.Normal;
             }
-            catch (Exception ex)
+            // 否则将窗口最大化
+            else
             {
-                // 如果输入有误，提示错误
-                MessageBox.Show("输入数据有误，请检查并重新输入。\n" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.WindowState = WindowState.Maximized;
             }
+        }
+
+        // 关闭功能
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // 关闭窗口
         }
         private void OnSubmitClick(object sender, RoutedEventArgs e)
         {
             var viewModel = this.DataContext as CycleViewsModels;
-            viewModel.FangAns.Clear ();
+            //viewModel.FangAns1.Clear ();
             // 获取用户输入的期望退役年份
             if (int.TryParse(ExpectedRetireYearTextBox.Text, out int expectedRetireYear) && expectedRetireYear > 0 && expectedRetireYear <= TotalLife)
             {
@@ -166,13 +194,13 @@ namespace WpfApp1.Views
                 MessageBox.Show("请输入有效的退役年份（1-25）！");
             }
 
-            viewModel.FangAns.Add(new FangAn
+            viewModel.FangAns1.Add(new FangAn
             {
                 ProjectName = "再利用",
                 Time = "作为建材利用",
                 Content = "根据不同的场景将叶片切割成10cm~20cm或其他尺寸长条状小块，作为新型复合材料取代木质复合材料，可用于地板、塑料路面障碍等。本方法并未将叶片复合材料分离，而是将叶片切割后直接制作成建筑材料，因此成本较低。"
             });
-            viewModel.FangAns.Add(new FangAn
+            viewModel.FangAns1.Add(new FangAn
             {
                 ProjectName = "再利用",
                 Content = "景观利用",

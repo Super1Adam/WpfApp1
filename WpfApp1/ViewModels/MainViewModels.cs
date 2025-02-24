@@ -232,43 +232,67 @@ namespace WpfApp1.ViewModels
         public MainViewModels()
         {
 
-            Alarms = new ObservableCollection<string>();
-            Alarms.Add("扇片寿命大于50% 可以继续使用");
-            Alarms.Add("齿轮箱寿命大于50% 可以继续检查叶片是否存在哨声，是否存在3个叶片声音不一致现象，存在时应停机进一步检查使用");
-            Alarms.Add("变速器寿命小于30% 建议维修");
-            Alarms.Add("变流器寿命小于10% 建议报废");
+  
             EndDate = new SelectDate();
             StartDate = new SelectDate();
-            string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
+               string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
             string datazf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "frequency_data.csv");
             string datascada = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "processed_output_12_bins.csv");
             string dataYunXingShuJu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "top_10_codes.csv");
 
-            // 读取 CSV 文件并转换成 WindSpeedData 对象列表
-            var data = ReadWindSpeedDataFromCsv(datacsv);
+            //// 读取 CSV 文件并转换成 WindSpeedData 对象列表
+            //var data = ReadWindSpeedDataFromCsv(datacsv);
 
-            // 转化为 LiveCharts 图表数据
-            WindSpeedValues = new ChartValues<double>(data.Select(d => d.WindSpeed));
-            TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
-            HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
-            WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
-            var dataZF = ReadWindSpeedDataFromCsv1(datazf);
-            WindSpeedValuesZF = new ChartValues<double>(dataZF.Select(d => d.WindSpeed));
-            TemperaturValuesZF = new ChartValues<double>(dataZF.Select(d => d.Temperature));
-            HumidityValuesZF = new ChartValues<double>(dataZF.Select(d => d.Humidity));
-            WindPowerDensityZF = new ChartValues<double>(dataZF.Select(d => d.WindPowerDensity));
-            var dataScada = ReadWindSpeedDataFromCsvScada(datascada);
-            WindSpeed =new ChartValues<double> (dataScada.Select(d => d.WindSpeed));
-            Power = new ChartValues<double>(dataScada.Select(d => d.Power));
-            Vane =new ChartValues<double>(dataScada.Select ((d) => d.Vane));
-            GearboxSpeed = new ChartValues<double>(dataScada.Select (d => d.GearboxSpeed));
-            Generator = new ChartValues<double>(dataScada.Select ((d) => d.Generator));
-            Voltage = new ChartValues<double>(dataScada.Select (((d) => d.Voltage)));
+            //// 转化为 LiveCharts 图表数据
+            //WindSpeedValues = new ChartValues<double>(data.Select(d => d.WindSpeed));
+            //TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
+            //HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
+            //WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
+            //var dataZF = ReadWindSpeedDataFromCsv1(datazf);
+            //WindSpeedValuesZF = new ChartValues<double>(dataZF.Select(d => d.WindSpeed));
+            //TemperaturValuesZF = new ChartValues<double>(dataZF.Select(d => d.Temperature));
+            //HumidityValuesZF = new ChartValues<double>(dataZF.Select(d => d.Humidity));
+            //WindPowerDensityZF = new ChartValues<double>(dataZF.Select(d => d.WindPowerDensity));
+            //var dataScada = ReadWindSpeedDataFromCsvScada(datascada);
+            //WindSpeed =new ChartValues<double> (dataScada.Select(d => d.WindSpeed));
+            //Power = new ChartValues<double>(dataScada.Select(d => d.Power));
+            //Vane =new ChartValues<double>(dataScada.Select ((d) => d.Vane));
+            //GearboxSpeed = new ChartValues<double>(dataScada.Select (d => d.GearboxSpeed));
+            //Generator = new ChartValues<double>(dataScada.Select ((d) => d.Generator));
+            //Voltage = new ChartValues<double>(dataScada.Select (((d) => d.Voltage)));
 
-            var datayxsj = ReadYunXingShuJucsv(dataYunXingShuJu);
-            YunXingShuJuValues = new ChartValues<double>(datayxsj.Select(d => d.YunXingShuJuValues));
-            XLabels = new List<string>(datayxsj.Select(d => d.XLabels));
+            //var datayxsj = ReadYunXingShuJucsv(dataYunXingShuJu);
+            //YunXingShuJuValues = new ChartValues<double>(datayxsj.Select(d => d.YunXingShuJuValues));
+            //XLabels = new List<string>(datayxsj.Select(d => d.XLabels));
+            // 初始化空的 SeriesCollection
+            SeriesCollection = new SeriesCollection();
 
+            // 初始化空的 ChartValues
+            WindSpeedValues = new ChartValues<double>();
+            TemperaturValues = new ChartValues<double>();
+            HumidityValues = new ChartValues<double>();
+            WindPowerDensity = new ChartValues<double>();
+
+            WindSpeedValuesZF = new ChartValues<double>();
+            TemperaturValuesZF = new ChartValues<double>();
+            HumidityValuesZF = new ChartValues<double>();
+            WindPowerDensityZF = new ChartValues<double>();
+
+            WindSpeed = new ChartValues<double>();
+            Power = new ChartValues<double>();
+            Vane = new ChartValues<double>();
+            GearboxSpeed = new ChartValues<double>();
+            Generator = new ChartValues<double>();
+            Voltage = new ChartValues<double>();
+            YunXingShuJuValues = new ChartValues<double>();
+            // 初始化空的 ObservableCollection 和 List
+            TimeLabels = new ObservableCollection<string>();
+            XLabels = new List<string>();
+            Alarms = new ObservableCollection<string>();
+
+            // 初始化日期选择器
+            StartDate = new SelectDate();
+            EndDate = new SelectDate();
 
 
 

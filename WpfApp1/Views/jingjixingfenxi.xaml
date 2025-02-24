@@ -178,7 +178,63 @@
             </Style.Triggers>
         </Style>
 
+        <Style TargetType="Button" x:Key="btnStyle">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform  ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <TextBlock x:Name="textBlockbutton" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"></TextBlock>
+                        </Border>
+
+                        <!-- <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">-->
+                        <!--CalcBinding样式中使用，需要用RelativeSource找到方法-->
+                        <!--
+                    <Setter TargetName="textBlock" Property="FontSize" Value="{cb:Binding FontSize+5,RelativeSource={RelativeSource TemplatedParent}}"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+To="1.2" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+To="1.2" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                        <BeginStoryboard.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard.Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+
+        </Style>
 
 
         <Style TargetType="GroupBox">
@@ -225,7 +281,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Border Grid.RowSpan="2" VerticalAlignment="Top" Height="90" Margin="-3,-12,-3,0">
@@ -269,22 +325,16 @@
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal">
-            <Image VerticalAlignment="Center" HorizontalAlignment="Left">
-                <Image.Source>
-                    <BitmapImage UriSource="C:\Users\Adam_\Desktop\loga.jpg"/>
-                </Image.Source>
-            </Image>
-            <Button Content="数据导入" Click="Button_ShuJuDaoRu"></Button>
-            <Button Content="寿命预测" Click="Button_ShouMingYuCe"></Button>
-            <Button Content="循环利用方式" Click="Button_XunHuan"></Button>
-            <Button Content="经济分析" Click="Button_JingJi"></Button>
-            <Button Content="数据更新" Click="Button_Genxing"></Button>
-            <Button Content="软件说明" Click="Button_ShouMing"></Button>
+            <Button Content="数据导入" Click="Button_ShuJuDaoRu" Margin="19,0,15,6" Background="Transparent" Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="数据更新" Click="Button_Genxing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16"></Button>
+            <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
         </StackPanel>
+        <TextBlock Grid.Row=" 1"  HorizontalAlignment="Center" VerticalAlignment="Top" >
+<Run  Text="风电装备数字化可循环性设计软件"  FontSize="20" Foreground="White" />
 
-        <TextBlock Text="风电装备数字化可循环性设计软件" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Bottom" FontSize="22" />
-        <TextBlock Grid.Row=" 1" HorizontalAlignment="Center" VerticalAlignment="Top" >
-  
 
         </TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
@@ -292,14 +342,11 @@
            Margin=" 0,0,20,0"
            >
 
-            <!--<TextBlock Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " VerticalAlignment="Center" Margin="2"/>
-            <TextBlock Text="时间" Margin="2"/>
-            <TextBlock Text="14:47" FontSize="13" VerticalAlignment="Center" Margin=" 2" />
-            <TextBlock Text="&#xebb1;"  FontFamily="../Assets/Fonts/#iconfont" Margin=" 2" FontSize=" 18"  VerticalAlignment="Center"/>
-            <TextBlock Text="日期" Margin=" 2"/>
-            <TextBlock Text="2024/11/20" VerticalAlignment="Center" Margin=" 2"/>-->
-            <Button Width="20" Content="&#xe608;" Click="Button_ClickBack"/>
-
+            <StackPanel x:Name="winBtnBar" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                <Button Width="45" Height="30" x:Name="btnMin" Style="{StaticResource btnStyle}" Content="&#xe629;" ToolTip="最小化" FontFamily="../Assets/Fonts/#iconfont" Click="btnMin_Click"></Button>
+                <Button Width="45" Height="30" x:Name="btnMax" Style="{StaticResource btnStyle}" Content="&#xe621;" ToolTip="最大化" FontFamily="../Assets/Fonts/#iconfont" Cursor="Hand" Click="btnMax_Click"></Button>
+                <Button Width="45" Height="30" x:Name="btnClose" Style="{StaticResource btnStyle}" Content="&#xe609;" ToolTip="关闭" FontFamily="../Assets/Fonts/#iconfont" Click="btnClose_Click"></Button>
+            </StackPanel>
         </StackPanel>
         <Grid Grid.Row=" 1"  Margin="20,15,20,15">
             <Grid.ColumnDefinitions>
@@ -329,80 +376,95 @@
                   <RowDefinition/>
                   <RowDefinition/>
                   <RowDefinition/>
+                  <RowDefinition/>
+                  <RowDefinition/>
 
-
-              </Grid.RowDefinitions>
+         </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="auto"/>
                   <ColumnDefinition/>
               </Grid.ColumnDefinitions>
-              <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-              <TextBox  x:Name="TeztBox1" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="0" Grid.Column="1"/>
+              <TextBlock Text="旧机组经济指标"  VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="16" Foreground="White"/>
+              <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+              <TextBox  x:Name="TeztBox1" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="8" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox  x:Name="TeztBox2"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox  x:Name="TeztBox3"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="应纳税额" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox  x:Name="TeztBox4"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="建设至退役的使用寿命" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox x:Name="TeztBox5"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="第 n 年生命周期" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox x:Name="TeztBox6"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="贴现率" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox x:Name="TeztBox7"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
 
-              <TextBlock   Foreground="#AA999999" FontSize="14" Text="第 n 年的净发电量" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
               <TextBox x:Name="TeztBox8"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
-          </Grid>
+              <TextBlock   Foreground="#AA999999" FontSize="14" Text="贴现率" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="TeztBox9"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="9" Grid.Column="1"/>
+                    </Grid>
           <Grid Grid.Column="1">
               <Grid.RowDefinitions>
                   <RowDefinition/>
                   <RowDefinition/>
-                  <RowDefinition Height="28.884"/>
+                  <RowDefinition />
                   <RowDefinition/>
                   <RowDefinition/>
                   <RowDefinition/>
                   <RowDefinition/>
                   <RowDefinition/>
+                  <RowDefinition/>
+                  <RowDefinition/>
+                  <RowDefinition/>
+                
 
 
-              </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="auto"/>
                   <ColumnDefinition/>
               </Grid.ColumnDefinitions>
-              <TextBlock  Foreground="#AA999999" FontSize="15"  Text="第 n 年旧机组变卖的收入" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="0" Grid.Column="1"/>
+                        <TextBlock Text="新机组经济指标"  VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="16" Foreground="White"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="第 n 年的电价" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox  x:Name="TeztBox10" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="8" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="新机组第 n 年的净发电量" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Grid.Row="2" Grid.Column="1" Margin="2,5"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="TeztBox11"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="新机组投资成本" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="TeztBox12"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="新机组项目的运维成本" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="TeztBox13"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="新机组项目的融资成本" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox14"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="新项目应纳税额" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="6" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox15"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
 
-                        <Button Grid.ColumnSpan="2" Grid.Row="7" Margin="10,5" Content="更新" Click="UpdateButton_Click"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox16"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
+
+                        <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox17"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
+                        <TextBlock   Foreground="#AA999999" FontSize="14" Text="贴现率" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox18"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="9" Grid.Column="1"/>
+
+                        <Button Grid.ColumnSpan="2" Grid.Row="10" Margin="10,5" Content="更新" Click="UpdateButton_Click"/>
           </Grid>
           <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
               <TextBlock Text="经济循环寿命" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-              <TextBlock x:Name="jingjishoumingBlock" Text="26"  Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+              <TextBlock x:Name="jingjishoumingBlock"   Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
           </StackPanel>
 
 
@@ -424,22 +486,22 @@
          <UniformGrid Grid.Row="1" Columns="4" >
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                  <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="BladeResultTextBlock1" Text="26" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                 <TextBlock x:Name="BladeResultTextBlock1" Text="    " Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
              </StackPanel>
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                  <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="GearboxResultTextBlock1" Text="14" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                 <TextBlock x:Name="GearboxResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
              </StackPanel>
 
 
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                  <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="GeneratorResultTextBlock1" Text="13" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                 <TextBlock x:Name="GeneratorResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
              </StackPanel>
 
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                  <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="ConverterResultTextBlock1" Text="5" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+                 <TextBlock x:Name="ConverterResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
              </StackPanel>
 
          </UniformGrid>
@@ -450,7 +512,7 @@
              </StackPanel>
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock  Text="期望退役年份" Foreground="#AA999999" FontSize="12" HorizontalAlignment="Center"/>
-                                <TextBox x:Name="ExpectedRetireYearTextBox"  Text="4" Foreground="#CC2BB6FE" Background="Transparent" Margin="0,5" FontSize="20"/>
+                                <TextBox x:Name="ExpectedRetireYearTextBox"  Text="" Foreground="#CC2BB6FE" Background="Transparent" Margin="0,5" FontSize="20"/>
                   <Button Content="确定" Background="Transparent" Foreground="#cc2bb6fe"  Margin="0,5" Click="OnSubmitClick" />
 
 
@@ -459,13 +521,13 @@
                             <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="剩余寿命" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
 
-                                <TextBlock x:Name="RemainingLifeTextBlock" Text="20" Foreground="#CC2BB6FE" FontSize="20" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="RemainingLifeTextBlock" Text="" Foreground="#CC2BB6FE" FontSize="20" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </UniformGrid>
   
                     </Grid>
 
-                    <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Column="1" Margin="0,15,0,-5">
+                    <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAns1}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Column="1" Margin="0,15,0,-5">
                         <DataGrid.Columns >
 
                             <DataGridTemplateColumn  Width="auto">

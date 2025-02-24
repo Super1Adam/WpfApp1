@@ -79,6 +79,32 @@ namespace WpfApp1.Views
 
 
         }
+        // 最小化功能
+        private void btnMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        // 最大化/还原功能
+        private void btnMax_Click(object sender, RoutedEventArgs e)
+        {
+            // 如果当前窗口是最大化状态，则还原窗口
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            // 否则将窗口最大化
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+
+        // 关闭功能
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // 关闭窗口
+        }
         private void Button_ShuJuDaoRu(object sender, RoutedEventArgs e)
 
         {

@@ -117,10 +117,10 @@ namespace WpfApp1.Views
             var viewModel = this.DataContext as MainViewModels;
             if (viewModel != null)
             {
-                viewModel.WindSpeedValues.Clear();
-                viewModel.TemperaturValues.Clear();
-                viewModel.HumidityValues.Clear();
-                viewModel.WindPowerDensity.Clear();
+                //viewModel.WindSpeedValues.Clear();
+                //viewModel.TemperaturValues.Clear();
+                //viewModel.HumidityValues.Clear();
+                //viewModel.WindPowerDensity.Clear();
                 string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "weather_data_with_wpd_new.csv");
 
                 var data = ReadWindSpeedDataFromCsv(datacsv);
@@ -145,10 +145,10 @@ namespace WpfApp1.Views
 
 
 
-                viewModel.WindSpeedValuesZF.Clear();
-                viewModel.TemperaturValuesZF.Clear();
-                viewModel.HumidityValuesZF.Clear();
-                viewModel.WindPowerDensityZF.Clear();
+                //viewModel.WindSpeedValuesZF.Clear();
+                //viewModel.TemperaturValuesZF.Clear();
+                //viewModel.HumidityValuesZF.Clear();
+                //viewModel.WindPowerDensityZF.Clear();
                 string datazf = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "frequency_data_new.csv");
 
 
@@ -251,6 +251,7 @@ namespace WpfApp1.Views
             }
             GlobalVariables.AvgTemperature = validEntries > 0 ? totalTemperature / validEntries : 0;
             GlobalVariables.AvgHumidity = validEntries > 0 ? totalHumidity / validEntries : 0;
+            GlobalVariables.AvgWindSpeed = validEntries > 0 ? totalWindSpeed / validEntries : 0;
 
             return data;
         }
@@ -491,11 +492,6 @@ namespace WpfApp1.Views
                     {
                         MessageBox.Show("读取成功");
                     }
-
-                    //if (!string.IsNullOrEmpty(error))
-                    //{
-                    //    MessageBox.Show("Error: " + error);
-                    //}
                 }
             }
             catch (Exception ex)
@@ -567,13 +563,13 @@ namespace WpfApp1.Views
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        MessageBox.Show("Error: " + error);
+                        //MessageBox.Show("Error: " + error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                //MessageBox.Show("Error: " + ex.Message);
             }
 
         }
@@ -583,7 +579,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "所有文件 (*.*)|*.*|文本文件 (*.txt)|*.txt|GRIB文件 (*.grib)|*.grib",
-                InitialDirectory = @"C:\"
+                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定
@@ -618,7 +614,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
-                InitialDirectory = @"C:\"
+                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定
@@ -641,8 +637,8 @@ namespace WpfApp1.Views
             var viewModel = this.DataContext as MainViewModels;
             if (viewModel != null)
             {
-                viewModel.YunXingShuJuValues.Clear();
-                viewModel.XLabels.Clear();
+                //viewModel.YunXingShuJuValues.Clear();
+                //viewModel.XLabels.Clear();
 
                 string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "top_10_codes.csv");
 
@@ -668,7 +664,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
-                InitialDirectory = @"C:\"
+                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定
@@ -765,6 +761,32 @@ namespace WpfApp1.Views
             }
 
             return data;
+        }
+        // 最小化功能
+        private void btnMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        // 最大化/还原功能
+        private void btnMax_Click(object sender, RoutedEventArgs e)
+        {
+            // 如果当前窗口是最大化状态，则还原窗口
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            // 否则将窗口最大化
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+
+        // 关闭功能
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // 关闭窗口
         }
         //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         //{

@@ -28,9 +28,65 @@
             <GradientStop Color="#a02b40" Offset="0"/>
             <GradientStop Color="#08113c" Offset=" 1"/>
         </RadialGradientBrush>
-
     </Window.Background>
     <Window.Resources>
+        <Style TargetType="Button" x:Key="btnStyle">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform  ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <TextBlock x:Name="textBlockbutton" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"></TextBlock>
+                        </Border>
+
+                        <!-- <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">-->
+                        <!--CalcBinding样式中使用，需要用RelativeSource找到方法-->
+                        <!--
+                    <Setter TargetName="textBlock" Property="FontSize" Value="{cb:Binding FontSize+5,RelativeSource={RelativeSource TemplatedParent}}"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+To="1.2" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+To="1.2" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                        <BeginStoryboard.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard.Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+
+        </Style>
         <!--DataGrid样式-->
         <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="Transparent"/>
@@ -108,7 +164,6 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-
         <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -127,7 +182,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
         <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderThickness" Value="0"></Setter>
@@ -149,7 +203,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
         <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -177,10 +230,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-
-
-
         <Style TargetType="GroupBox">
             <Setter Property="Margin" Value=" 0,5"/>
             <Setter Property="Template">
@@ -224,12 +273,9 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="413*"/>
-            <ColumnDefinition Width="953*"/>
-        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Border Grid.RowSpan="2" VerticalAlignment="Top" Height="90" Margin="-3,-12,-3,0" Grid.ColumnSpan="2">
@@ -273,37 +319,33 @@
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Image VerticalAlignment="Center" HorizontalAlignment="Left">
-                <Image.Source>
-                    <BitmapImage UriSource="C:\Users\Adam_\Desktop\loga.jpg"/>
-                </Image.Source>
-            </Image>
-            <Button Content="数据导入" Click="Button_ShuJuDaoRu"></Button>
-            <Button Content="寿命预测" Click="Button_ShouMingYuCe"></Button>
-            <Button Content="循环利用方式" Click="Button_XunHuan"></Button>
-            <Button Content="经济分析" Click="Button_JingJi"></Button>
-            <Button Content="数据更新" Click="Button_Genxing"></Button>
-            <Button Content="软件说明" Click="Button_ShouMing"></Button>
+            <Button Content="数据导入" Click="Button_ShuJuDaoRu" Margin="19,0,15,6" Background="Transparent" Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="数据更新" Click="Button_Genxing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16"></Button>
+            <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
         </StackPanel>
+        <TextBlock Grid.Row=" 1"  HorizontalAlignment="Center" VerticalAlignment="Top" >
+<Run  Text="风电装备数字化可循环性设计软件"  FontSize="20" Foreground="White" />
 
-        <TextBlock Text="风电装备数字化可循环性设计软件" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Bottom" FontSize="22" Grid.Column="1" Margin="105,0,0,0" />
-        <TextBlock Grid.Row=" 1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="232,0,0,0" >
-     <Run Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " Foreground="#2bb" />
-     <Run Text="2024/11/20" Foreground=" #44ffffff"/>
 
         </TextBlock>
+
+
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
              VerticalAlignment="Center" TextBlock.Foreground="#2bb6fe"
-             Margin="721,0,0,0" Grid.Column="1"
+             Margin="1220,0,0,0" Grid.Column="1"
              >
+            <StackPanel x:Name="winBtnBar" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                <Button Width="45" Height="30" x:Name="btnMin" Style="{StaticResource btnStyle}" Content="&#xe629;" ToolTip="最小化" FontFamily="../Assets/Fonts/#iconfont" Click="btnMin_Click"></Button>
+                <Button Width="45" Height="30" x:Name="btnMax" Style="{StaticResource btnStyle}" Content="&#xe621;" ToolTip="最大化" FontFamily="../Assets/Fonts/#iconfont" Cursor="Hand" Click="btnMax_Click"></Button>
+                <Button Width="45" Height="30" x:Name="btnClose" Style="{StaticResource btnStyle}" Content="&#xe609;" ToolTip="关闭" FontFamily="../Assets/Fonts/#iconfont" Click="btnClose_Click"></Button>
+            </StackPanel>
+            
 
-            <TextBlock Text="&#xe608;"  FontFamily="../Assets/Fonts/#iconfont" FontSize="13 " VerticalAlignment="Center" Margin="2"/>
-            <TextBlock Text="时间" Margin="2"/>
-            <TextBlock Text="14:47" FontSize="13" VerticalAlignment="Center" Margin=" 2" />
-            <TextBlock Text="&#xebb1;"  FontFamily="../Assets/Fonts/#iconfont" Margin=" 2" FontSize=" 18"  VerticalAlignment="Center"/>
-            <TextBlock Text="日期" Margin=" 2"/>
-            <TextBlock Text="2024/11/20" VerticalAlignment="Center" Margin=" 2"/>
-            <Button Width="20" Content="&#xe608;" Click="Button_ClickBack"/>
+
         </StackPanel>
         <Grid Grid.Row=" 1"  Margin="20,15,20,15" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -367,21 +409,12 @@
                  HorizontalAlignment="Left"
                   Margin="5" 
                   Grid.Column="2"
-  
                  FontWeight="Bold" />
-
             </Grid>
             <Grid Grid.Column="0" Grid.Row="0" Margin="2,15,20,15" Grid.ColumnSpan="3">
 
                 <GroupBox Header="3D模型" Margin="5">
                     <Grid>
-
-
-
-
-
-
-
                         <hv:HelixViewport3D Name="viewPort3D" ZoomExtentsWhenLoaded="True" 
                     ShowViewCube="false" ShowCoordinateSystem="True"
                     CoordinateSystemLabelForeground="White"
@@ -552,8 +585,6 @@ Grid.Column="3"
 
             </Grid>
 
-
-
             <Grid Grid.Column="3" Grid.Row="0" Margin="2,15,20,15" >
 
 
@@ -568,62 +599,44 @@ Grid.Column="3"
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
 
                                 <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="BladeResultTextBlock" Value="0.45" Foreground="White" BackColor="#11FFFFFF"
+                                <zxc:CircularProgressBar x:Name="BladeResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
 Width="80" Height="80" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="GearboxResultTextBlock" Value="0.45" Foreground="White" BackColor="#11FFFFFF"
+                                <zxc:CircularProgressBar x:Name="GearboxResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
 Width="80" Height="80" />
                             </StackPanel>
 
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="GeneratorResultTextBlock" Value="0.45" Foreground="White" BackColor="#11FFFFFF"
+                                <zxc:CircularProgressBar x:Name="GeneratorResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
 Width="80" Height="80" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="ConverterResultTextBlock" Value="0.45" Foreground="White" BackColor="#11FFFFFF"
+                                <zxc:CircularProgressBar x:Name="ConverterResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
 Width="80" Height="80" />
                             </StackPanel>
-
+ 
                         </UniformGrid>
                         <UniformGrid Grid.Row="0" Columns="3">
-
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="运行年限(年）" Foreground="#AA999999" FontSize="12" HorizontalAlignment="Center"/>
-
-                                <TextBox x:Name="UsedLifetimeTextBox" Text="4" Margin="2,2"  Foreground="#CC2BB6FE" Background="Transparent"  FontSize="17"/>
+                                <TextBox x:Name="UsedLifetimeTextBox" Text="" Margin="2,2"  Foreground="#CC2BB6FE" Background="Transparent"  FontSize="17"/>
                                 <Button Margin="2,2" Content="确定" Background="Transparent" Foreground="#cc2bb6fe" Click="Button_Click"/>
-
-
-
                             </StackPanel>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock Text="风机剩余寿命" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <TextBlock x:Name="OverallResultTextBlock" Text="20" Foreground="#CC2BB6FE" FontSize="14" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="OverallResultTextBlock" Text="" Foreground="#CC2BB6FE" FontSize="14" HorizontalAlignment="Center"/>
                             </StackPanel>
                             <Button Content="循环利用策略推荐" Background="Transparent" Foreground="#CC2BB6FE" Click="Button_Click_1" Width="100" Height="50" />
-
-
                         </UniformGrid>
-
-
-
-
-
-
-
-
                     </Grid>
                 </GroupBox>
-
             </Grid>
-
-
         </Grid>
     </Grid>
 </Window>
