@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -15,6 +17,7 @@ using System.Windows.Shapes;
 using WpfApp1.Models;
 using WpfApp1.ViewModels;
 using static MaterialDesignThemes.Wpf.Theme;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfApp1.Views
 {
@@ -143,19 +146,7 @@ namespace WpfApp1.Views
             MessageBox.Show("本软件集数据可视化、剩余寿命预测及循环利用三大模块于一体，显著提升运维效率与资源利用率。未来，该软件将深化智能分析，优化预测精度，促进风电装备更高效、可持续地循环利用，引领风电行业绿色转型。 ");
 
         }
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (MyDataGrid2.SelectedItem is FangAnFaDianJi selectedItem)
-            {
-                // 判断是否为指定行
-                if (selectedItem.ProjectName == "再制造" )
-                {
-                    MessageBox.Show("点击了【再制造】的【机组改造】行！", "提示");
-                }
-              
-            }
-        }
-   
+     
 
         private void Button_ClickBack(object sender, RoutedEventArgs e)
 
@@ -201,7 +192,7 @@ namespace WpfApp1.Views
                 celue.Text = "";
                 fangAns.Add(new FangAn
                 {
-                    ProjectName = "再利用",
+                    ProjectName = "再利用",//点击查看示例图片1.3.1 1.3.2 1.3.4
                     Content = "作为板材利用，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景",
                     Time = "切割成合适的板材后，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景"
                 });
@@ -329,12 +320,11 @@ namespace WpfApp1.Views
             new FangAnFaDianJi { ProjectName = "机组改造", Content = "铜线拆解后用于金属回收", Time = "材料回收利用，降低浪费" }
         };
 
-              
 
-                // 随机添加一个记录
-                Random random = new Random();
-                int randomIndex = random.Next(predefinedRecords.Count);
-                fangAnFaDianJis.Add(predefinedRecords[randomIndex]);
+                foreach (var record in predefinedRecords)
+                {
+                    fangAnFaDianJis.Add(record);
+                };
 
             }
         }
@@ -410,7 +400,7 @@ namespace WpfApp1.Views
                 {
                     ProjectName = "再循环",
                     Content = "物理回收法通过破碎、筛分、分选就能得到所需的产品",
-                    Time = "技术简单、成本低\t，但是易造成粉尘污染"
+                    Time = "技术简单、成本低，但是易造成粉尘污染"
                 });
                 FangAnBianLiuQis.Add(new FangAnBianLiuQi
                 {
@@ -428,5 +418,133 @@ namespace WpfApp1.Views
                 this.DragMove();
             }
         }
+
+        private void ShowImagePopup(Uri[] imageUris,string title)//显示图片方法
+        {
+            // 创建一个新的弹出窗口来显示多张图片
+            var popupWindow = new Window
+            {
+                Title = title,
+                Width=800,
+                Height=500,
+         
+            };
+
+            // 创建一个 ListBox 来容纳多个图片
+            var listBox = new ListBox
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            // 创建并添加每一张图片到 ListBox 中
+            foreach (var imageUri in imageUris)
+            {
+                var imageControl = new System.Windows.Controls.Image
+                {
+                    Source = new BitmapImage(imageUri),
+                    Stretch = Stretch.Uniform,
+                    Margin = new Thickness(5)
+                };
+
+                // 将图片控件添加到 ListBox
+                listBox.Items.Add(imageControl);
+            }
+
+            // 设置窗口的内容
+            popupWindow.Content = listBox;
+            popupWindow.ShowDialog(); // 显示弹出窗口
+        }
+
+        private void MyDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedRow = MyDataGrid.SelectedItem as FangAn; // 替换为实际的类型
+
+            if (selectedRow != null)
+            {
+                // 判断第一列的值（ProjectName）
+                if (selectedRow.ProjectName == "再利用")
+                {
+                    var imagePaths = new Uri[]
+      {
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.1.png"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/2.1.png"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/3.1.png")
+      };
+                    string title = "再利用图例";
+                    ShowImagePopup(imagePaths,title);
+                }
+                else if (selectedRow.ProjectName == "再循环")
+                {
+                    var imagePaths = new Uri[]
+     {
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.1.png"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.2.png"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.3.png"),
+         new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.4.png")
+     };
+                    string title = "在制造图例";
+                    ShowImagePopup(imagePaths,title);
+
+                }
+            }
+        }
+        private void MyDataGrid1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (MyDataGrid2.SelectedItem is FangAnFaDianJi selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再制造")
+                {
+                    var imagePaths = new Uri[] {
+                        new  Uri("pack://application:,,,/WpfApp1;component/Image/3.1.png"),
+                    };
+                    string title = "在制造图例";
+                    ShowImagePopup(imagePaths, title);
+                }
+
+            }
+        }
+
+    
+
+
+        private void MyDataGrid3_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            if (MyDataGrid3.SelectedItem is FangAnBianLiuQi selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再利用")
+                {
+                    var imagePaths = new Uri[] {
+                        new  Uri("pack://application:,,,/WpfApp1;component/Image/4.1.png"),
+                    };
+                    string title = "在利用图例";
+                    ShowImagePopup(imagePaths, title);
+                }
+
+            }
+
+            
+        }
+
+
+        private void MyDataGrid2_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (MyDataGrid1.SelectedItem is FangAnChiLun selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再制造")
+                {
+                    var imagePaths = new Uri[] {
+                        new  Uri("pack://application:,,,/WpfApp1;component/Image/2.1.png"),
+                    };
+                    string title = "在制造图例";
+                    ShowImagePopup(imagePaths, title);
+                }
+            }
+        }
+
     }
 }

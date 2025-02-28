@@ -398,7 +398,7 @@
                     </Grid>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="再利用在循环策略推荐" VerticalAlignment="Center"  Foreground="#AA999999" FontSize="20"/>
 
-                    <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5">
+                    <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5" MouseDoubleClick="MyDataGrid_MouseDoubleClick" >
                     <DataGrid.Columns >
                         
                             <DataGridTemplateColumn  Width="auto">
@@ -470,7 +470,7 @@
                     </Grid>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="再利用在循环策略推荐" VerticalAlignment="Center"  Foreground="#AA999999" FontSize="20"/>
 
-                    <DataGrid x:Name="MyDataGrid1" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAnChiLuns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5">
+                    <DataGrid x:Name="MyDataGrid1" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAnChiLuns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5" MouseDoubleClick="MyDataGrid2_MouseDoubleClick">
                         <DataGrid.Columns >
 
                             <DataGridTemplateColumn  Width="auto">
@@ -543,7 +543,7 @@
                     </Grid>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="再利用在循环策略推荐" VerticalAlignment="Center"  Foreground="#AA999999" FontSize="20"/>
 
-                    <DataGrid x:Name="MyDataGrid2" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding fangAnFaDianJis}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5" MouseDoubleClick="DataGrid_MouseDoubleClick">
+                    <DataGrid x:Name="MyDataGrid2" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding fangAnFaDianJis}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5" MouseDoubleClick="MyDataGrid1_MouseDoubleClick">
                         <DataGrid.Columns >
 
                             <DataGridTemplateColumn  Width="auto">
@@ -616,7 +616,7 @@
                     </Grid>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="再利用在循环策略推荐" VerticalAlignment="Center"  Foreground="#AA999999" FontSize="20"/>
 
-                    <DataGrid x:Name="MyDataGrid3" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAnBianLiuQis}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="2,15,-2,-5">
+                    <DataGrid x:Name="MyDataGrid3" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAnBianLiuQis}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="2,15,-2,-5" MouseDoubleClick="MyDataGrid3_MouseDoubleClick">
                         <DataGrid.Columns >
 
                             <DataGridTemplateColumn  Width="auto">

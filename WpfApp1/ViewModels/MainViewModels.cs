@@ -19,7 +19,13 @@ namespace WpfApp1.ViewModels
     {
         public SeriesCollection SeriesCollection { get; set; }
 
-       
+        public string SelectedLatitude { get; set; }
+        public string SelectedLongitude { get; set; }
+
+
+        public ObservableCollection<string> LatitudeList { get; set; }
+        public ObservableCollection<string> LongitudeList { get; set; }
+     
 
         public ObservableCollection<string> TimeLabels { get; set; }
 
@@ -54,7 +60,9 @@ namespace WpfApp1.ViewModels
 
         public SelectDate StartDate { get; set; }     
         public DateTime?  DateTime {  get; set; }
-        public SelectDate EndDate { get; set; } 
+        public SelectDate EndDate { get; set; }
+        public List<string> Combobox1 { get; set; }
+        public List<string> Combobox2 { get; set; }
 
 
         private ObservableCollection<SaleBillboard> saleBillboards;
@@ -293,12 +301,29 @@ namespace WpfApp1.ViewModels
             // 初始化日期选择器
             StartDate = new SelectDate();
             EndDate = new SelectDate();
-
-
-
+            LatitudeList = new ObservableCollection<string> { "0" }; // 实验数据1: 经纬度
+            LongitudeList = new ObservableCollection<string> { "0" }; // 实验数据2: 经度
+            SelectedLatitude = LatitudeList[0];  // 默认选中第一个经纬度
+            SelectedLongitude = LongitudeList[0];  // 默认选中第一个经度
 
         }
+        public void UpdateLatLonLists(List<double> latitudes, List<double> longitudes)
+        {
+            // 清空现有的数据
+            LatitudeList.Clear();
+            LongitudeList.Clear();
 
+            // 将新的经纬度数据添加到 ObservableCollection 中
+            foreach (var latitude in latitudes)
+            {
+                LatitudeList.Add(latitude.ToString("F2")); // 保留2位小数格式
+            }
+
+            foreach (var longitude in longitudes)
+            {
+                LongitudeList.Add(longitude.ToString("F2"));
+            }
+        }
     }
 
 }

@@ -32,5 +32,6 @@ namespace WpfApp1.Models
             set { time = value; SetPropertyChanged(); }
 
         }
+       
     }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Text;
 using System.Windows;
+
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -32,27 +33,10 @@ namespace WpfApp1.Views
             
             InitializeComponent();
 
-
-            this.DataContext = new MainViewModels();
             
-
-
-
-            //mediaElement.Source = new Uri(@"E:\gird\WpfApp1\WpfApp1\Contorls\fengji.mp4", UriKind.Absolute);
-
-
-            //// 播放视频
-            //mediaElement.MediaEnded += MediaElement_MediaEnded;
-            //mediaElement.Play();
-
+            this.DataContext = new MainViewModels();
         }
-        //private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
-        //{
-        //    // 视频播放完毕后重新播放
-        //    mediaElement.Position = TimeSpan.Zero;  // 将视频进度设置为开头
-        //    mediaElement.Play();                    // 重新播放视频
-        //}
-
+ 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -111,23 +95,37 @@ namespace WpfApp1.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            RunPythonScript();
-           
+            try
+            {
+                RunPythonScript();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                MessageBox.Show("脚本错误");
+            }
+
+
+          
 
             var viewModel = this.DataContext as MainViewModels;
             if (viewModel != null)
             {
-                //viewModel.WindSpeedValues.Clear();
-                //viewModel.TemperaturValues.Clear();
-                //viewModel.HumidityValues.Clear();
-                //viewModel.WindPowerDensity.Clear();
-                string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "weather_data_with_wpd_new.csv");
+                
+                // 检查并清除之前的数据
+                if (viewModel.WindSpeedValues.Any()) viewModel.WindSpeedValues.Clear();
+                if (viewModel.TemperaturValues.Any()) viewModel.TemperaturValues.Clear();
+                if (viewModel.HumidityValues.Any()) viewModel.HumidityValues.Clear();
+                if (viewModel.WindPowerDensity.Any()) viewModel.WindPowerDensity.Clear();
 
+                // 读取新数据
+                string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "weather_data_with_wpd_new.csv");
                 var data = ReadWindSpeedDataFromCsv(datacsv);
+
+                // 添加新的数据到集合
                 foreach (var value in data.Select(d => d.WindSpeed))
                 {
                     viewModel.WindSpeedValues.Add(value);
-                    
                 }
                 foreach (var value in data.Select(d => d.Temperature))
                 {
@@ -142,18 +140,17 @@ namespace WpfApp1.Views
                     viewModel.WindPowerDensity.Add(value);
                 }
 
+                // 清除第二组数据
+                if (viewModel.WindSpeedValuesZF.Any()) viewModel.WindSpeedValuesZF.Clear();
+                if (viewModel.TemperaturValuesZF.Any()) viewModel.TemperaturValuesZF.Clear();
+                if (viewModel.HumidityValuesZF.Any()) viewModel.HumidityValuesZF.Clear();
+                if (viewModel.WindPowerDensityZF.Any()) viewModel.WindPowerDensityZF.Clear();
 
-
-
-                //viewModel.WindSpeedValuesZF.Clear();
-                //viewModel.TemperaturValuesZF.Clear();
-                //viewModel.HumidityValuesZF.Clear();
-                //viewModel.WindPowerDensityZF.Clear();
+                // 读取第二组数据
                 string datazf = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "frequency_data_new.csv");
-
-
-
                 var dataZF = ReadWindSpeedDataFromCsv1(datazf);
+
+                // 添加新的数据到第二组集合
                 foreach (var value in dataZF.Select(d => d.WindSpeed))
                 {
                     viewModel.WindSpeedValuesZF.Add(value);
@@ -170,19 +167,20 @@ namespace WpfApp1.Views
                 {
                     viewModel.WindPowerDensityZF.Add(value);
                 }
-                //// 创建随机数生成器
-                //Random random = new Random();
+            
+            //// 创建随机数生成器
+            //Random random = new Random();
 
-                //// 更新 WindSpeedValues 属性，生成一个新的范围在 60 到 90 之间的随机值
-                //viewModel.WindSpeedValues.Clear();  // 清空当前的值
+            //// 更新 WindSpeedValues 属性，生成一个新的范围在 60 到 90 之间的随机值
+            //viewModel.WindSpeedValues.Clear();  // 清空当前的值
 
-                //// 添加 12 个新的随机值（可以根据实际需要调整数量）
-                //for (int i = 0; i < 12; i++)
-                //{
-                //    viewModel.WindSpeedValues.Add(random.NextDouble() * (90 - 60) + 60); // 随机数在 60 到 90 之间
-                //}
+            //// 添加 12 个新的随机值（可以根据实际需要调整数量）
+            //for (int i = 0; i < 12; i++)
+            //{
+            //    viewModel.WindSpeedValues.Add(random.NextDouble() * (90 - 60) + 60); // 随机数在 60 到 90 之间
+            //}
 
-            }
+        }
         }
 
         private ObservableCollection<YunXingShuJu> ReadYunXingShuJucsv(string filename)
@@ -310,11 +308,13 @@ namespace WpfApp1.Views
 
 
 
+            var viewModel = this.DataContext as MainViewModels;
 
+         
 
-            
-            string latitude = LatitudeTextBox.Text.Trim();
-            string longitude = LongitudeTextBox.Text.Trim();
+            string latitude = viewModel.SelectedLatitude.ToString();
+
+            string longitude = viewModel.SelectedLongitude.ToString();
 
             // 校验输入
             if (string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(endDate) ||
@@ -324,7 +324,8 @@ namespace WpfApp1.Views
                 return;
             }
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
+
             string pythonScriptPath = @"E:\gird\pythonProject\inputopen.py";
 
            
@@ -342,7 +343,7 @@ namespace WpfApp1.Views
             };
 
             // 添加环境变量（如果需要设置路径）
-            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
+            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\myenv\Library\bin";
             startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
 
             try
@@ -433,7 +434,7 @@ namespace WpfApp1.Views
         }
 
 
-        private void RunPythonScript1()//运行python脚本，计算月均数据变化折线图，和数据统计直方图
+        private void RunPythonScript1()//运行python脚本，计算月均数据变化折线图，和数据统计直方图 故障数据
         {
 
 
@@ -451,7 +452,7 @@ namespace WpfApp1.Views
 
 
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
             string pythonScriptPath = @"E:\gird\pythonProject\guzhang.py";
 
 
@@ -501,7 +502,7 @@ namespace WpfApp1.Views
     
         }
 
-        private void RunPythonScript2()//运行python脚本，计算月均数据变化折线图，和数据统计直方图
+        private void RunPythonScript2()//运行python脚本，计算月均数据变化折线图，和数据统计直方图scada数据 运行数据
         {
 
 
@@ -519,7 +520,7 @@ namespace WpfApp1.Views
 
 
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
             string pythonScriptPath = @"E:\gird\pythonProject\scad.py";
 
 
@@ -573,6 +574,73 @@ namespace WpfApp1.Views
             }
 
         }
+        private void RunPythonScriptWithCoordinates(string inputFilePath)//经纬度提取
+        {
+            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
+            string pythonScriptPath = @"E:\gird\pythonProject\jingweidutiqu.py"; // Python脚本路径
+
+            // 拼接参数字符串
+            string arguments = $"\"{pythonScriptPath}\" \"{inputFilePath}\"";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = pythonExePath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\myenv\py1\Library\bin";
+            startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
+            try
+    {
+        using (Process process = Process.Start(startInfo))
+        {
+            if (process == null)
+            {
+                MessageBox.Show("Failed to start process.");
+                return;
+            }
+
+            // 读取输出
+            string output = process.StandardOutput.ReadToEnd();
+            string[] outputLines = output.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // 提取经纬度数据
+            if (outputLines.Length >= 2)
+            {
+                var latitudesString = outputLines[0].Substring("Latitudes:".Length).Trim();
+                var longitudesString = outputLines[1].Substring("Longitudes:".Length).Trim();
+
+                // 将经纬度转换为列表
+                var latitudesList = latitudesString.Split(',').Select(l => l.Trim()).ToList();
+                var longitudesList = longitudesString.Split(',').Select(l => l.Trim()).ToList();
+                List<double> latitudes = latitudesList.Select(l => double.Parse(l)).ToList();
+                List<double> longitudes = longitudesList.Select(l => double.Parse(l)).ToList();
+
+                        // 绑定数据
+                        // 获取 ViewModel 并更新数据源
+                        var viewModel = this.DataContext as MainViewModels;
+                        if (viewModel != null)
+                        {
+                            viewModel.UpdateLatLonLists(latitudes, longitudes);
+                        }
+
+                    }
+
+                    process.WaitForExit();
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Error: {ex.Message}");
+    }
+        }
+
+
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -591,6 +659,11 @@ namespace WpfApp1.Views
 
                 // 进一步处理选定文件路径
                 MessageBox.Show($"您选择的文件路径为：{selectedFilePath}");
+                MessageBox.Show("正在读取经纬度信息");
+                RunPythonScriptWithCoordinates(FilePathTextBox.Text);
+
+
+
             }
         }
 
@@ -788,13 +861,29 @@ namespace WpfApp1.Views
         {
             this.Close(); // 关闭窗口
         }
-        //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
-        //{
-        //    OpenFileDialog openFileDialog = new OpenFileDialog();
-        //    if (openFileDialog.ShowDialog() == true)
-        //        txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
 
-        //}
+        private void test_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as MainViewModels;
+            // 修改经纬度的列表，例如，添加一些新的经纬度值
+            if (viewModel != null)
+            {
+                // 清空当前列表并添加新的经纬度
+                viewModel.LatitudeList.Clear();
+                viewModel.LatitudeList.Add("38.0522");  // 示例值1
+                viewModel.LatitudeList.Add("36.7783");  // 示例值2
+                viewModel.LatitudeList.Add("37.7749");  // 示例值3
+                viewModel.LatitudeList.Add("40.7128");  // 示例值4
+                viewModel.SelectedLatitude = viewModel.LatitudeList[0];
+            }
+            //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+            //{
+            //    OpenFileDialog openFileDialog = new OpenFileDialog();
+            //    if (openFileDialog.ShowDialog() == true)
+            //        txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
 
-    }
+            //}
+        }
+
+        }
 }

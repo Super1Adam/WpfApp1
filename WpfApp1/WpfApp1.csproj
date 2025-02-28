@@ -10,6 +10,38 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\iconfont.ttf" />
+    <None Remove="Image\1.1.png" />
+    <None Remove="Image\1.3.1.jpg" />
+    <None Remove="Image\1.3.2.png" />
+    <None Remove="Image\1.3.3.jpg" />
+    <None Remove="Image\1.3.4.jpg" />
+    <None Remove="Image\1.3.5.jpg" />
+    <None Remove="Image\1.3.7.png" />
+    <None Remove="Image\1.4.1.png" />
+    <None Remove="Image\1.4.2.png" />
+    <None Remove="Image\1.4.3.png" />
+    <None Remove="Image\1.4.4.png" />
+    <None Remove="Image\2.1.png" />
+    <None Remove="Image\3.1.png" />
+    <None Remove="Image\4.1.png" />
+    <None Remove="pythonProject\scad.py" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\1.3.1.jpg" />
+    <Resource Include="Image\1.3.2.png" />
+    <Resource Include="Image\1.3.3.jpg" />
+    <Resource Include="Image\1.3.4.jpg" />
+    <Resource Include="Image\1.3.5.jpg" />
+    <Resource Include="Image\1.3.7.png" />
+    <Resource Include="Image\1.4.1.png" />
+    <Resource Include="Image\1.4.2.png" />
+    <Resource Include="Image\1.4.3.png" />
+    <Resource Include="Image\1.4.4.png" />
+    <Resource Include="Image\2.1.png" />
+    <Resource Include="Image\3.1.png" />
+    <Resource Include="Image\4.1.png" />
+    <Content Include="pythonProject\scad.py" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,12 +54,14 @@
 
   <ItemGroup>
     <Folder Include="Base\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\Fonts\iconfont.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Image\1.1.png" />
   </ItemGroup>
 
 </Project>

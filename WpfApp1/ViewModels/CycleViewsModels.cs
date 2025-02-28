@@ -16,6 +16,11 @@ namespace WpfApp1.ViewModels
           public ObservableCollection<FangAnFaDianJi>fangAnFaDianJis { get; set; }  
           public ObservableCollection<FangAnBianLiuQi>FangAnBianLiuQis { get; set; }
           public List<string> Alarms { get; set; }
+
+
+
+
+
         public ObservableCollection<FangAn> FangAns1 { get; set; }
 
         public CycleViewsModels()
