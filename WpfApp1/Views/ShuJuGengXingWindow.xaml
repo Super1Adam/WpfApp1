@@ -25,25 +25,25 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock   FontSize="15"  Text="叶片直径" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            <TextBox Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="0" Grid.Column="1"/>
+            <TextBox x:Name="BladeDiameterTextBox" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="0" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="轮毂高度" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
+            <TextBox x:Name="HubHeightTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="切出风速" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
+            <TextBox x:Name="CutOutSpeedTextBox" Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="扫风面积    " Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
+            <TextBox x:Name="SweptAreaTextBox" Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="额定功率" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
+            <TextBox x:Name="RatedPowerTextBox" Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="切入面积" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
+            <TextBox x:Name="CutInAreaTextBox" Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
 
             <TextBlock   FontSize="14"  Text="齿轮箱传动比" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
+            <TextBox x:Name="GearboxRatioTextBox" Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
             <Button Content="保存风机"  Grid.ColumnSpan="2" Grid.Row="7" Click="Button_Click"></Button>
 
   

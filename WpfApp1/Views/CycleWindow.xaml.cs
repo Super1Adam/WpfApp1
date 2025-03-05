@@ -467,9 +467,10 @@ namespace WpfApp1.Views
                 {
                     var imagePaths = new Uri[]
       {
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.1.png"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/2.1.png"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/3.1.png")
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
+        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
+         new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
       };
                     string title = "再利用图例";
                     ShowImagePopup(imagePaths,title);

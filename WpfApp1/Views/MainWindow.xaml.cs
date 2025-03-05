@@ -94,8 +94,20 @@ namespace WpfApp1.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
-            try
+            DateTime? startDate = StartDatePicker.SelectedDate;
+            DateTime? endDate = EndDatePicker.SelectedDate;
+            string filePath = FilePathTextBox.Text;
+            var selectedLatitude = Combox1.SelectedItem;
+            var selectedLongitude = Combox2.SelectedItem;
+            if (startDate == null || endDate == null || string.IsNullOrWhiteSpace(filePath) || selectedLatitude == null || selectedLongitude == null)
+            {
+                MessageBox.Show("请确保已正确选择起始时间、结束时间、文件地址、经度和纬度！", "输入错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            else
+            
+            {
+              try
             {
                 RunPythonScript();
             }
@@ -105,10 +117,7 @@ namespace WpfApp1.Views
                 MessageBox.Show("脚本错误");
             }
 
-
-          
-
-            var viewModel = this.DataContext as MainViewModels;
+  var viewModel = this.DataContext as MainViewModels;
             if (viewModel != null)
             {
                 
@@ -181,6 +190,16 @@ namespace WpfApp1.Views
             //}
 
         }
+
+            }
+
+
+
+          
+
+          
+
+          
         }
 
         private ObservableCollection<YunXingShuJu> ReadYunXingShuJucsv(string filename)
@@ -285,7 +304,7 @@ namespace WpfApp1.Views
 
             return data;
         }
-        private void RunPythonScript()//运行python脚本，计算月均数据变化折线图，和数据统计直方图
+        private void RunPythonScript()//运行python脚本，计算月均数据变化折线图，和数据统计直方图 修改完成
         {
 
 
@@ -324,9 +343,9 @@ namespace WpfApp1.Views
                 return;
             }
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
+            string pythonExePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "python.exe");
 
-            string pythonScriptPath = @"E:\gird\pythonProject\inputopen.py";
+            string pythonScriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "pythonProject","inputopen.py");
 
            
             // 拼接参数字符串，注意空格分隔
@@ -343,7 +362,10 @@ namespace WpfApp1.Views
             };
 
             // 添加环境变量（如果需要设置路径）
-            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\myenv\Library\bin";
+            string ecCodesPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "Library", "bin");
+
+            string qtPluginPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "Library", "plugins");
+            startInfo.EnvironmentVariables["QT_PLUGIN_PATH"] = qtPluginPath;
             startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
 
             try
@@ -434,8 +456,8 @@ namespace WpfApp1.Views
         }
 
 
-        private void RunPythonScript1()//运行python脚本，计算月均数据变化折线图，和数据统计直方图 故障数据
-        {
+        private void RunPythonScript1()//运行python脚本，计算月均数据变化折线图，和数据统计直方图 故障数据 完成
+        { 
 
 
             string filePathToCsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "top_10_codes.csv");
@@ -452,8 +474,11 @@ namespace WpfApp1.Views
 
 
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
-            string pythonScriptPath = @"E:\gird\pythonProject\guzhang.py";
+            string pythonExePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "python.exe");
+
+            string pythonScriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "pythonProject", "guzhang.py");
+
+         
 
 
             // 拼接参数字符串，注意空格分隔
@@ -470,7 +495,7 @@ namespace WpfApp1.Views
             };
 
             // 添加环境变量（如果需要设置路径）
-            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
+            string ecCodesPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "Library", "bin");
             startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
 
             try
@@ -502,7 +527,7 @@ namespace WpfApp1.Views
     
         }
 
-        private void RunPythonScript2()//运行python脚本，计算月均数据变化折线图，和数据统计直方图scada数据 运行数据
+        private void RunPythonScript2()//运行python脚本，计算月均数据变化折线图，和数据统计直方图scada数据 运行数据 完成修改
         {
 
 
@@ -519,9 +544,10 @@ namespace WpfApp1.Views
             }
 
 
+            string pythonExePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "python.exe");
 
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
-            string pythonScriptPath = @"E:\gird\pythonProject\scad.py";
+            string pythonScriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "pythonProject", "scad.py");
+
 
 
             // 拼接参数字符串，注意空格分隔
@@ -538,7 +564,7 @@ namespace WpfApp1.Views
             };
 
             // 添加环境变量（如果需要设置路径）
-            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
+            string ecCodesPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "Library", "bin");
             startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
 
             try
@@ -574,10 +600,11 @@ namespace WpfApp1.Views
             }
 
         }
-        private void RunPythonScriptWithCoordinates(string inputFilePath)//经纬度提取
+        private void RunPythonScriptWithCoordinates(string inputFilePath)//经纬度提取 修改完成
         {
-            string pythonExePath = @"C:\Users\Adam_\.conda\envs\myenv\python.exe";
-            string pythonScriptPath = @"E:\gird\pythonProject\jingweidutiqu.py"; // Python脚本路径
+            string pythonExePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "python.exe");
+            string pythonScriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "pythonProject", "jingweidutiqu.py");
+
 
             // 拼接参数字符串
             string arguments = $"\"{pythonScriptPath}\" \"{inputFilePath}\"";
@@ -592,7 +619,7 @@ namespace WpfApp1.Views
                 CreateNoWindow = true
             };
 
-            string ecCodesPath = @"C:\Users\Adam_\.conda\envs\myenv\py1\Library\bin";
+            string ecCodesPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "Library", "bin");
             startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
             try
     {
@@ -647,7 +674,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "所有文件 (*.*)|*.*|文本文件 (*.txt)|*.txt|GRIB文件 (*.grib)|*.grib",
-                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
+                //InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定
@@ -687,7 +714,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
-                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
+                //InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定
@@ -737,7 +764,7 @@ namespace WpfApp1.Views
             {
                 Title = "选择文件",
                 Filter = "CSV文件 (*.csv)|*.csv|所有文件 (*.*)|*.*",
-                InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
+                //InitialDirectory = @"E:\gird\wind\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\Data"
             };
 
             // 如果用户选择了文件并点击确定

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Folder Include="Base\" />
     <Folder Include="Resources\" />
+    <Folder Include="envs\" />
   </ItemGroup>
 
   <ItemGroup>

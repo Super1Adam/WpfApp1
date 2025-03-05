@@ -351,20 +351,49 @@ To="1" Duration="0:0:0.2"/>
                     <RowDefinition Height="3.5*"/>
                 </Grid.RowDefinitions>
                 <GroupBox Header="选择ERA5数据" Grid.Row="0" >
-                    <UniformGrid Columns="6">
-                        <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}"/>
-                        <DatePicker x:Name="EndDatePicker" SelectedDate ="{Binding EndDate,Mode=TwoWay }"/>
-                        <TextBox Name="LatitudeTextBox" Text="请输入经度" Margin="2,1"/>
-                        <TextBox Name="LongitudeTextBox" Text="请输入纬度" Margin="2,1" />
+                    <UniformGrid Columns="4">
+                        <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}" Margin="2,1"/>
+                        <DatePicker x:Name="EndDatePicker" SelectedDate ="{Binding EndDate,Mode=TwoWay }" Margin="2,1"/>
+                        <!--<TextBox Name="LatitudeTextBox" Text="请输入经度" Margin="2,1"/>
+                        <TextBox Name="LongitudeTextBox" Text="请输入纬度" Margin="2,1" />-->
                         <Button Content="选择文件" Click="Button_Click_2"  Margin="2,1" />
-                        <TextBox x:Name="FilePathTextBox" Width="300"  IsReadOnly="True" Margin="2,1" />
+                        <Grid Margin="2,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="文件地址:" Margin="2,1" FontSize="15"  Foreground="White"/>
+                            <TextBox x:Name="FilePathTextBox" Grid.Column="1"  Width="300"  IsReadOnly="True"  />
+
+                        </Grid>
+                      
+                        <Grid Margin="2,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="经度:" Margin="2,1" FontSize="15"  Foreground="White"/>
+                            <ComboBox x:Name="Combox1" Grid.Column="1" ItemsSource="{Binding LatitudeList}" 
+SelectedItem="{Binding SelectedLatitude}" ></ComboBox>
+
+                        </Grid>
+                        <Grid Margin="2,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="纬度:" Margin="2,1" FontSize="15"  Foreground="White"/>
+                            <ComboBox x:Name="Combox2" Grid.Column="1" ItemsSource="{Binding LongitudeList}" 
+SelectedItem="{Binding SelectedLongitude}" ></ComboBox>
+
+                        </Grid>
+                       
                         <Button Content="气象数据计算" Click="Button_Click_1" Margin="2,1"/>
                         <Button Content="寿命计算" Click="Button_Click_3" Margin="2,1"/>
-                        <ComboBox x:Name="Combox1"  ItemsSource="{Binding LatitudeList}" 
-                  SelectedItem="{Binding SelectedLatitude}" ></ComboBox>
-                        <ComboBox x:Name="Combox2"   ItemsSource="{Binding LongitudeList}" 
-                  SelectedItem="{Binding SelectedLongitude}"   ></ComboBox>
-                        <Button x:Name="test" Content="dianji" Click="test_Click" />
+                       
+
+                      
+                      
                     </UniformGrid>
                 </GroupBox>
                 <GroupBox Header="风能资源图" Grid.Row="1" >

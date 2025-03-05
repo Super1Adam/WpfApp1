@@ -384,32 +384,32 @@ To="1" Duration="0:0:0.2"/>
                   <ColumnDefinition Width="auto"/>
                   <ColumnDefinition/>
               </Grid.ColumnDefinitions>
-              <TextBlock Text="旧机组经济指标"  VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="16" Foreground="White"/>
-              <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-              <TextBox  x:Name="TeztBox1" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="8" Grid.Column="1"/>
+              <TextBlock Text="旧机组经济指标 "  VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="16" Foreground="White"/>
+              <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本 (万元)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+              <TextBox  x:Name="OldInvestmentCostTextBox" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="1" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox  x:Name="TeztBox2"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本 (万元)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox  x:Name="OldMaintenanceCostTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="2" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox  x:Name="TeztBox3"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本 (万元)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox  x:Name="OldFinancingCostTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox  x:Name="TeztBox4"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量 (MWh)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox  x:Name="OldGenerationTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="4" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox x:Name="TeztBox5"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价 (元/度)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="PTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox x:Name="TeztBox6"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益 (万元)" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="TeztBox6"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="6" Grid.Column="1"/>
 
-              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox x:Name="TeztBox7"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
+              <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额 (%)" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="TaxRateTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
 
-              <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox x:Name="TeztBox8"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
-              <TextBlock   Foreground="#AA999999" FontSize="14" Text="贴现率" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-              <TextBox x:Name="TeztBox9"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="9" Grid.Column="1"/>
+              <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益 (万元)" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="oldResaleValueTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="8" Grid.Column="1"/>
+              <TextBlock   Foreground="#AA999999" FontSize="14" Text="贴现率 (%)" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              <TextBox x:Name="RTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="9" Grid.Column="1"/>
                     </Grid>
           <Grid Grid.Column="1">
               <Grid.RowDefinitions>
@@ -423,7 +423,7 @@ To="1" Duration="0:0:0.2"/>
                   <RowDefinition/>
                   <RowDefinition/>
                   <RowDefinition/>
-                  <RowDefinition/>
+          
                 
 
 
@@ -434,37 +434,36 @@ To="1" Duration="0:0:0.2"/>
               </Grid.ColumnDefinitions>
                         <TextBlock Text="新机组经济指标"  VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="16" Foreground="White"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBox  x:Name="TeztBox10" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="8" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="15"  Text="投资成本 (万元)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox  x:Name="NewInvestmentCostTextBox" Foreground="#CC2BB6FE" Margin="2,5" Background="Transparent"  Grid.Row="1" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox  x:Name="TeztBox11"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="运维成本 (万元)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="NewMaintenanceCostTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="2" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox  x:Name="TeztBox12"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="融资成本 (万元)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="NewFinancingCostTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox  x:Name="TeztBox13"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="年发电量 (MWh)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox  x:Name="NewGenerationTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="4" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="TeztBox14"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="4" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="电价 (元/度)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox14"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="TeztBox15"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="5" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="发电收益 (万元)" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox15"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5" Grid.Row="6" Grid.Column="1"/>
 
-                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="TeztBox16"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="6" Grid.Column="1"/>
+                        <TextBlock  Foreground="#AA999999" FontSize="14"  Text="项目应纳税额 (%)" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="TeztBox16"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
 
-                        <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="TeztBox17"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="7" Grid.Column="1"/>
-                        <TextBlock   Foreground="#AA999999" FontSize="14" Text="贴现率" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="TeztBox18"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="9" Grid.Column="1"/>
+                        <TextBlock   Foreground="#AA999999" FontSize="14" Text="机组变卖收益 (万元)" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="newResaleValueTextBox"  Foreground="#CC2BB6FE" Background="Transparent" Margin="2,5"  Grid.Row="8" Grid.Column="1"/>
+                       
 
-                        <Button Grid.ColumnSpan="2" Grid.Row="10" Margin="10,5" Content="更新" Click="UpdateButton_Click"/>
+                        <Button Grid.ColumnSpan="2" Grid.Row="10" Margin="10,5" Content="计算最佳换新年份" Click="CalculateBestSwitchYear_Click"/>
           </Grid>
           <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
               <TextBlock Text="经济循环寿命" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-              <TextBlock x:Name="jingjishoumingBlock"   Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
+              <TextBlock x:Name="ResultTextBlock"   Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
           </StackPanel>
 
 
@@ -513,7 +512,7 @@ To="1" Duration="0:0:0.2"/>
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                                 <TextBlock  Text="期望退役年份" Foreground="#AA999999" FontSize="12" HorizontalAlignment="Center"/>
                                 <TextBox x:Name="ExpectedRetireYearTextBox"  Text="" Foreground="#CC2BB6FE" Background="Transparent" Margin="0,5" FontSize="20"/>
-                  <Button Content="确定" Background="Transparent" Foreground="#cc2bb6fe"  Margin="0,5" Click="OnSubmitClick" />
+                  <Button Content="确定"  Background="Transparent" Foreground="#cc2bb6fe"  Margin="0,5" Click="OnSubmitClick" />
 
 
 

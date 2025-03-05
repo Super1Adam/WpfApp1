@@ -94,55 +94,76 @@ namespace WpfApp1.Views
 
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void CalculateBestSwitchYear_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    // 读取旧机组数据
-            //    double oldInvestmentCost = double.Parse(TeztBox1.Text);  // 旧机组投资成本
-            //    double oldMaintenanceCost = double.Parse(TeztBox2.Text); // 旧机组运维成本
-            //    double oldFinancingCost = double.Parse(TeztBox3.Text);   // 旧机组融资成本
-            //    double oldTax = double.Parse(TeztBox4.Text);             // 旧机组应纳税额
-            //    double oldLifetime = double.Parse(TeztBox5.Text);        // 使用寿命
-            //    double oldSellIncome = double.Parse(TeztBox6.Text);      // 旧机组变卖收入
-            //    double oldNetPower = double.Parse(TeztBox8.Text);        // 旧机组净发电量
-            //    double discountRate = double.Parse(TeztBox7.Text) / 100; // 贴现率（转换为小数）
+            // 从 TextBox 获取输入
+            double oldInvestmentCost = double.Parse(OldInvestmentCostTextBox.Text);
+            double oldMaintenanceCost = double.Parse(OldMaintenanceCostTextBox.Text);
+            double oldFinancingCost = double.Parse(OldFinancingCostTextBox.Text);
+            double oldGeneration = double.Parse(OldGenerationTextBox.Text);
 
-            //    // 读取新机组数据
-            //    double electricityPrice = 0.5; // 电价（固定为 0.5 元/kWh）
-            //    double newNetPower = 250;      // 新机组净发电量
-            //    double newInvestmentCost = 800; // 新机组投资成本
-            //    double newMaintenanceCost = 25; // 新机组运维成本
-            //    double newFinancingCost = 15;   // 新机组融资成本
-            //    double newTax = 40;             // 新机组应纳税额
+            double newInvestmentCost = double.Parse(NewInvestmentCostTextBox.Text);
+            double newMaintenanceCost = double.Parse(NewMaintenanceCostTextBox.Text);
+            double newFinancingCost = double.Parse(NewFinancingCostTextBox.Text);
+            double newGeneration = double.Parse(NewGenerationTextBox.Text);
 
-            //    // 计算旧机组寿命收益
-            //    double oldLifetimeIncome = (oldNetPower * electricityPrice) + oldSellIncome;
+            int years = 25; // 评估周期
+            double P = double.Parse(PTextBox.Text)/10;
+            double taxRate = double.Parse(TaxRateTextBox.Text)/100;
+            double oldResaleValue = double.Parse(oldResaleValueTextBox.Text);
+            double newResaleValue = double.Parse(newResaleValueTextBox.Text);
+            double r = double.Parse(RTextBox.Text)/100;
 
-            //    // 计算新机组寿命收益
-            //    double newLifetimeIncome = newNetPower * electricityPrice;
+            // 计算最佳换新年份
+            (int bestYear, double bestR2) = FindBestReplacementTime(years, oldGeneration, newGeneration, P, taxRate, oldInvestmentCost, newInvestmentCost, oldMaintenanceCost, newMaintenanceCost, oldResaleValue, newResaleValue, r, oldFinancingCost, newFinancingCost);
 
-            //    // 计算总投资成本
-            //    double totalInvestmentCost = oldInvestmentCost + newInvestmentCost;
+            // 显示结果
+            ResultTextBlock.Text = $"最佳换新年份: {bestYear}年";
 
-            //    // 计算年平均运维成本
-            //    double annualMaintenanceCost = oldMaintenanceCost + newMaintenanceCost;
-
-            //    // 计算经济循环寿命
-            //    double economicCycleLife = (oldLifetimeIncome + newLifetimeIncome - totalInvestmentCost) / annualMaintenanceCost;
-
-
-            //    // 将结果显示到 TextBlock
-            //    //jingjishoumingBlock.Text = Math.Abs(economicCycleLife).ToString("F2");
-            //    jingjishoumingBlock.Text = "5";
-            //}
-            //catch (Exception ex)
-            //{
-            //    // 如果输入有误，提示错误
-            //    MessageBox.Show("输入数据有误，请检查并重新输入。\n" + ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            jingjishoumingBlock.Text = "5";
+            // 显示结果
         }
+        // 计算函数
+        public (int best_K, double best_R2) FindBestReplacementTime(int N, double G_old, double G_new, double P, double tax_rate, double c_old, double c_new, double f_old, double f_new, double resale_old, double resale_new, double r,double oldFinancingCost,double newFinancingCost)
+        {
+            int best_K = -1;
+            double best_R2 = double.MaxValue;
+
+            // 遍历 K = 1 到 N-1，寻找最佳换新时间 K
+            for (int K = 1; K < N; K++)
+            {
+                // 计算旧机组在 1 到 K 年的收益（R2_old）
+                double R2_old = 0;
+                for (int n = 1; n <= K; n++)
+                {
+                    R2_old += (1 - tax_rate) * G_old * P * Math.Pow(1 + r, -n) 
+                        - (f_old * (2 - Math.Exp(1 - n)) + oldFinancingCost) * Math.Pow(1 + r, -n);
+                }
+                R2_old += resale_old * Math.Pow(1 + r, -K)-c_old; // 旧机组变卖收益
+
+                // 计算新机组在 K+1 到 N 年的收益（R2_new）
+                double R2_new = 0;
+                for (int n = K + 1; n <= N; n++)
+                {
+                    R2_new += (1 - tax_rate) * G_new * P * Math.Pow(1 + r, -n) 
+                        - (f_new * (2 - Math.Exp(1 - n)) + newFinancingCost) * Math.Pow(1 + r, -n);
+                }
+                R2_new += resale_new * Math.Pow(1 + r, -N)-c_new * Math.Pow(1 + r, -K); // 新机组变卖收益
+
+                // 计算总的净收益 R2
+                double R2 = R2_old + R2_new;
+
+                // 如果当前 R2 更大，更新最佳换新时间 K 和 R2
+                if (R2 < best_R2)
+                {
+                    best_R2 = R2;
+                    best_K = K;
+                }
+            }
+            return (best_K, best_R2);
+        }
+
+
+
         // 最小化功能
         private void btnMin_Click(object sender, RoutedEventArgs e)
         {
