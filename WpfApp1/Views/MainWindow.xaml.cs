@@ -57,32 +57,36 @@ namespace WpfApp1.Views
 
         {
             MainWindow mainWindow = new MainWindow();
-            mainWindow.ShowDialog();
-
+            mainWindow.Show();
+            this.Close();
         }
         private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
 
         {
             Window1 mainWindow = new Window1();
-            mainWindow.ShowDialog();
+            mainWindow.Show();
+            this.Close();
         }
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
         {
             CycleWindow window1 = new CycleWindow();
-            window1.ShowDialog();
+            window1.Show();
+            this.Close();
         }
         private void Button_JingJi(object sender, RoutedEventArgs e)
 
         {
             jingjixingfenxi jingjixingfenxi = new jingjixingfenxi();
-            jingjixingfenxi.ShowDialog();
+            jingjixingfenxi.Show();
+            this.Close();
         }
         private void Button_Genxing(object sender, RoutedEventArgs e)
 
         {
             ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.ShowDialog();
+            shuJuGengXingWindow.Show();
+            this.Close();
 
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)
@@ -92,7 +96,7 @@ namespace WpfApp1.Views
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async  void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DateTime? startDate = StartDatePicker.SelectedDate;
             DateTime? endDate = EndDatePicker.SelectedDate;
@@ -109,7 +113,25 @@ namespace WpfApp1.Views
             {
               try
             {
-                RunPythonScript();
+                    LoadingWindow loadingWindow = new LoadingWindow();
+                    loadingWindow.Show();
+
+                    // 等待界面刷新
+                    await Task.Delay(100);
+                    DateTime? startDateSelected = StartDatePicker.SelectedDate;
+                    DateTime? endDateSelected = EndDatePicker.SelectedDate;
+                    string? filePath1 = FilePathTextBox.Text;
+                    var viewModel1 = this.DataContext as MainViewModels;
+
+
+                    // 执行耗时任务（运行 Python 脚本）
+                    await Task.Run(() => RunPythonScript(startDateSelected,endDateSelected, filePath1, viewModel1));
+
+                    // 延迟 1 秒后关闭加载窗口
+                    await Task.Delay(1000);
+                    loadingWindow.Close();
+
+                    MessageBox.Show("读取完成！");
             }
             catch (Exception ex)
             {
@@ -117,11 +139,12 @@ namespace WpfApp1.Views
                 MessageBox.Show("脚本错误");
             }
 
-  var viewModel = this.DataContext as MainViewModels;
+            var viewModel = this.DataContext as MainViewModels;
             if (viewModel != null)
             {
-                
-                // 检查并清除之前的数据
+
+                    // 检查并清除之前的数据
+                if (viewModel.TimeLabels.Any()) viewModel.TimeLabels.Clear();
                 if (viewModel.WindSpeedValues.Any()) viewModel.WindSpeedValues.Clear();
                 if (viewModel.TemperaturValues.Any()) viewModel.TemperaturValues.Clear();
                 if (viewModel.HumidityValues.Any()) viewModel.HumidityValues.Clear();
@@ -132,10 +155,16 @@ namespace WpfApp1.Views
                 var data = ReadWindSpeedDataFromCsv(datacsv);
 
                 // 添加新的数据到集合
+                foreach (var value in data.Select(d => d.TimeRange))
+                {
+                    viewModel.TimeLabels.Add(value);
+                }
+                
                 foreach (var value in data.Select(d => d.WindSpeed))
                 {
                     viewModel.WindSpeedValues.Add(value);
                 }
+
                 foreach (var value in data.Select(d => d.Temperature))
                 {
                     viewModel.TemperaturValues.Add(value);
@@ -220,8 +249,7 @@ namespace WpfApp1.Views
                     {
                         YunXingShuJuValues = windSpeed
                            ,
-                        XLabels = temperature
-                                        ,
+                        XLabels = temperature,
 
                     });
                 }
@@ -304,7 +332,7 @@ namespace WpfApp1.Views
 
             return data;
         }
-        private void RunPythonScript()//运行python脚本，计算月均数据变化折线图，和数据统计直方图 修改完成
+        private void RunPythonScript(DateTime? startDateSelected, DateTime? endDateSelected, string? filePath,MainViewModels? viewModel)//运行python脚本，计算月均数据变化折线图，和数据统计直方图 修改完成
         {
 
 
@@ -312,9 +340,7 @@ namespace WpfApp1.Views
             string frequentFilePathToCsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "frequency_data_new.csv");
 
 
-            DateTime? startDateSelected = StartDatePicker.SelectedDate;
-            DateTime? endDateSelected = EndDatePicker.SelectedDate;
-            string? filePath = FilePathTextBox.Text;
+         
 
             if (startDateSelected == null || endDateSelected == null || filePath== null)
             {
@@ -327,7 +353,6 @@ namespace WpfApp1.Views
 
 
 
-            var viewModel = this.DataContext as MainViewModels;
 
          
 
@@ -386,7 +411,7 @@ namespace WpfApp1.Views
 
                     if (!string.IsNullOrEmpty(output))
                     {
-                        MessageBox.Show("Output: " + "weather_data && frequence_data");
+                      //  MessageBox.Show("Output: " + "weather_data && frequence_data");
                     }
 
                     //if (!string.IsNullOrEmpty(error))
@@ -399,60 +424,7 @@ namespace WpfApp1.Views
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
-            //string pythonExePath = @"C:\Users\Adam_\.conda\envs\py1\python.exe";
-            //string pythonScriptPath = @"E:\gird\pythonProject\inputopen.py";
 
-            //// 定义参数
-            //string startDate = "2024-01-01T00:00:00";
-            //string endDate = "2024-01-29T00:00:00";
-            //string latitude = "-0.25";
-            //string longitude = "-9.75";
-
-            //// 拼接参数字符串
-            //string arguments = $"\"{pythonScriptPath}\" \"{startDate}\" \"{endDate}\" \"{latitude}\" \"{longitude}\"";
-
-            //ProcessStartInfo startInfo = new ProcessStartInfo
-            //{
-            //    FileName = pythonExePath,
-            //    Arguments = arguments,
-            //    UseShellExecute = false,
-            //    RedirectStandardOutput = true,
-            //    RedirectStandardError = true,
-            //    CreateNoWindow = true
-            //};
-            //string ecCodesPath = @"C:\Users\Adam_\.conda\envs\py1\Library\bin";
-            //startInfo.EnvironmentVariables["PATH"] = ecCodesPath + ";" + Environment.GetEnvironmentVariable("PATH");
-            //try
-            //{
-            //    using (Process process = Process.Start(startInfo))
-            //    {
-            //        if (process == null)
-            //        {
-            //            MessageBox.Show("Failed to start process.");
-            //            return;
-            //        }
-
-            //        // 读取输出
-            //        string output = process.StandardOutput.ReadToEnd();
-            //        string error = process.StandardError.ReadToEnd();
-
-            //        process.WaitForExit();
-
-            //        if (!string.IsNullOrEmpty(output))
-            //        {
-            //            MessageBox.Show("Output: " + output);
-            //        }
-
-            //        if (!string.IsNullOrEmpty(error))
-            //        {
-            //            MessageBox.Show("Error: " + error);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error: " + ex.Message);
-            //}
         }
 
 
@@ -600,7 +572,7 @@ namespace WpfApp1.Views
             }
 
         }
-        private void RunPythonScriptWithCoordinates(string inputFilePath)//经纬度提取 修改完成
+        private void RunPythonScriptWithCoordinates(string inputFilePath,MainViewModels? viewModel)//经纬度提取 修改完成
         {
             string pythonExePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "myenv", "python.exe");
             string pythonScriptPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "pythonProject", "jingweidutiqu.py");
@@ -627,8 +599,8 @@ namespace WpfApp1.Views
         {
             if (process == null)
             {
-                MessageBox.Show("Failed to start process.");
-                return;
+                        MessageBox.Show("Failed to start process.");
+                        return;
             }
 
             // 读取输出
@@ -649,10 +621,12 @@ namespace WpfApp1.Views
 
                         // 绑定数据
                         // 获取 ViewModel 并更新数据源
-                        var viewModel = this.DataContext as MainViewModels;
                         if (viewModel != null)
                         {
-                            viewModel.UpdateLatLonLists(latitudes, longitudes);
+                            Dispatcher.Invoke(() =>
+                            {
+                                viewModel.UpdateLatLonLists(latitudes, longitudes);
+                            });
                         }
 
                     }
@@ -662,13 +636,15 @@ namespace WpfApp1.Views
     }
     catch (Exception ex)
     {
-        MessageBox.Show($"Error: {ex.Message}");
     }
         }
 
+       
 
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+
+
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -686,8 +662,26 @@ namespace WpfApp1.Views
 
                 // 进一步处理选定文件路径
                 MessageBox.Show($"您选择的文件路径为：{selectedFilePath}");
-                MessageBox.Show("正在读取经纬度信息");
-                RunPythonScriptWithCoordinates(FilePathTextBox.Text);
+                // 创建并显示加载窗口
+                LoadingWindow loadingWindow = new LoadingWindow();
+                loadingWindow.Show();
+
+                // 等待界面刷新
+                await Task.Delay(100);
+
+                // 执行耗时任务（运行 Python 脚本）
+                var viewModel = this.DataContext as MainViewModels;
+                string? filePath = FilePathTextBox.Text;
+
+
+                await Task.Run(() => RunPythonScriptWithCoordinates(filePath, viewModel));
+
+                // 延迟 1 秒后关闭加载窗口
+                await Task.Delay(1000);
+                loadingWindow.Close();
+
+                MessageBox.Show("读取完成！");
+
 
 
 
@@ -731,6 +725,7 @@ namespace WpfApp1.Views
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+
             RunPythonScript1();
 
 
@@ -889,28 +884,7 @@ namespace WpfApp1.Views
             this.Close(); // 关闭窗口
         }
 
-        private void test_Click(object sender, RoutedEventArgs e)
-        {
-            var viewModel = this.DataContext as MainViewModels;
-            // 修改经纬度的列表，例如，添加一些新的经纬度值
-            if (viewModel != null)
-            {
-                // 清空当前列表并添加新的经纬度
-                viewModel.LatitudeList.Clear();
-                viewModel.LatitudeList.Add("38.0522");  // 示例值1
-                viewModel.LatitudeList.Add("36.7783");  // 示例值2
-                viewModel.LatitudeList.Add("37.7749");  // 示例值3
-                viewModel.LatitudeList.Add("40.7128");  // 示例值4
-                viewModel.SelectedLatitude = viewModel.LatitudeList[0];
-            }
-            //private void btnOpenFile_Click(object sender, RoutedEventArgs e)
-            //{
-            //    OpenFileDialog openFileDialog = new OpenFileDialog();
-            //    if (openFileDialog.ShowDialog() == true)
-            //        txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
-
-            //}
-        }
+       
 
         }
 }

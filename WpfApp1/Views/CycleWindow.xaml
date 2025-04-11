@@ -325,7 +325,9 @@
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal">
-            <Button Content="数据导入" Click="Button_ShuJuDaoRu" Margin="19,0,15,6" Background="Transparent" Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+
+            <Button Content="SCADA数据导入" Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>

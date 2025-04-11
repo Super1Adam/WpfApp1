@@ -103,7 +103,7 @@ namespace WpfApp1.Models
             var (k1, k2, k3) = ks;
 
             return MaintenanceFactor * Math.Exp(
-                //k1 * Math.Log(ReferenceHumidity / _avgHumidity) +
+                k1 * Math.Log(ReferenceHumidity / _avgHumidity) +
                 k2 * (1 / (_avgTemperature+273.15) - 1 / ReferenceTemperature) +
                 k3 * Math.Log(_avgWindSpeed / ReferenceWindSpeed)
             );

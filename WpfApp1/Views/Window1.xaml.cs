@@ -94,32 +94,36 @@ namespace WpfApp1.Views
 
         {
             MainWindow mainWindow = new MainWindow();
-            mainWindow.ShowDialog();
-
+            mainWindow.Show();
+            this.Close();
         }
         private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
 
         {
             Window1 mainWindow = new Window1();
-            mainWindow.ShowDialog();
+            mainWindow.Show();
+            this.Close();
         }
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
         {
             CycleWindow window1 = new CycleWindow();
-            window1.ShowDialog();
+            window1.Show();
+            this.Close();
         }
         private void Button_JingJi(object sender, RoutedEventArgs e)
 
         {
             jingjixingfenxi jingjixingfenxi = new jingjixingfenxi();
-            jingjixingfenxi.ShowDialog();
+            jingjixingfenxi.Show();
+            this.Close();
         }
         private void Button_Genxing(object sender, RoutedEventArgs e)
 
         {
             ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.ShowDialog();
+            shuJuGengXingWindow.Show();
+            this.Close();
 
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)

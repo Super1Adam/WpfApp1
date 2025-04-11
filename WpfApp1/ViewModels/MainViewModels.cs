@@ -17,6 +17,74 @@ namespace WpfApp1.ViewModels
 {
     public class   MainViewModels : PropertyChangedBase
     {
+
+        private string _yLabel1;
+        public string YLabel1
+        {
+            get => _yLabel1;
+            set
+            {
+                _yLabel1 = value;
+                SetPropertyChanged();  // 通知 UI 更新
+            }
+        }
+
+        private string _yLabel2;
+        public string YLabel2
+        {
+            get => _yLabel2;
+            set
+            {
+                _yLabel2 = value;
+                SetPropertyChanged();
+            }
+        }
+
+        private string _yLabel3;
+        public string YLabel3
+        {
+            get => _yLabel3;
+            set
+            {
+                _yLabel3 = value;
+                SetPropertyChanged();
+            }
+        }
+
+        private string _yLabel4;
+        public string YLabel4
+        {
+            get => _yLabel4;
+            set
+            {
+                _yLabel4 = value;
+                SetPropertyChanged();
+            }
+        }
+
+        private string _yLabel5;
+        public string YLabel5 
+        {
+            get => _yLabel5;
+            set
+            {
+                _yLabel5 = value;
+                SetPropertyChanged();
+            }
+        }
+
+        private string _yLabel6;
+        public string YLabel6
+        {
+            get => _yLabel6;
+            set
+            {
+                _yLabel6 = value;
+                SetPropertyChanged();
+            }
+        }
+
+
         public SeriesCollection SeriesCollection { get; set; }
 
         public string SelectedLatitude { get; set; }
@@ -25,8 +93,14 @@ namespace WpfApp1.ViewModels
 
         public ObservableCollection<string> LatitudeList { get; set; }
         public ObservableCollection<string> LongitudeList { get; set; }
-     
 
+        public ObservableCollection<string> EnvironmentalInfoList { get; set; }
+
+        public ObservableCollection<string> PowerGenerationInfoList { get; set; }
+        public ObservableCollection<string> BladeList { get; set; }
+        public ObservableCollection<string> GearboxList { get; set; }
+        public ObservableCollection<string> GeneratorList { get; set; }
+        public ObservableCollection<string> ConverterList { get; set; }
         public ObservableCollection<string> TimeLabels { get; set; }
 
         public ChartValues<double> WindSpeedValues { get; set; }
@@ -239,43 +313,35 @@ namespace WpfApp1.ViewModels
 
         public MainViewModels()
         {
+            // **给 Y 轴标题一个默认值**
+            YLabel1 = "Y1 (Unit)";
+            YLabel2 = "Y2 (Unit)";
+            YLabel3 = "Y3 (Unit)";
+            YLabel4 = "Y4 (Unit)";
+            YLabel5 = "Y5 (Unit)";
+            YLabel6 = "Y6 (Unit)";
 
-  
             EndDate = new SelectDate();
             StartDate = new SelectDate();
-               string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
+            string datacsv = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "weather_data_with_wpd.csv");
             string datazf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "frequency_data.csv");
             string datascada = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "processed_output_12_bins.csv");
             string dataYunXingShuJu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "top_10_codes.csv");
 
-            //// 读取 CSV 文件并转换成 WindSpeedData 对象列表
-            //var data = ReadWindSpeedDataFromCsv(datacsv);
-
-            //// 转化为 LiveCharts 图表数据
-            //WindSpeedValues = new ChartValues<double>(data.Select(d => d.WindSpeed));
-            //TemperaturValues = new ChartValues<double>(data.Select(d => d.Temperature));
-            //HumidityValues = new ChartValues<double>(data.Select(d => d.Humidity));
-            //WindPowerDensity = new ChartValues<double>(data.Select(d => d.WindPowerDensity));
-            //var dataZF = ReadWindSpeedDataFromCsv1(datazf);
-            //WindSpeedValuesZF = new ChartValues<double>(dataZF.Select(d => d.WindSpeed));
-            //TemperaturValuesZF = new ChartValues<double>(dataZF.Select(d => d.Temperature));
-            //HumidityValuesZF = new ChartValues<double>(dataZF.Select(d => d.Humidity));
-            //WindPowerDensityZF = new ChartValues<double>(dataZF.Select(d => d.WindPowerDensity));
-            //var dataScada = ReadWindSpeedDataFromCsvScada(datascada);
-            //WindSpeed =new ChartValues<double> (dataScada.Select(d => d.WindSpeed));
-            //Power = new ChartValues<double>(dataScada.Select(d => d.Power));
-            //Vane =new ChartValues<double>(dataScada.Select ((d) => d.Vane));
-            //GearboxSpeed = new ChartValues<double>(dataScada.Select (d => d.GearboxSpeed));
-            //Generator = new ChartValues<double>(dataScada.Select ((d) => d.Generator));
-            //Voltage = new ChartValues<double>(dataScada.Select (((d) => d.Voltage)));
-
-            //var datayxsj = ReadYunXingShuJucsv(dataYunXingShuJu);
-            //YunXingShuJuValues = new ChartValues<double>(datayxsj.Select(d => d.YunXingShuJuValues));
-            //XLabels = new List<string>(datayxsj.Select(d => d.XLabels));
-            // 初始化空的 SeriesCollection
+   
             SeriesCollection = new SeriesCollection();
 
             // 初始化空的 ChartValues
+
+            EnvironmentalInfoList = new ObservableCollection<string>();
+            PowerGenerationInfoList = new ObservableCollection<string>();
+            BladeList = new ObservableCollection<string>();
+            GearboxList = new ObservableCollection<string>();
+            GeneratorList = new ObservableCollection<string>();
+            ConverterList = new ObservableCollection<string>();
+            
+
+            
             WindSpeedValues = new ChartValues<double>();
             TemperaturValues = new ChartValues<double>();
             HumidityValues = new ChartValues<double>();
@@ -322,6 +388,43 @@ namespace WpfApp1.ViewModels
             foreach (var longitude in longitudes)
             {
                 LongitudeList.Add(longitude.ToString("F2"));
+            }
+        }
+        public void UpdateSCADALists(List<string > EnvironmentalInfos, List<string> PowerGenerationInfos, List<string> Blades, List<string> Gearboxs, List<string> Generators, List<string> Converters)
+        {
+            // 清空现有的数据
+            //EnvironmentalInfoList.Clear();
+            //PowerGenerationInfoList.Clear();
+            //BladeList.Clear();
+            //GearboxList.Clear();
+            //GeneratorList.Clear();
+            //ConverterList.Clear();
+      
+            // 将新的经纬度数据添加到 ObservableCollection 中
+            foreach (var EnvironmentalInfo in EnvironmentalInfos)
+            {
+                EnvironmentalInfoList.Add(EnvironmentalInfo); // 保留2位小数格式
+            }
+
+            foreach (var PowerGenerationInfo in PowerGenerationInfos)
+            {
+                PowerGenerationInfoList.Add(PowerGenerationInfo);
+            }
+            foreach (var Blade in Blades)
+            {
+                BladeList.Add(Blade);
+            }
+            foreach (var Gearbox in Gearboxs)
+            {
+                GearboxList.Add(Gearbox);
+            }
+            foreach (var Generator in Generators)
+            {
+                GeneratorList.Add(Generator);
+            }
+            foreach (var Converter in Converters)
+            {
+                ConverterList.Add(Converter);
             }
         }
     }

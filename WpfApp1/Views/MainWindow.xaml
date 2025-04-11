@@ -313,17 +313,19 @@ To="1" Duration="0:0:0.2"/>
             </Border.Background>
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal">
-         
-            <Button Content="数据导入" Click="Button_ShuJuDaoRu" Margin="19,0,15,6" Background="Transparent" Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            
+            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+
+            <Button Content="SCADA数据导入"   Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="数据更新" Click="Button_Genxing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16"></Button>
-            <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent"   Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
         </StackPanel>
         <TextBlock Grid.Row=" 1"  HorizontalAlignment="Center" VerticalAlignment="Top" >
 <Run  Text="风电装备数字化可循环性设计软件"  FontSize="20" Foreground="White" />
-            
+
 
         </TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
@@ -366,7 +368,7 @@ To="1" Duration="0:0:0.2"/>
                             <TextBox x:Name="FilePathTextBox" Grid.Column="1"  Width="300"  IsReadOnly="True"  />
 
                         </Grid>
-                      
+
                         <Grid Margin="2,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -387,13 +389,13 @@ SelectedItem="{Binding SelectedLatitude}" ></ComboBox>
 SelectedItem="{Binding SelectedLongitude}" ></ComboBox>
 
                         </Grid>
-                       
+
                         <Button Content="气象数据计算" Click="Button_Click_1" Margin="2,1"/>
                         <Button Content="寿命计算" Click="Button_Click_3" Margin="2,1"/>
-                       
 
-                      
-                      
+
+
+
                     </UniformGrid>
                 </GroupBox>
                 <GroupBox Header="风能资源图" Grid.Row="1" >
@@ -426,12 +428,13 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 </lvc:CartesianChart.Series>
 
                                 <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis  Foreground=" #33ffffff" >
+                                    <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}" FontSize="10" >
                                         <lvc:Axis.Separator >
                                             <lvc:Separator  Step="4" StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisX>
+
                                 <lvc:CartesianChart.AxisY>
                                     <lvc:Axis Foreground="#33FFFFFF" >
                                         <lvc:Axis.Separator>
@@ -445,7 +448,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     <lvc:LineSeries  Values="{Binding TemperaturValues }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis  Foreground=" #33ffffff">
+                                    <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}" FontSize="10" >
                                         <lvc:Axis.Separator >
                                             <lvc:Separator Step="4" StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
@@ -464,14 +467,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     <lvc:LineSeries  Values="{Binding HumidityValues }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis  Foreground=" #33ffffff">
+                                    <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
                                         <lvc:Axis.Separator >
                                             <lvc:Separator Step="4" StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisX>
                                 <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis Foreground="#33FFFFFF" ShowLabels="False" >
+                                    <lvc:Axis Foreground="#33FFFFFF" >
                                         <lvc:Axis.Separator >
                                             <lvc:Separator  Stroke="#10FFFFFF"  />
                                         </lvc:Axis.Separator>
@@ -483,7 +486,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     <lvc:LineSeries  Values="{Binding WindPowerDensity }" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
-                                    <lvc:Axis  Foreground=" #33ffffff" >
+                                    <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
                                         <lvc:Axis.Separator >
                                             <lvc:Separator Step="4" StrokeThickness="0"/>
                                         </lvc:Axis.Separator>
@@ -610,10 +613,11 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <GroupBox Grid.Row="0" Header="SCADA故障报警数据">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="223*"/>
+                            <ColumnDefinition Width="199*"/>
                         </Grid.ColumnDefinitions>
-                        <lvc:CartesianChart >
+                        <lvc:CartesianChart Grid.ColumnSpan="3" Margin="0,0,198,0" >
                             <lvc:CartesianChart.Series>
                                 <lvc:ColumnSeries   Values="{Binding YunXingShuJuValues }"  Stroke="PeachPuff" Fill="Yellow" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
@@ -632,7 +636,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
-                        <UniformGrid Grid.Column="1" Rows="6" >
+                        <UniformGrid Grid.Column="2" Rows="6" >
                             <Button Content="选择故障报警文件" Click="Button_Click_4"  Margin="2,1" />
                             <TextBox x:Name="FilePathTextBox1" Width="300"  IsReadOnly="True" Margin="2,1" />
                             <Button  Content="显示故障数据"  Click="Button_Click_5" Margin="2,1"/>

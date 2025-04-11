@@ -38,11 +38,15 @@ LoadedBehavior="Manual" UnloadedBehavior="Manual" Grid.Row="3" Grid.RowSpan="2"/
                 </Grid.ColumnDefinitions>
            
                  <TextBlock Text="用户名" Grid.Row="0" VerticalAlignment="Center"/>
-                 <TextBox x:Name="tetuse" Grid.Column="1" Margin="2"/>
+                <TextBox x:Name="txtUsername" Grid.Column="1" Margin="2"/>
                 <TextBlock Text="密码" Grid.Row="1" VerticalAlignment="Center"/>
-                <TextBox x:Name="usepsw" Grid.Row="1" Grid.Column="1" Margin="2"/>
-                <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Content="记住密码" FontSize="12"/>
-                <Button Grid.Row="3" Grid.ColumnSpan="2" Content="登录" Click="Button_Click"/>
+                <PasswordBox x:Name="txtPassword" Grid.Row="1" Grid.Column="1" Margin="2"/>
+                <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Content="记住密码" FontSize="12" x:Name="chkRemember"/>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" >
+                    <Button Content="登录" Click="BtnLogin_Click" Width="80" Margin="10,0,10,0" />
+                    <Button Content="注册" Click="BtnRegister_Click" Width="80" Margin="10,0,10,0" />
+                </StackPanel>
+
             </Grid>
         </Grid>
     </Grid>

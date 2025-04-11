@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfApp1.Views.Window1"
+﻿<Window x:Class="WpfApp1.Views.WindowScada"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         
         xmlns:uc="clr-namespace:WpfApp1.Controls"
-        xmlns:models="clr-namespace:WpfApp1.Models"
+                xmlns:models="clr-namespace:WpfApp1.Models"
 
         WindowStyle="None" 
         AllowsTransparency="True"
@@ -319,9 +319,9 @@ To="1" Duration="0:0:0.2"/>
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"    Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
 
-            <Button Content="SCADA数据导入"  Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="SCADA数据导入" Margin="19,0,15,6" Background="Transparent" FontWeight="Bold"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
@@ -345,300 +345,272 @@ To="1" Duration="0:0:0.2"/>
                 <Button Width="45" Height="30" x:Name="btnMax" Style="{StaticResource btnStyle}" Content="&#xe621;" ToolTip="最大化" FontFamily="../Assets/Fonts/#iconfont" Cursor="Hand" Click="btnMax_Click"></Button>
                 <Button Width="45" Height="30" x:Name="btnClose" Style="{StaticResource btnStyle}" Content="&#xe609;" ToolTip="关闭" FontFamily="../Assets/Fonts/#iconfont" Click="btnClose_Click"></Button>
             </StackPanel>
-            
-
-
         </StackPanel>
-        <Grid Grid.Row=" 1"  Margin="20,15,20,15" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Margin="20,25,20,15" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="39*"/>
-                <ColumnDefinition Width="84*"/>
-                <ColumnDefinition Width="137*"/>
-                <ColumnDefinition Width="182*"/>
-
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="1.9*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="4*"/>
-            </Grid.RowDefinitions >
-            <Grid Grid.ColumnSpan="4" Margin="0,367,0,0" Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <!-- Left margin for label -->
-                    <ColumnDefinition Width="*" />
-                    <!-- Rectangle -->
-                    <ColumnDefinition Width="Auto" />
-                    <!-- Right margin for label -->
-                </Grid.ColumnDefinitions>
-
-                <!-- 100% Label -->
-                <TextBlock Text="剩余寿命：0%" 
-               VerticalAlignment="Center"
-               HorizontalAlignment="Right"
-               Margin="5" 
-               Grid.Column="0"
-               Foreground="#AA999999" FontSize="20"
-               FontWeight="Bold" />
-
-                <!-- Gradient Rectangle -->
-
-                <Rectangle Height="50" Grid.Column="1" Margin="5">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-
-                            <GradientStop Color="#ffffff" Offset="0" />
-
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Height="50" Grid.Column="1" Margin="5">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <!-- Red at the left edge -->
-                            <GradientStop Color="Red" Offset="0" />
-                            <!-- Blue in the middle -->
-                            <GradientStop Color="Blue" Offset="0.5" />
-                            <!-- Green at the right edge -->
-                            <GradientStop Color="Green" Offset="1" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <!-- 0% Label -->
-                <TextBlock Text="100%" 
-                 Foreground="#AA999999" FontSize="20"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Left"
-                  Margin="5" 
-                  Grid.Column="2"
-                 FontWeight="Bold" />
-            </Grid>
-            <Grid Grid.Column="0" Grid.Row="0" Margin="2,15,20,15" Grid.ColumnSpan="3">
-
-                <GroupBox Header="3D模型" Margin="5">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="SCADA故障报警数据" Margin="10">
                     <Grid>
-                        <hv:HelixViewport3D Name="viewPort3D" ZoomExtentsWhenLoaded="True" 
-                    ShowViewCube="false" ShowCoordinateSystem="True"
-                    CoordinateSystemLabelForeground="White"
-                    CoordinateSystemVerticalPosition="Center"
-                    CoordinateSystemHorizontalPosition="Right"
-                    
-                    CoordinateSystemHeight="50" 
-                    CoordinateSystemWidth="50"
-                    
-                    RenderOptions.EdgeMode="Unspecified"
-                    BorderBrush="White"
-                    BorderThickness="0"
-                    ShowFrameRate="False"
-                    ShowCameraInfo="False"
-                    IsManipulationEnabled="True"
-                    Background="Transparent"
- 
-                    >
-                            <!-- Remember to add light to the scene -->
-
-                            <hv:HelixViewport3D.DefaultCamera>
-                                <OrthographicCamera LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918"  NearPlaneDistance="0.1"/>
-                            </hv:HelixViewport3D.DefaultCamera>
-                            <hv:SunLight/>
-
-                            <hv:GridLinesVisual3D Width="7000" Length="7000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
-                        </hv:HelixViewport3D>
-                    </Grid>
-
-
-
-                </GroupBox>
-
-            </Grid>
-            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,37,0,0" Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions >
-                <GroupBox Grid.Column="0" Grid.Row="1" Margin="5,0,20,5" Header="叶片展示">
-                    <hv:HelixViewport3D Name="viewPort3D1" ZoomExtentsWhenLoaded="True" 
-ShowViewCube="false" ShowCoordinateSystem="True"
-CoordinateSystemLabelForeground="White"
-CoordinateSystemVerticalPosition="Center"
-CoordinateSystemHorizontalPosition="Right"
-
-CoordinateSystemHeight="50" 
-CoordinateSystemWidth="50"
-
-RenderOptions.EdgeMode="Unspecified"
-BorderBrush="White"
-BorderThickness="0"
-ShowFrameRate="False"
-ShowCameraInfo="False"
-IsManipulationEnabled="True"
-Background="Transparent"
-Grid.Column="0"
-                                        
-                     
->
-                        <!-- Remember to add light to the scene -->
-
-                        <hv:HelixViewport3D.DefaultCamera>
-                            <OrthographicCamera LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918"  NearPlaneDistance="0.1"/>
-                        </hv:HelixViewport3D.DefaultCamera>
-                        <hv:SunLight/>
-
-                        <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
-
-                    </hv:HelixViewport3D>
-                </GroupBox>
-                <GroupBox Grid.Column="1" Grid.Row="1"  Margin="5,0,20,5" Header="齿轮箱展示">
-                    <hv:HelixViewport3D Name="viewPort3D2" ZoomExtentsWhenLoaded="True" 
-ShowViewCube="false" ShowCoordinateSystem="True"
-CoordinateSystemLabelForeground="White"
-CoordinateSystemVerticalPosition="Center"
-CoordinateSystemHorizontalPosition="Right"
-
-CoordinateSystemHeight="50" 
-CoordinateSystemWidth="50"
-
-RenderOptions.EdgeMode="Unspecified"
-BorderBrush="White"
-BorderThickness="0"
-ShowFrameRate="False"
-ShowCameraInfo="False"
-IsManipulationEnabled="True"
-Background="Transparent"
-
-                                        
-                     
->
-                        <!-- Remember to add light to the scene -->
-
-                        <hv:HelixViewport3D.DefaultCamera>
-                            <OrthographicCamera LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918"  NearPlaneDistance="0.1"/>
-                        </hv:HelixViewport3D.DefaultCamera>
-                        <hv:SunLight/>
-
-                        <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
-                    </hv:HelixViewport3D>
-
-                </GroupBox>
-                <GroupBox Grid.Column="2" Grid.Row="1"  Margin="5,0,20,5" Header="发电机展示">
-                    <hv:HelixViewport3D Name="viewPort3D3" ZoomExtentsWhenLoaded="True" 
-ShowViewCube="false" ShowCoordinateSystem="True"
-CoordinateSystemLabelForeground="White"
-CoordinateSystemVerticalPosition="Center"
-CoordinateSystemHorizontalPosition="Right"
-
-CoordinateSystemHeight="50" 
-CoordinateSystemWidth="50"
-
-RenderOptions.EdgeMode="Unspecified"
-BorderBrush="White"
-BorderThickness="0"
-ShowFrameRate="False"
-ShowCameraInfo="False"
-IsManipulationEnabled="True"
-Background="Transparent"
-
-                                        
-                     
->
-                        <!-- Remember to add light to the scene -->
-
-                        <hv:HelixViewport3D.DefaultCamera>
-                            <OrthographicCamera LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918"  NearPlaneDistance="0.1"/>
-                        </hv:HelixViewport3D.DefaultCamera>
-                        <hv:SunLight/>
-
-                        <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
-                    </hv:HelixViewport3D>
-                </GroupBox>
-                <GroupBox Grid.Column="3" Grid.Row="1" Margin="5,0,20,5" Header="变流器展示">
-                    <hv:HelixViewport3D Name="viewPort3D4" ZoomExtentsWhenLoaded="True" 
-ShowViewCube="false" ShowCoordinateSystem="True"
-CoordinateSystemLabelForeground="White"
-CoordinateSystemVerticalPosition="Center"
-CoordinateSystemHorizontalPosition="Right"
-
-CoordinateSystemHeight="50" 
-CoordinateSystemWidth="50"
-
-RenderOptions.EdgeMode="Unspecified"
-BorderBrush="White"
-BorderThickness="0"
-ShowFrameRate="False"
-ShowCameraInfo="False"
-IsManipulationEnabled="True"
-Background="Transparent"
-Grid.Column="3"
-                                        
-                     
->
-                        <!-- Remember to add light to the scene -->
-
-                        <hv:HelixViewport3D.DefaultCamera>
-                            <OrthographicCamera  LookDirection="6156.968,30469.933,-14973.960" Position="-10046.211,-53478.761,96913.006" UpDirection="0.079,0.390,0.918"  NearPlaneDistance="0.1"/>
-                        </hv:HelixViewport3D.DefaultCamera>
-                        <hv:SunLight/>
-
-                        <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
-                    </hv:HelixViewport3D>
-                </GroupBox>
-
-            </Grid>
-
-            <Grid Grid.Column="3" Grid.Row="0" Margin="2,15,20,15" >
-
-
-                <GroupBox Header="剩余寿命" Grid.Row="0" Margin="5,5,0,5">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="2*"/>
-                        </Grid.RowDefinitions>
-
-                        <UniformGrid Grid.Row="1" Columns="4" >
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-
-                                <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="BladeResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
-Width="80" Height="80" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="GearboxResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
-Width="80" Height="80" />
-                            </StackPanel>
-
-
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="GeneratorResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
-Width="80" Height="80" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <zxc:CircularProgressBar x:Name="ConverterResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
-Width="80" Height="80" />
-                            </StackPanel>
- 
-                        </UniformGrid>
-                        <UniformGrid Grid.Row="0" Columns="3">
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                <TextBlock Text="运行年限(年）" Foreground="#AA999999" FontSize="12" HorizontalAlignment="Center"/>
-                                <TextBox x:Name="UsedLifetimeTextBox" Text="" Margin="2,2"  Foreground="#CC2BB6FE" Background="Transparent"  FontSize="17"/>
-                                <Button Margin="2,2" Content="确定" Background="Transparent" Foreground="#cc2bb6fe" Click="Button_Click"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                                <TextBlock Text="风机剩余寿命" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                                <TextBlock x:Name="OverallResultTextBlock" Text="" Foreground="#CC2BB6FE" FontSize="14" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <Button Content="循环利用策略推荐" Background="Transparent" Foreground="#CC2BB6FE" Click="Button_Click_1" Width="100" Height="50" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="223*"/>
+                            <ColumnDefinition Width="199*"/>
+                        </Grid.ColumnDefinitions>
+                        <lvc:CartesianChart Grid.ColumnSpan="3" Margin="0,0,198,0" >
+                            <lvc:CartesianChart.Series>
+                                <lvc:ColumnSeries   Values="{Binding YunXingShuJuValues }"  Stroke="PeachPuff" Fill="Yellow" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Labels="{Binding XLabels}" LabelsRotation="45"  Foreground=" #33ffffff"  >
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator Step="1" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF"  >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <UniformGrid Grid.Column="2" Rows="6" >
+                            <Button Content="选择故障报警文件"  Click="Button_Click"  Margin="2,1" />
+                            <TextBox x:Name="FilePathTextBox1" Width="300"  IsReadOnly="True" Margin="2,1" />
+                            <Button  Content="显示故障数据" Click="Button_Click_1" Margin="2,1"/>
+                            <Button Content="选择运行数据文件" Click="Button_Click_6"  Margin="2,1" />
+                            <TextBox x:Name="FilePathTextBox2" Width="300"  IsReadOnly="True" Margin="2,1" />
+                            <Button Content="显示运行数据" Click="Button_Click_7" Margin="2,1"/>
                         </UniformGrid>
                     </Grid>
                 </GroupBox>
+                <GroupBox Grid.Row="1" Header="SCADA故障报警数据" Margin="10">
+                    <Grid>
+                        <UniformGrid Rows="6" Margin="2">
+                            <Grid Margin="5,10,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="环境量：" Margin="2,1" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ComboBox x:Name="Combox1" Grid.Column="1" ItemsSource="{Binding EnvironmentalInfoList }" 
+SelectedItem="{Binding SelectedLatitude}"  Margin="2"></ComboBox>
+
+                                
+                                
+                            </Grid>
+                            <Grid Margin="5,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="发电信息：" Margin="2,1" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ComboBox x:Name="Combox2" Grid.Column="1" ItemsSource="{Binding PowerGenerationInfoList }" 
+SelectedItem="{Binding SelectedLatitude}" Margin="2"></ComboBox>
+
+                            </Grid>
+
+                            <Grid Margin="5,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="叶片：" Margin="2,1" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ComboBox x:Name="Combox3" Grid.Column="1" ItemsSource="{Binding BladeList }" 
+SelectedItem="{Binding SelectedLatitude}" Margin="2" ></ComboBox>
+
+                            </Grid>
+                            <Grid Margin="5,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="齿轮箱：" Margin="2,1" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ComboBox x:Name="Combox4" Grid.Column="1" ItemsSource="{Binding GearboxList }" 
+SelectedItem="{Binding SelectedLatitude}" Margin="2"></ComboBox>
+
+                            </Grid>
+                            <Grid Margin="5,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="发电机：" Margin="2,1" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ComboBox x:Name="Combox5" Grid.Column="1" ItemsSource="{Binding GeneratorList }" 
+SelectedItem="{Binding SelectedLatitude}" Margin="2"></ComboBox>
+
+                            </Grid>
+                            <Grid Margin="5,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="变流器：" Margin="2,1" FontSize="15"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="Combox6" Grid.Column="1" ItemsSource="{Binding ConverterList }" 
+SelectedItem="{Binding SelectedLatitude}" Margin="2"></ComboBox>
+
+                            </Grid>
+                        </UniformGrid>
+
+
+                    </Grid>
+                </GroupBox>
             </Grid>
+            <GroupBox Grid.Column="1" Header="SCADA数据" Margin="10">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left" Margin="5">
+                        <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                        <TextBlock Text="环境量" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                        <TextBlock Text="发电信息" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                        <TextBlock Text="叶片" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                        <TextBlock Text="齿轮箱" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Border Width="15" Height="15" Background="Yellow" Margin="3,0"/>
+                        <TextBlock Text="发电机" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <Border Width="15" Height="15" Background="Gainsboro" Margin="3,0"/>
+                        <TextBlock Text="变流器" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    </StackPanel>
+                    <UniformGrid Grid.Row="1" Rows="3" Columns="2">
+                        <lvc:CartesianChart Margin="20,20,20,10" >
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding WindSpeed }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel1}" FontSize="13">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator  Step="2" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF"  >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="20,20,20,10">
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel2}" FontSize="13">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY >
+                                <lvc:Axis Foreground="#33FFFFFF" >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="20,0,20,10" >
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness="1" Stroke="AliceBlue" Fill="Transparent" PointGeometry="" Title="{Binding YLabel3}"/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff" Title="{Binding YLabel3}" FontSize="13">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF"   >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="20,0,20,10">
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding GearboxSpeed }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff" FontSize="13" Title="{Binding YLabel4}" >
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF" >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF" />
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="20,0,20,20" >
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding Generator }" LineSmoothness=" 0" Stroke="Yellow" Fill="Transparent" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel5}" FontSize="13">
+                                    <lvc:Axis.Separator >
+                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF"  >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="20,0,10,20" >
+                            <lvc:CartesianChart.Series >
+                                <lvc:LineSeries  Values="{Binding Voltage }" LineSmoothness=" 0" Stroke="Gainsboro" Fill="Transparent" PointGeometry=""/>
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis  Foreground=" #33ffffff" >
+                                    <lvc:Axis.Separator  >
+                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="#33FFFFFF" >
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator  Stroke="#10FFFFFF"/>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </UniformGrid>
+                </Grid>
+            </GroupBox>
+            
         </Grid>
+
     </Grid>
 </Window>
