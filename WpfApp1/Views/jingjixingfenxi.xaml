@@ -325,12 +325,12 @@ To="1" Duration="0:0:0.2"/>
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal">
-            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"     Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
 
-            <Button Content="SCADA数据导入"  Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="SCADA数据导入" Click="Button_Click_2" Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
-            <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="经济分析" Click="Button_JingJi"   FontWeight="Bold"  Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="数据更新" Click="Button_Genxing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16"></Button>
             <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
         </StackPanel>
@@ -472,7 +472,7 @@ To="1" Duration="0:0:0.2"/>
       </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="1" Header="循环策略推荐">
+            <GroupBox Grid.Row="1" Header="循环策略推荐" FontSize="15">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>

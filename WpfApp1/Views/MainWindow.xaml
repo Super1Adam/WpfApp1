@@ -316,7 +316,7 @@ To="1" Duration="0:0:0.2"/>
             
             <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
 
-            <Button Content="SCADA数据导入"   Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="SCADA数据导入" Click="Button_Click_8"  Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
@@ -341,18 +341,18 @@ To="1" Duration="0:0:0.2"/>
 
         </StackPanel>
 
-        <Grid Grid.Row=" 1"  Margin="20,15,20,15">
+        <Grid Grid.Row=" 1"  Margin="30,25,30,15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.9*"/>
-                <ColumnDefinition Width="1.2*"/>
+                <!--<ColumnDefinition Width="1.2*"/>-->
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="3.5*"/>
-                    <RowDefinition Height="3.5*"/>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="7*"/>
+               
                 </Grid.RowDefinitions>
-                <GroupBox Header="选择ERA5数据" Grid.Row="0" >
+                <GroupBox Header="选择ERA5数据" Grid.Row="0" FontSize="15">
                     <UniformGrid Columns="4">
                         <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate.SelectedDate,Mode=TwoWay}" Margin="2,1"/>
                         <DatePicker x:Name="EndDatePicker" SelectedDate ="{Binding EndDate,Mode=TwoWay }" Margin="2,1"/>
@@ -392,13 +392,221 @@ SelectedItem="{Binding SelectedLongitude}" ></ComboBox>
 
                         <Button Content="气象数据计算" Click="Button_Click_1" Margin="2,1"/>
                         <Button Content="寿命计算" Click="Button_Click_3" Margin="2,1"/>
-
-
-
-
                     </UniformGrid>
                 </GroupBox>
-                <GroupBox Header="风能资源图" Grid.Row="1" >
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="风能资源图" Grid.Column="0" FontSize="15" Margin="0,10,10,10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                                <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                                <TextBlock Text="风速(m/s)" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                                <TextBlock Text="温度(℃)" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                                <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                                <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            </StackPanel>
+                            <UniformGrid Columns="2"  Grid.Row="1" Margin="5">
+                                <lvc:CartesianChart Margin="5,0,5,0" >
+
+                                    <lvc:CartesianChart.Series >
+                                        <lvc:LineSeries  Values="{Binding WindSpeedValues }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
+
+                                    </lvc:CartesianChart.Series>
+
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}" FontSize="10" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart Margin="5,0,5,0">
+                                    <lvc:CartesianChart.Series >
+                                        <lvc:LineSeries  Values="{Binding TemperaturValues }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}" FontSize="10" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator Step="4" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart Margin="5,0,5,0" >
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries  Values="{Binding HumidityValues }" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator Step="4" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator  Stroke="#10FFFFFF"  />
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart Margin="5,0,5,0">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries  Values="{Binding WindPowerDensity }" LineSmoothness=" 0"  Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator Step="4" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF"  >
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </UniformGrid>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="EAR5统计直方图" Grid.Column="1" FontSize="15" Margin="10,10,0,10">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                                <Border Width="15" Height="15" Background=" #2BB6FE" Margin="3,0"/>
+                                <TextBlock Text="风速(m/s)" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="IndianRed" Margin="3,0"/>
+                                <TextBlock Text="温度(℃)" Foreground="#44FFFFFF" FontSize="15"
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="AliceBlue" Margin="3,0"/>
+                                <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
+                                <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
+VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            </StackPanel>
+                            <UniformGrid Columns="2" Grid.Row="1" Margin="5">
+                                <lvc:CartesianChart Margin="5,0,5,0" Loaded="CartesianChart_Loaded_2">
+                                    <lvc:CartesianChart.Series >
+                                        <lvc:ColumnSeries   Values="{Binding WindSpeedValuesZF }"  Stroke="#2BB6FE" Fill="#2BB6FE" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff"  LabelsRotation="-45"  Labels="{Binding WindSpeedValuesZFX}" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator  Step="1" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart Loaded="CartesianChart_Loaded_1" Margin="5,0,5,0" >
+                                    <lvc:CartesianChart.Series >
+                                        <lvc:ColumnSeries   Values="{Binding TemperaturValuesZF }"  Stroke="IndianRed" Fill="IndianRed" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding TemperaturValuesZFX}">
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator Step="1" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart Margin="5,0,5,0">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:ColumnSeries   Values="{Binding HumidityValuesZF }"  Stroke="PeachPuff" Fill="PeachPuff" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding HumidityValuesZFX}">
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator Step="1" StrokeThickness="0"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator  Stroke="#10FFFFFF"  />
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:CartesianChart  >
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:ColumnSeries   Values="{Binding WindPowerDensityZF }"  Stroke="DarkOliveGreen" Fill="DarkOliveGreen" PointGeometry=""/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding WindPowerDensityZFX}">
+                                            <lvc:Axis.Separator >
+                                                <lvc:Separator  StrokeThickness="0"  Step="1"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Foreground="#33FFFFFF"  >
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator  Stroke="#10FFFFFF"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </UniformGrid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                <!--<GroupBox Header="风能资源图" Grid.Row="1" FontSize="15" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -419,8 +627,8 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </StackPanel>
-                        <UniformGrid Columns="4" Grid.Row="1" Margin="5">
-                            <lvc:CartesianChart >
+                        <UniformGrid Columns="4"  Grid.Row="1" Margin="5">
+                            <lvc:CartesianChart Margin="5,0,5,0" >
 
                                 <lvc:CartesianChart.Series >
                                     <lvc:LineSeries  Values="{Binding WindSpeedValues }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
@@ -443,7 +651,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart Margin="5,0,5,0">
                                 <lvc:CartesianChart.Series >
                                     <lvc:LineSeries  Values="{Binding TemperaturValues }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
@@ -462,9 +670,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart Margin="5,0,5,0" >
                                 <lvc:CartesianChart.Series>
-                                    <lvc:LineSeries  Values="{Binding HumidityValues }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding HumidityValues }" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
                                     <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
@@ -481,9 +689,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart Margin="5,0,5,0">
                                 <lvc:CartesianChart.Series>
-                                    <lvc:LineSeries  Values="{Binding WindPowerDensity }" LineSmoothness=" 0" Stroke="PeachPuff" Fill="Transparent" PointGeometry=""/>
+                                    <lvc:LineSeries  Values="{Binding WindPowerDensity }" LineSmoothness=" 0"  Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
                                     <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}"  FontSize="10" >
@@ -503,7 +711,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </UniformGrid>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="EAR5统计直方图" Grid.Row="2">
+                <GroupBox Header="EAR5统计直方图" Grid.Row="2" FontSize="15">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -525,7 +733,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </StackPanel>
                         <UniformGrid Columns="4" Grid.Row="1" Margin="5">
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart Margin="5,0,5,0">
                                 <lvc:CartesianChart.Series >
                                     <lvc:ColumnSeries   Values="{Binding WindSpeedValuesZF }"  Stroke="#2BB6FE" Fill="#2BB6FE" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
@@ -544,7 +752,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart Loaded="CartesianChart_Loaded_1" >
+                            <lvc:CartesianChart Loaded="CartesianChart_Loaded_1" Margin="5,0,5,0" >
                                 <lvc:CartesianChart.Series >
                                     <lvc:ColumnSeries   Values="{Binding TemperaturValuesZF }"  Stroke="IndianRed" Fill="IndianRed" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
@@ -563,9 +771,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart Margin="5,0,5,0">
                                 <lvc:CartesianChart.Series>
-                                    <lvc:ColumnSeries   Values="{Binding HumidityValuesZF }"  Stroke="DarkOliveGreen" Fill="DarkOliveGreen" PointGeometry=""/>
+                                    <lvc:ColumnSeries   Values="{Binding HumidityValuesZF }"  Stroke="PeachPuff" Fill="PeachPuff" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
                                     <lvc:Axis  Foreground=" #33ffffff">
@@ -582,9 +790,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:Axis>
                                 </lvc:CartesianChart.AxisY>
                             </lvc:CartesianChart>
-                            <lvc:CartesianChart >
+                            <lvc:CartesianChart  >
                                 <lvc:CartesianChart.Series>
-                                    <lvc:ColumnSeries   Values="{Binding WindPowerDensityZF }"  Stroke="PeachPuff" Fill="PeachPuff" PointGeometry=""/>
+                                    <lvc:ColumnSeries   Values="{Binding WindPowerDensityZF }"  Stroke="DarkOliveGreen" Fill="DarkOliveGreen" PointGeometry=""/>
                                 </lvc:CartesianChart.Series>
                                 <lvc:CartesianChart.AxisX>
                                     <lvc:Axis  Foreground=" #33ffffff" >
@@ -603,9 +811,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                             </lvc:CartesianChart>
                         </UniformGrid>
                     </Grid>
-                </GroupBox>
+                </GroupBox>-->
             </Grid>
-            <Grid Grid.Column="1" Margin="10,40,0,10">
+            <!--<Grid Grid.Column="1" Margin="10,40,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="5*"/>
@@ -791,7 +999,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </UniformGrid>
                     </Grid>
                 </GroupBox>
-            </Grid>
+            </Grid>-->
         </Grid>
     </Grid>
 </Window>

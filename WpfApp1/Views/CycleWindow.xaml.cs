@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignColors.Recommended;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -119,9 +120,17 @@ namespace WpfApp1.Views
         private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
 
         {
-            Window1 mainWindow = new Window1();
-            mainWindow.Show();
-            this.Close();
+            if (GlobalVariables.IsEra5DataImported)
+            {
+                Window1 mainWindow = new Window1();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先导入ERA5数据！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
@@ -141,8 +150,9 @@ namespace WpfApp1.Views
 
         {
             ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.Show();
-            this.Close();
+            shuJuGengXingWindow.ShowDialog();
+
+            
 
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)
@@ -194,6 +204,7 @@ namespace WpfApp1.Views
             }
             else if (range == "30-0")
             {
+                yepian.Text = "再循环再利用策略推荐";
                 celue.Text = "";
                 fangAns.Add(new FangAn
                 {
@@ -252,6 +263,7 @@ namespace WpfApp1.Views
             }
             else if (range == "0-30")
             {
+                chilunxiang.Text = "再循环再利用策略推荐";
                 celue.Text = "齿轮箱运行末期的循环利用方式主要有再利用和再循环两种方式。";
 
                 fangAnChiLuns.Add(new FangAnChiLun
@@ -317,7 +329,7 @@ namespace WpfApp1.Views
             else if (range == "0-25")
             {
                 celue2.Text = "当发电机寿命降至25%以下时，优先考虑更换或材料回收以降低运行风险。";
-
+                fadianji.Text = "再循环再利用策略推荐";
                 List<FangAnFaDianJi> predefinedRecords = new List<FangAnFaDianJi>
         {
             new FangAnFaDianJi { ProjectName = "再利用", Content = "将发电机直接用到其他风电场", Time = "几乎不需要成本，利用价值高，但是性能不如新产品" },
@@ -388,7 +400,7 @@ namespace WpfApp1.Views
             else if (range == "0-25")
             {
                 celue3.Text = "变流器运行末期的循环利用方式主要有再利用和再循环两种方式";
-
+                bianliuqi.Text = "再循环再利用策略推荐";
                 FangAnBianLiuQis.Add(new FangAnBianLiuQi
                 {
                     ProjectName = "再利用",
@@ -424,40 +436,59 @@ namespace WpfApp1.Views
             }
         }
 
-        private void ShowImagePopup(Uri[] imageUris,string title)//显示图片方法
+        private void ShowImagePopup(Uri[] imageUris, string title)
         {
+            // 提前加载所有图片，获取最大宽度和总高度
+            double maxWidth = 0;
+            double totalHeight = 0;
+            List<BitmapImage> images = new List<BitmapImage>();
+
+            foreach (var uri in imageUris)
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = uri;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                images.Add(bitmap);
+
+                if (bitmap.PixelWidth > maxWidth)
+                    maxWidth = bitmap.PixelWidth;
+
+                totalHeight += bitmap.PixelHeight;
+            }
+
             // 创建一个新的弹出窗口来显示多张图片
             var popupWindow = new Window
             {
                 Title = title,
-                Width=800,
-                Height=500,
-         
+                Background = new SolidColorBrush(Colors.SteelBlue),
+                Width = 600,  // 加点边距
+                Height = 400,  // 加点边距
+                Content = new ScrollViewer() // 加个滚动条防止超出屏幕
             };
 
-            // 创建一个 ListBox 来容纳多个图片
-            var listBox = new ListBox
+            // 用 StackPanel 垂直排列图片（比 ListBox 更好控制布局）
+            var stackPanel = new StackPanel
             {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                Orientation = Orientation.Vertical
             };
 
-            // 创建并添加每一张图片到 ListBox 中
-            foreach (var imageUri in imageUris)
+            for (int i = 0; i < images.Count; i++)
             {
                 var imageControl = new System.Windows.Controls.Image
                 {
-                    Source = new BitmapImage(imageUri),
-                    Stretch = Stretch.Uniform,
+                    Source = images[i],
+                    Stretch = Stretch.None,
                     Margin = new Thickness(5)
                 };
 
-                // 将图片控件添加到 ListBox
-                listBox.Items.Add(imageControl);
+                stackPanel.Children.Add(imageControl);
             }
 
-            // 设置窗口的内容
-            popupWindow.Content = listBox;
+            // 设置窗口内容
+            ((ScrollViewer)popupWindow.Content).Content = stackPanel;
+
             popupWindow.ShowDialog(); // 显示弹出窗口
         }
 
@@ -470,15 +501,45 @@ namespace WpfApp1.Views
                 // 判断第一列的值（ProjectName）
                 if (selectedRow.ProjectName == "再利用")
                 {
-                    var imagePaths = new Uri[]
-      {
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
-         new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
-      };
-                    string title = "再利用图例";
-                    ShowImagePopup(imagePaths,title);
+                    if (selectedRow.Content == "作为板材利用，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景")
+                    {
+                        var imagePaths = new Uri[]
+                        {
+                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
+                        };
+                        string title = "再利用图例";
+                        ShowImagePopup(imagePaths, title);
+                    }
+                    if (selectedRow.Content == "根据不同的场景将叶片切割成10cm~20cm或其他尺寸长条状小块，作为新型复合材料取代木质复合材料，可用于地板、塑料路面障碍等。本方法并未将叶片复合材料分离，而是将叶片切割后直接制作成建筑材料，因此成本较低。")
+                    {
+                        var imagePaths = new Uri[]
+                        {
+                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
+                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
+                        };
+                        string title = "再利用图例";
+                        ShowImagePopup(imagePaths, title);
+                    }
+
+                    if(selectedRow .Content == "景观利用")
+                    {
+                        var imagePaths = new Uri[]
+                        {
+                                     new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
+
+                        };
+                        string title = "再利用图例";
+                        ShowImagePopup(imagePaths, title);
+                    }
+      //              var imagePaths = new Uri[]
+      //{
+      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
+      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
+      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
+      //   new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
+      //};
+                    //string title = "再利用图例";
+                    //ShowImagePopup(imagePaths,title);
                 }
                 else if (selectedRow.ProjectName == "再循环")
                 {
@@ -552,5 +613,11 @@ namespace WpfApp1.Views
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            WindowScada windowScada = new WindowScada();
+            windowScada.Show();
+            this.Close();
+        }
     }
 }

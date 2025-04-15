@@ -12,5 +12,15 @@ namespace WpfApp1.Models
         public double Temperature { get; set; }
         public double Humidity { get; set; }
         public double WindPowerDensity { get; set; }
+        public string WindPowerDensityX { get; set; }
+        public string TemperatureX { get; set; }
+        public string HumidityX { get; set; }
+        public string  WindSpeedX { get; set; }
+
+
+
+
+
+
     }
 }

@@ -31,6 +31,7 @@ namespace WpfApp1.Views
             mediaElement.Play();
         }
 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //string use = tetuse.Text;

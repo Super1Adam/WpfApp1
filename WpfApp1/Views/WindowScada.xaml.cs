@@ -35,6 +35,13 @@ namespace WpfApp1.Views
             this.WindowState = WindowState.Minimized;
         }
 
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
         // 最大化/还原功能
         private void btnMax_Click(object sender, RoutedEventArgs e)
         {
@@ -65,9 +72,17 @@ namespace WpfApp1.Views
         private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
 
         {
-            Window1 mainWindow = new Window1();
-            mainWindow.Show();
-            this.Close();
+            if (GlobalVariables.IsEra5DataImported)
+            {
+                Window1 mainWindow = new Window1();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先导入ERA5数据！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
@@ -87,9 +102,7 @@ namespace WpfApp1.Views
 
         {
             ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.Show();
-            this.Close();
-
+            shuJuGengXingWindow.ShowDialog();   
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)
 
@@ -132,7 +145,7 @@ namespace WpfApp1.Views
 
         }
 
-        private void Button_Click_7(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -225,14 +238,14 @@ namespace WpfApp1.Views
 
                     process.WaitForExit();
                 }
-            }
+            } 
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_7(object sender, RoutedEventArgs e)
         {
 
 
@@ -248,12 +261,15 @@ namespace WpfApp1.Views
                 viewModel.GearboxSpeed.Clear();
                 viewModel.Generator.Clear();
                 viewModel.Voltage.Clear();
+                viewModel.TimeLabels1.Clear();
                 var EnvironmentalInfoSlect = Combox1.SelectedItem;
                 var PowerGenerationInofSelect =Combox2.SelectedItem;
                 var BladeListSelect = Combox3.SelectedItem;
                 var GearboxListSelect = Combox4.SelectedItem;
                 var GeneratorListSelect = Combox5.SelectedItem;
                 var ConverterListSelect = Combox6.SelectedItem;
+                
+
                 string datacsv = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "processed_output_12_bins.csv");
 
                 var data = ReadWindSpeedDataFromCsvScada(datacsv);
@@ -282,7 +298,10 @@ namespace WpfApp1.Views
                 {
                     viewModel.Voltage.Add(value);
                 }
-
+                foreach (var value in data.Select(d => d.TimeRange))
+                {
+                    viewModel.TimeLabels1.Add(value);
+                }
 
 
 
@@ -358,7 +377,7 @@ namespace WpfApp1.Views
 
                     if (!string.IsNullOrEmpty(error))
                     {
-                        //MessageBox.Show("Error: " + error);
+                        MessageBox.Show("Error: " + error);
                     }
                 }
             }
@@ -384,13 +403,12 @@ namespace WpfApp1.Views
                     var headers = line.Split(',');
                     var viewModel = this.DataContext as MainViewModels;
                     // 假设 headers 的长度足够，否则要做额外检查
-                    viewModel.YLabel1  = headers.Length > 1 ? headers[1] : "Column1";
+                    viewModel.YLabel1 = headers.Length > 1 ? headers[1] : "Column1";
                     viewModel.YLabel2 = headers.Length > 2 ? headers[2] : "Column2";
                     viewModel.YLabel3 = headers.Length > 3 ? headers[3] : "Column3";
                     viewModel.YLabel4 = headers.Length > 4 ? headers[4] : "Column4";
                     viewModel.YLabel5 = headers.Length > 5 ? headers[5] : "Column5";
                     viewModel.YLabel6 = headers.Length > 6 ? headers[6] : "Column6";
-                    FilePathTextBox1.Text = viewModel .YLabel1;
                 }
 
                 while ((line = reader.ReadLine()) != null)
@@ -406,6 +424,8 @@ namespace WpfApp1.Views
 
                     data.Add(new ScadaData
                     {
+                        TimeRange = values[0],
+
                         WindSpeed = windSpeed
                            ,
                         Power = temperature

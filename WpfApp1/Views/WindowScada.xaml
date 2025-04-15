@@ -7,7 +7,8 @@
         xmlns:hv="http://helix-toolkit.org/wpf" 
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        
+        MouseDown="Window_MouseDown"
+
         xmlns:uc="clr-namespace:WpfApp1.Controls"
                 xmlns:models="clr-namespace:WpfApp1.Models"
 
@@ -356,7 +357,7 @@ To="1" Duration="0:0:0.2"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="SCADA故障报警数据" Margin="10">
+                <GroupBox Grid.Row="0" Header="SCADA故障报警数据" Margin="10" FontSize="15">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="75*"/>
@@ -383,16 +384,16 @@ To="1" Duration="0:0:0.2"/>
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
                         <UniformGrid Grid.Column="2" Rows="6" >
-                            <Button Content="选择故障报警文件"  Click="Button_Click"  Margin="2,1" />
-                            <TextBox x:Name="FilePathTextBox1" Width="300"  IsReadOnly="True" Margin="2,1" />
-                            <Button  Content="显示故障数据" Click="Button_Click_1" Margin="2,1"/>
-                            <Button Content="选择运行数据文件" Click="Button_Click_6"  Margin="2,1" />
-                            <TextBox x:Name="FilePathTextBox2" Width="300"  IsReadOnly="True" Margin="2,1" />
-                            <Button Content="显示运行数据" Click="Button_Click_7" Margin="2,1"/>
+                            <Button Content="选择故障报警文件"  Click="Button_Click"  Margin="5,2" />
+                            <TextBox x:Name="FilePathTextBox1" Width="300"  IsReadOnly="True" Margin="5,2" />
+                            <Button  Content="显示故障数据" Click="Button_Click_1" Margin="5,2"/>
+                            <Button Content="选择运行数据文件" Click="Button_Click_6"  Margin="5,2" />
+                            <TextBox x:Name="FilePathTextBox2" Width="300"  IsReadOnly="True" Margin="5,2" />
+                            <Button Content="显示运行数据" Click="Button_Click_7" Margin="5,2"/>
                         </UniformGrid>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Header="SCADA故障报警数据" Margin="10">
+                <GroupBox Grid.Row="1" Header="SCADA故障报警数据" Margin="10" FontSize="15">
                     <Grid>
                         <UniformGrid Rows="6" Margin="2">
                             <Grid Margin="5,10,10,5">
@@ -464,7 +465,7 @@ SelectedItem="{Binding SelectedLatitude}" Margin="2"></ComboBox>
                     </Grid>
                 </GroupBox>
             </Grid>
-            <GroupBox Grid.Column="1" Header="SCADA数据" Margin="10">
+            <GroupBox Grid.Column="1" Header="SCADA数据" Margin="10" FontSize="15">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -497,9 +498,9 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding WindSpeed }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel1}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel1}" FontSize="13">
                                     <lvc:Axis.Separator >
-                                        <lvc:Separator  Step="2" StrokeThickness="0"/>
+                                        <lvc:Separator  Step="4" StrokeThickness="0" />
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
@@ -516,7 +517,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel2}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel2}" FontSize="13">
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
@@ -532,10 +533,10 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </lvc:CartesianChart>
                         <lvc:CartesianChart Margin="20,0,20,10" >
                             <lvc:CartesianChart.Series >
-                                <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness="1" Stroke="AliceBlue" Fill="Transparent" PointGeometry="" Title="{Binding YLabel3}"/>
+                                <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness="0" Stroke="AliceBlue" Fill="Transparent" PointGeometry="" Title="{Binding YLabel3}"/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Title="{Binding YLabel3}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel3}" FontSize="13">
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
@@ -554,7 +555,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding GearboxSpeed }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" FontSize="13" Title="{Binding YLabel4}" >
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" FontSize="13" Title="{Binding YLabel4}" >
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
@@ -568,12 +569,12 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
-                        <lvc:CartesianChart Margin="20,0,20,20" >
+                        <lvc:CartesianChart Margin="20,0,20,10" >
                             <lvc:CartesianChart.Series >
                                 <lvc:LineSeries  Values="{Binding Generator }" LineSmoothness=" 0" Stroke="Yellow" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff"  Title="{Binding YLabel5}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel5 }" FontSize="13">
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
@@ -587,14 +588,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
-                        <lvc:CartesianChart Margin="20,0,10,20" >
+                        <lvc:CartesianChart Margin="20,0,10,10" >
                             <lvc:CartesianChart.Series >
                                 <lvc:LineSeries  Values="{Binding Voltage }" LineSmoothness=" 0" Stroke="Gainsboro" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" >
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel6 }" FontSize="13">
                                     <lvc:Axis.Separator  >
-                                        <lvc:Separator  Step="4" StrokeThickness="0"/>
+                                        <lvc:Separator  Step="4" StrokeThickness="0" />
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>

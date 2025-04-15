@@ -7,7 +7,7 @@
         xmlns:hv="http://helix-toolkit.org/wpf" 
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        
+        MouseDown="Window_MouseDown"
         xmlns:uc="clr-namespace:WpfApp1.Controls"
         xmlns:models="clr-namespace:WpfApp1.Models"
 
@@ -319,14 +319,16 @@ To="1" Duration="0:0:0.2"/>
 
         </Border>
         <StackPanel Name="stackpanel1" Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"  FontWeight="Bold"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="ERA5数据导入" Click="Button_ShuJuDaoRu" Background="Transparent"   Margin="15,0,15,6"  Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
 
-            <Button Content="SCADA数据导入"  Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
-            <Button Content="寿命预测" Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="SCADA数据导入" Click="Button_Click_2" Margin="19,0,15,6" Background="Transparent"  Foreground="White" BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="寿命预测" FontWeight="Bold"  Click="Button_ShouMingYuCe" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="循环方式" Click="Button_XunHuan" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="经济分析" Click="Button_JingJi" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
             <Button Content="数据更新" Click="Button_Genxing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16"></Button>
             <Button Content="软件说明" Click="Button_ShouMing" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+            <Button Content="3D模型导入" Click="Button_3D" Margin="15,0,15,6" Background="Transparent" Foreground="White"  BorderBrush ="Transparent" FontSize="16" ></Button>
+
         </StackPanel>
         <TextBlock Grid.Row=" 1"  HorizontalAlignment="Center" VerticalAlignment="Top" >
 <Run  Text="风电装备数字化可循环性设计软件"  FontSize="20" Foreground="White" />
@@ -415,7 +417,7 @@ To="1" Duration="0:0:0.2"/>
             </Grid>
             <Grid Grid.Column="0" Grid.Row="0" Margin="2,15,20,15" Grid.ColumnSpan="3">
 
-                <GroupBox Header="3D模型" Margin="5">
+                <GroupBox Header="3D模型" Margin="5" FontSize="15">
                     <Grid>
                         <hv:HelixViewport3D Name="viewPort3D" ZoomExtentsWhenLoaded="True" 
                     ShowViewCube="false" ShowCoordinateSystem="True"
@@ -458,7 +460,7 @@ To="1" Duration="0:0:0.2"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions >
-                <GroupBox Grid.Column="0" Grid.Row="1" Margin="5,0,20,5" Header="叶片展示">
+                <GroupBox Grid.Column="0" Grid.Row="1" Margin="5,0,20,5" Header="叶片展示" FontSize="15">
                     <hv:HelixViewport3D Name="viewPort3D1" ZoomExtentsWhenLoaded="True" 
 ShowViewCube="false" ShowCoordinateSystem="True"
 CoordinateSystemLabelForeground="White"
@@ -490,7 +492,7 @@ Grid.Column="0"
 
                     </hv:HelixViewport3D>
                 </GroupBox>
-                <GroupBox Grid.Column="1" Grid.Row="1"  Margin="5,0,20,5" Header="齿轮箱展示">
+                <GroupBox Grid.Column="1" Grid.Row="1"  Margin="5,0,20,5" Header="齿轮箱展示" FontSize="15">
                     <hv:HelixViewport3D Name="viewPort3D2" ZoomExtentsWhenLoaded="True" 
 ShowViewCube="false" ShowCoordinateSystem="True"
 CoordinateSystemLabelForeground="White"
@@ -522,7 +524,7 @@ Background="Transparent"
                     </hv:HelixViewport3D>
 
                 </GroupBox>
-                <GroupBox Grid.Column="2" Grid.Row="1"  Margin="5,0,20,5" Header="发电机展示">
+                <GroupBox Grid.Column="2" Grid.Row="1"  Margin="5,0,20,5" Header="发电机展示" FontSize="15">
                     <hv:HelixViewport3D Name="viewPort3D3" ZoomExtentsWhenLoaded="True" 
 ShowViewCube="false" ShowCoordinateSystem="True"
 CoordinateSystemLabelForeground="White"
@@ -553,7 +555,7 @@ Background="Transparent"
                         <hv:GridLinesVisual3D Width="1000" Length="1000" MinorDistance="50" MajorDistance="50" Thickness="1" Fill="#E5CFCECE"/>
                     </hv:HelixViewport3D>
                 </GroupBox>
-                <GroupBox Grid.Column="3" Grid.Row="1" Margin="5,0,20,5" Header="变流器展示">
+                <GroupBox Grid.Column="3" Grid.Row="1" Margin="5,0,20,5" Header="变流器展示" FontSize="15">
                     <hv:HelixViewport3D Name="viewPort3D4" ZoomExtentsWhenLoaded="True" 
 ShowViewCube="false" ShowCoordinateSystem="True"
 CoordinateSystemLabelForeground="White"
@@ -590,7 +592,7 @@ Grid.Column="3"
             <Grid Grid.Column="3" Grid.Row="0" Margin="2,15,20,15" >
 
 
-                <GroupBox Header="剩余寿命" Grid.Row="0" Margin="5,5,0,5">
+                <GroupBox Header="剩余寿命" Grid.Row="0" FontSize="15" Margin="5,5,0,5">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>

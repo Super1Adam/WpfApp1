@@ -11,6 +11,8 @@ namespace WpfApp1.Models
         private static double _avgTemperature;
         private static double _avgHumidity;
         private static double _avgWindSpeed;
+        public static bool IsEra5DataImported { get; set; } = false;
+        public static bool IsShouMing5DataImported { get; set; } = false;
 
         // 静态属性，用于存储和更新
         public static double AvgTemperature

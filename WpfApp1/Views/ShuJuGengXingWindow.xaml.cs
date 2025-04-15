@@ -12,7 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using WpfApp1.Models;
+using System.Text.Json;
+using System.Collections.ObjectModel;
 namespace WpfApp1.Views
 {
     /// <summary>
@@ -20,48 +22,96 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class ShuJuGengXingWindow : Window
     {
+        private ObservableCollection<WindTurbine> turbines = new ObservableCollection<WindTurbine>();
+        private string dataFile = "data.json";
+
         public ShuJuGengXingWindow()
         {
             InitializeComponent();
+            LoadData();
+            TurbineListView.ItemsSource = turbines;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // 获取每个TextBox的输入内容
-            string bladeDiameter = BladeDiameterTextBox.Text;  // 叶片直径
-            string hubHeight = HubHeightTextBox.Text;           // 轮毂高度
-            string cutOutSpeed = CutOutSpeedTextBox.Text;       // 切出风速
-            string sweptArea = SweptAreaTextBox.Text;           // 扫风面积
-            string ratedPower = RatedPowerTextBox.Text;         // 额定功率
-            string cutInArea = CutInAreaTextBox.Text;           // 切入面积
-            string gearboxRatio = GearboxRatioTextBox.Text;     // 齿轮箱传动比
 
-            // 设置文件路径
-            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wind_turbine_data.txt");
-
-            try
+            var turbine = new WindTurbine
             {
-                // 创建StreamWriter对象，打开文件进行写入
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    // 写入文本内容到文件
-                    writer.WriteLine($"叶片直径: {bladeDiameter}");
-                    writer.WriteLine($"轮毂高度: {hubHeight}");
-                    writer.WriteLine($"切出风速: {cutOutSpeed}");
-                    writer.WriteLine($"扫风面积: {sweptArea}");
-                    writer.WriteLine($"额定功率: {ratedPower}");
-                    writer.WriteLine($"切入面积: {cutInArea}");
-                    writer.WriteLine($"齿轮箱传动比: {gearboxRatio}");
-                    writer.WriteLine("---------------------------------------------------"); // 分隔线
-                }
+                BladeDiameter = BladeDiameterTextBox.Text,
+                HubHeight = HubHeightTextBox.Text,
+                CutOutSpeed = CutOutSpeedTextBox.Text,
+                SweptArea = SweptAreaTextBox.Text,
+                RatedPower = RatedPowerTextBox.Text,
+                CutInArea = CutInAreaTextBox.Text,
+                GearboxRatio = GearboxRatioTextBox.Text
+            };
 
-                MessageBox.Show("风机数据已保存！", "保存成功", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
+            turbines.Add(turbine);
+            SaveData();
+            ClearInputs();
+        }
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            if (TurbineListView.SelectedItem is WindTurbine selected)
             {
-                // 处理文件写入时的异常
-                MessageBox.Show($"保存失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                selected.BladeDiameter = BladeDiameterTextBox.Text;
+                selected.HubHeight = HubHeightTextBox.Text;
+                selected.CutOutSpeed = CutOutSpeedTextBox.Text;
+                selected.SweptArea = SweptAreaTextBox.Text;
+                selected.RatedPower = RatedPowerTextBox.Text;
+                selected.CutInArea = CutInAreaTextBox.Text;
+                selected.GearboxRatio = GearboxRatioTextBox.Text;
+
+                TurbineListView.Items.Refresh();
+                SaveData();
+                ClearInputs();
             }
         }
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (TurbineListView.SelectedItem is WindTurbine selected)
+            {
+                turbines.Remove(selected);
+                SaveData();
+            }
+        }
+        private void LoadData()
+        {
+            if (File.Exists(dataFile))
+            {
+                var json = File.ReadAllText(dataFile);
+                var loaded = JsonSerializer.Deserialize<ObservableCollection<WindTurbine>>(json);
+                if (loaded != null)
+                    turbines = loaded;
+            }
+        }
+        private void SaveData()
+        {
+            var json = JsonSerializer.Serialize(turbines, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(dataFile, json);
+        }
+        private void ClearInputs()
+        {
+            BladeDiameterTextBox.Clear();   
+            HubHeightTextBox.Clear();
+            CutOutSpeedTextBox.Clear();
+            SweptAreaTextBox.Clear();
+            RatedPowerTextBox.Clear();
+            CutInAreaTextBox.Clear();
+            GearboxRatioTextBox.Clear();
+        }
+        private void TurbineListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // 减去滚动条宽度和边框等可能偏移
+            double totalWidth = TurbineListView.ActualWidth - 35;
+            int columnCount = MainGridView.Columns.Count;
+            double columnWidth = totalWidth / columnCount;
+
+            foreach (var col in MainGridView.Columns)
+            {
+                col.Width = columnWidth;
+            }
+        }
+
     }
 }

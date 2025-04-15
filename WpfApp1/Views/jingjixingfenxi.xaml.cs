@@ -66,9 +66,17 @@ namespace WpfApp1.Views
         private void Button_ShouMingYuCe(object sender, RoutedEventArgs e)
 
         {
-            Window1 mainWindow = new Window1(); 
-            mainWindow.Show();
-            this.Close();
+            if (GlobalVariables.IsEra5DataImported)
+            {
+                Window1 mainWindow = new Window1();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先导入ERA5数据！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
@@ -88,8 +96,7 @@ namespace WpfApp1.Views
 
         {
            ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.Show();
-            this .Close();
+            shuJuGengXingWindow.ShowDialog();
 
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)
@@ -214,24 +221,101 @@ namespace WpfApp1.Views
                 GearboxResultTextBlock1.Text = GetRandomValue(10, 15, percentage).ToString();
                 GeneratorResultTextBlock1.Text = GetRandomValue(10, 15, percentage).ToString();
                 ConverterResultTextBlock1.Text = GetRandomValue(2, 7, percentage).ToString();
+
+
+                // 根据 percentage 推荐 4 种方案
+                viewModel.FangAns1.Clear(); // 清空原有推荐
+
+                if (percentage >= 0.7)
+                {
+                    // 剩余寿命长 → 推荐维修/延寿
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "叶片不停机检查",
+                        Content = "检查叶片是否存在哨声，是否存在3个叶片声音不一致现象，存在时应停机进一步检查",
+                        Time = "2周"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "齿轮箱主轴轴承",
+                        Content = "在日常检查中发现主轴轴承支座密封处渗漏油严重或集油盒内积满油脂时，应对主轴轴承进行开箱检查，检查结合油脂更换的周期，观察油脂的状况，以及主轴轴承滚动体和轨道磨损情况，轴承内外圈和保持架是否存在裂纹等状况。",
+                        Time = "1个月"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "发电机表面检查",
+                        Content = "无锈蚀，清扫外壳",
+                        Time = "6个月"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "变流器断路器",
+                        Content = "检查主断路器的动作次数是否超过规定次数，超过的话需要更换。",
+                        Time = "1年"
+                    });
+                }
+                else if (percentage >= 0.4)
+                {
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "叶片前缘",
+                        Content = "腐蚀、开裂",
+                        Time = "涂料填充"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "齿轮箱",
+                        Content = "箱体和行星架的损坏、齿轮失效、齿轮轴和轴失效、滚动轴承失效",
+                        Time = "用备用件替换，换下来的原件进行再制造"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "发电机轴承",
+                        Content = "轴承高温卡死、定转子扫膛",
+                        Time = "故障排除，针对性解决"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "变流器控制板",
+                        Content = "通信故障",
+                        Time = "检查线缆是否接触不良、元器件是否存在损坏"
+                    });
+                }
+                else if (percentage >= 0)
+                {
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "叶片再利用",//点击查看示例图片1.3.1 1.3.2 1.3.4
+                        Content = "作为板材利用，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景",
+                        Time = "切割成合适的板材后，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "齿轮箱再制造",
+                        Content = "在原有制造的基础上进行一次新的制造",
+                        Time = "接近甚至超过新品品质，但是成本更高"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "发电机机组改造",
+                        Content = "铜线拆解后用于金属回收",
+                        Time = "材料回收利用，降低浪费"
+                    });
+                    viewModel.FangAns1.Add(new FangAn
+                    {
+                        ProjectName = "变流器再循环",
+                        Content = "用化学溶剂提取贵重金属",
+                        Time = "资源利用率高，但是会破坏金属品质，有大量污水的产生"
+                    });
+                }
+                
             }
             else
             {
                 MessageBox.Show("请输入有效的退役年份（1-25）！");
             }
 
-            viewModel.FangAns1.Add(new FangAn
-            {
-                ProjectName = "再利用",
-                Time = "作为建材利用",
-                Content = "根据不同的场景将叶片切割成10cm~20cm或其他尺寸长条状小块，作为新型复合材料取代木质复合材料，可用于地板、塑料路面障碍等。本方法并未将叶片复合材料分离，而是将叶片切割后直接制作成建筑材料，因此成本较低。"
-            });
-            viewModel.FangAns1.Add(new FangAn
-            {
-                ProjectName = "再利用",
-                Content = "景观利用",
-                Time = "废弃的风机叶片可以被改造成艺术品，用于城市公园、展览等场合。"
-            });
+            
         }
         private int GetRandomValue(int min, int max, double percentage)
         {
@@ -245,6 +329,13 @@ namespace WpfApp1.Views
 
             // 在缩放后的范围内取值
             return _random.Next(scaledMin, scaledMax + 1);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            WindowScada windowScada = new WindowScada();
+            windowScada.Show();
+            this.Close();
         }
     }
 }

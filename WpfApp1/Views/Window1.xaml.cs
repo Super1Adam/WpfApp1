@@ -1,4 +1,5 @@
 ﻿using HelixToolkit.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,9 +108,19 @@ namespace WpfApp1.Views
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
         {
-            CycleWindow window1 = new CycleWindow();
-            window1.Show();
-            this.Close();
+            if (GlobalVariables.IsShouMing5DataImported)
+            {
+                CycleWindow window1 = new CycleWindow();
+                window1.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先进行寿命预测", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+       
         }
         private void Button_JingJi(object sender, RoutedEventArgs e)
 
@@ -122,8 +133,7 @@ namespace WpfApp1.Views
 
         {
             ShuJuGengXingWindow shuJuGengXingWindow = new ShuJuGengXingWindow();
-            shuJuGengXingWindow.Show();
-            this.Close();
+            shuJuGengXingWindow.ShowDialog();
 
         }
         private void Button_ShouMing(object sender, RoutedEventArgs e)
@@ -131,6 +141,42 @@ namespace WpfApp1.Views
         {
             MessageBox.Show("本软件集数据可视化、剩余寿命预测及循环利用三大模块于一体，显著提升运维效率与资源利用率。未来，该软件将深化智能分析，优化预测精度，促进风电装备更高效、可持续地循环利用，引领风电行业绿色转型。 ");
 
+        }
+
+        private void Button_3D(object sender, RoutedEventArgs e)
+
+        {
+            // 打开文件选择对话框
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "选择3D模型文件",
+                Filter = "3D模型文件 (*.obj;*.fbx;*.stl)|*.obj;*.fbx;*.stl|所有文件 (*.*)|*.*",
+                InitialDirectory = @"C:\Users\Public\Documents" // 默认路径
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // 获取用户选择的文件路径
+                string selectedFilePath = openFileDialog.FileName;
+
+                // 获取当前应用程序目录的路径
+                string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                // 设置保存路径，文件名和原始文件相同
+                string savePath = System.IO.Path.Combine(appDirectory, System.IO.Path.GetFileName(selectedFilePath));
+
+                try
+                {
+                    // 复制文件到应用程序目录（如果文件已存在，会被覆盖）
+                    System.IO.File.Copy(selectedFilePath, savePath, true);
+
+                    MessageBox.Show($"模型文件已成功保存到: {savePath}", "保存成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"保存文件时发生错误: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
         private void UpdateModelColors(double usedLifetime)
         {
@@ -298,6 +344,8 @@ namespace WpfApp1.Views
                 {
                     // 调用计算方法，针对不同的加速因子计算寿命
                     UpdateTextBlocks(usedLifetime);
+                    GlobalVariables.IsShouMing5DataImported = true;
+
                 }
                 catch (Exception ex)
                 {
@@ -350,9 +398,25 @@ ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercent
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            
-            var window2 =new CycleWindow();
-            window2.ShowDialog();
+
+            if (GlobalVariables.IsShouMing5DataImported)
+            {
+                CycleWindow window1 = new CycleWindow();
+                window1.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先进行寿命预测", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            WindowScada windowScada = new WindowScada();
+            windowScada.Show();
+            this.Close();
         }
     }
 

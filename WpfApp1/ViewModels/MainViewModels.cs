@@ -25,7 +25,7 @@ namespace WpfApp1.ViewModels
             set
             {
                 _yLabel1 = value;
-                SetPropertyChanged();  // 通知 UI 更新
+                SetPropertyChanged(nameof(YLabel1));  // 通知 UI 更新
             }
         }
 
@@ -84,6 +84,7 @@ namespace WpfApp1.ViewModels
             }
         }
 
+        
 
         public SeriesCollection SeriesCollection { get; set; }
 
@@ -102,6 +103,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<string> GeneratorList { get; set; }
         public ObservableCollection<string> ConverterList { get; set; }
         public ObservableCollection<string> TimeLabels { get; set; }
+        public ObservableCollection<string> TimeLabels1 { get; set; }
 
         public ChartValues<double> WindSpeedValues { get; set; }
         public ChartValues<double> YunXingShuJuValues { get; set; }
@@ -119,6 +121,10 @@ namespace WpfApp1.ViewModels
         public ChartValues<double> HumidityValuesZF { get; set; }
         public ChartValues<double> WindPowerDensityZF { get; set; }
 
+        public ChartValues<string> WindSpeedValuesZFX { get; set; }
+        public ChartValues<string > TemperaturValuesZFX { get; set; }
+        public ChartValues<string > HumidityValuesZFX { get; set; }
+        public ChartValues<string > WindPowerDensityZFX { get; set; }
 
         public ChartValues<double> WindSpeed { get; set; }
         public ChartValues<double> Power { get; set; }
@@ -352,6 +358,11 @@ namespace WpfApp1.ViewModels
             HumidityValuesZF = new ChartValues<double>();
             WindPowerDensityZF = new ChartValues<double>();
 
+            WindSpeedValuesZFX = new ChartValues<string>();
+            TemperaturValuesZFX = new ChartValues<string>();
+            HumidityValuesZFX = new ChartValues<string>();
+            WindPowerDensityZFX = new ChartValues<string>();
+
             WindSpeed = new ChartValues<double>();
             Power = new ChartValues<double>();
             Vane = new ChartValues<double>();
@@ -361,6 +372,8 @@ namespace WpfApp1.ViewModels
             YunXingShuJuValues = new ChartValues<double>();
             // 初始化空的 ObservableCollection 和 List
             TimeLabels = new ObservableCollection<string>();
+            TimeLabels1 = new ObservableCollection<string>();
+
             XLabels = new List<string>();
             Alarms = new ObservableCollection<string>();
 
@@ -390,16 +403,25 @@ namespace WpfApp1.ViewModels
                 LongitudeList.Add(longitude.ToString("F2"));
             }
         }
+        public void UpdateYLabels(string yLabel1, string yLabel2, string yLabel3, string yLabel4, string yLabel5, string yLabel6)
+        {
+            YLabel1 = yLabel1;
+            YLabel2 = yLabel2;
+            YLabel3 = yLabel3;
+            YLabel4 = yLabel4;
+            YLabel5 = yLabel5;
+            YLabel6 = yLabel6;
+        }
         public void UpdateSCADALists(List<string > EnvironmentalInfos, List<string> PowerGenerationInfos, List<string> Blades, List<string> Gearboxs, List<string> Generators, List<string> Converters)
         {
             // 清空现有的数据
-            //EnvironmentalInfoList.Clear();
-            //PowerGenerationInfoList.Clear();
-            //BladeList.Clear();
-            //GearboxList.Clear();
-            //GeneratorList.Clear();
-            //ConverterList.Clear();
-      
+            EnvironmentalInfoList.Clear();
+            PowerGenerationInfoList.Clear();
+            BladeList.Clear();
+            GearboxList.Clear();
+            GeneratorList.Clear();
+            ConverterList.Clear();
+
             // 将新的经纬度数据添加到 ObservableCollection 中
             foreach (var EnvironmentalInfo in EnvironmentalInfos)
             {
