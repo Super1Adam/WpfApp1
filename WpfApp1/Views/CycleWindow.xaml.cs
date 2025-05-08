@@ -463,8 +463,8 @@ namespace WpfApp1.Views
             {
                 Title = title,
                 Background = new SolidColorBrush(Colors.SteelBlue),
-                Width = 600,  // 加点边距
-                Height = 400,  // 加点边距
+                Width = maxWidth + 20,  // 加点边距
+                Height = totalHeight + 20,  // 加点边距
                 Content = new ScrollViewer() // 加个滚动条防止超出屏幕
             };
 
@@ -486,11 +486,20 @@ namespace WpfApp1.Views
                 stackPanel.Children.Add(imageControl);
             }
 
-            // 设置窗口内容
-            ((ScrollViewer)popupWindow.Content).Content = stackPanel;
+     // 设置窗口内容
+     ((ScrollViewer)popupWindow.Content).Content = stackPanel;
+
+            // 延迟设置窗口大小，确保布局完全计算
+            popupWindow.Loaded += (sender, e) =>
+            {
+                popupWindow.Width = maxWidth + 20; // 加点边距
+                popupWindow.Height = totalHeight + 20; // 加点边距
+            };
 
             popupWindow.ShowDialog(); // 显示弹出窗口
         }
+
+
 
         private void MyDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

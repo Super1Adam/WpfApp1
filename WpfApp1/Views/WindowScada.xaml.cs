@@ -87,9 +87,18 @@ namespace WpfApp1.Views
         private void Button_XunHuan(object sender, RoutedEventArgs e)
 
         {
-            CycleWindow window1 = new CycleWindow();
-            window1.Show();
-            this.Close();
+            if (GlobalVariables.IsShouMing5DataImported)
+            {
+                CycleWindow window1 = new CycleWindow();
+                window1.Show();
+                this.Close();
+            }
+            else
+            {
+                // 如果数据未导入，弹出提示信息
+                MessageBox.Show("请先进行寿命预测", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
         private void Button_JingJi(object sender, RoutedEventArgs e)
 

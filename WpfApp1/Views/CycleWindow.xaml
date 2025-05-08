@@ -400,8 +400,16 @@
                     </Grid>
                     <TextBlock x:Name="yepian" Grid.Row="1" HorizontalAlignment="Center" Text="维护策略推荐" VerticalAlignment="Center"  Foreground="#AA999999" FontSize="20"/>
 
+                    <Popup x:Name="ImagePreviewPopup" Placement="Mouse" AllowsTransparency="True" PopupAnimation="Fade" StaysOpen="False">
+                        <Border BorderBrush="Gray" BorderThickness="1" Background="White">
+                            <Image x:Name="PreviewImage" Width="150" Height="150" Stretch="Uniform"/>
+                        </Border>
+                    </Popup>
+
                     <DataGrid x:Name="MyDataGrid" Style="{StaticResource DataGridStyle}" ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" RowStyle="{StaticResource DataGridRowStyle}" AutoGenerateColumns="False" ItemsSource="{Binding FangAns}"  ColumnWidth="*" CanUserAddRows="False" CanUserSortColumns="True" Grid.Row="2" Margin="0,15,0,-5" MouseDoubleClick="MyDataGrid_MouseDoubleClick" >
-                    <DataGrid.Columns >
+                    
+                        
+                        <DataGrid.Columns >
                         
                             <DataGridTemplateColumn  Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -428,6 +436,7 @@
                             </DataGridTemplateColumn>
 
                         </DataGrid.Columns>
+                        
                 </DataGrid>
                     
                 </Grid> 

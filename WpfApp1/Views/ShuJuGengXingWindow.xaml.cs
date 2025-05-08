@@ -65,7 +65,7 @@ namespace WpfApp1.Views
                 TurbineListView.Items.Refresh();
                 SaveData();
                 ClearInputs();
-            }
+             }
         }
         private void Delete_Click(object sender, RoutedEventArgs e)
         {

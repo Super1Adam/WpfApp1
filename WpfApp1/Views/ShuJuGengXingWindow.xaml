@@ -52,17 +52,17 @@
             <ListView x:Name="TurbineListView" Grid.Row="4" Grid.ColumnSpan="4" Grid.RowSpan="6" SelectionMode="Single" SizeChanged="TurbineListView_SizeChanged">
                 <ListView.View>
                     <GridView  x:Name="MainGridView">
-                        <GridViewColumn Header="叶片直径" Width="auto" DisplayMemberBinding="{Binding HubHeight}" />
+                        <GridViewColumn Header="叶片直径" Width="auto" DisplayMemberBinding="{Binding BladeDiameter}" />
                         <GridViewColumn Header="轮毂高度" Width="auto" DisplayMemberBinding="{Binding HubHeight}" />
-                        <GridViewColumn Header="切出风速" DisplayMemberBinding="{Binding HubHeight}" />
-                        <GridViewColumn Header="扫风面积" DisplayMemberBinding="{Binding HubHeight}" />
-                        <GridViewColumn Header="额定功率" DisplayMemberBinding="{Binding HubHeight}" />
-                        <GridViewColumn Header="切入面积" DisplayMemberBinding="{Binding HubHeight}" />
-                        <GridViewColumn Header="齿轮箱传动比" Width="auto" DisplayMemberBinding="{Binding HubHeight}" />
+                        <GridViewColumn Header="切出风速" DisplayMemberBinding="{Binding CutOutSpeed}" />
+                        <GridViewColumn Header="扫风面积" DisplayMemberBinding="{Binding SweptArea}" />
+                        <GridViewColumn Header="额定功率" DisplayMemberBinding="{Binding RatedPower}" />
+                        <GridViewColumn Header="切入面积" DisplayMemberBinding="{Binding CutInArea}" />
+                        <GridViewColumn Header="齿轮箱传动比" Width="auto" DisplayMemberBinding="{Binding GearboxRatio}" />
 
 
                         <!-- 其他列同理 -->
-                    </GridView>
+                    </GridView> 
                 </ListView.View>
             </ListView>
             <Button Grid.Row="10" Grid.ColumnSpan="2" Content="修改风机" Click="Edit_Click" Margin="5"/>
