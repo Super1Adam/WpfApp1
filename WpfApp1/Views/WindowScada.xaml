@@ -498,14 +498,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding WindSpeed }" LineSmoothness=" 0" Stroke="#2BB6FE" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" >
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" >
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0" />
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="#33FFFFFF" Labels="{Binding TimeLabels1}" Title="{Binding YLabel1}" FontSize="13" >
+                                <lvc:Axis Foreground="#33FFFFFF" Title="{Binding YLabel1}"  >
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF"/>
                                     </lvc:Axis.Separator>
@@ -517,14 +517,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding Power }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel2}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" >
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY >
-                                <lvc:Axis Foreground="#33FFFFFF" >
+                                <lvc:Axis Foreground="#33FFFFFF" Title="{Binding YLabel2}">
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF"/>
                                     </lvc:Axis.Separator>
@@ -536,14 +536,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding Vane }" LineSmoothness="0" Stroke="AliceBlue" Fill="Transparent" PointGeometry="" Title="{Binding YLabel3}"/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel3}" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}"  >
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="#33FFFFFF"   >
+                                <lvc:Axis Foreground="#33FFFFFF"  Title="{Binding YLabel3}" >
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF"/>
                                     </lvc:Axis.Separator>
@@ -555,14 +555,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding GearboxSpeed }" LineSmoothness=" 0" Stroke="DarkOliveGreen" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" FontSize="13" Title="{Binding YLabel4}" >
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" >
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="#33FFFFFF" >
+                                <lvc:Axis Foreground="#33FFFFFF" Title="{Binding YLabel4}">
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF" />
                                     </lvc:Axis.Separator>
@@ -574,14 +574,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding Generator }" LineSmoothness=" 0" Stroke="Yellow" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel5 }" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}">
                                     <lvc:Axis.Separator >
                                         <lvc:Separator  Step="4" StrokeThickness="0"/>
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="#33FFFFFF"  >
+                                <lvc:Axis Foreground="#33FFFFFF" Title="{Binding YLabel5 }" >
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF"/>
                                     </lvc:Axis.Separator>
@@ -593,14 +593,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <lvc:LineSeries  Values="{Binding Voltage }" LineSmoothness=" 0" Stroke="Gainsboro" Fill="Transparent" PointGeometry=""/>
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}" Title="{Binding YLabel6 }" FontSize="13">
+                                <lvc:Axis  Foreground=" #33ffffff" Labels="{Binding TimeLabels1}"  >
                                     <lvc:Axis.Separator  >
                                         <lvc:Separator  Step="4" StrokeThickness="0" />
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
                             <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="#33FFFFFF" >
+                                <lvc:Axis Foreground="#33FFFFFF" Title="{Binding YLabel6 }" >
                                     <lvc:Axis.Separator>
                                         <lvc:Separator  Stroke="#10FFFFFF"/>
                                     </lvc:Axis.Separator>

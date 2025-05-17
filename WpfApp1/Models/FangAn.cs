@@ -32,6 +32,8 @@ namespace WpfApp1.Models
             set { time = value; SetPropertyChanged(); }
 
         }
-       
+        public string ImagePath { get; set; } // 图片路径字段
+
+
     }
-    }
+}

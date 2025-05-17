@@ -219,17 +219,22 @@ namespace WpfApp1.Views
             if (int.TryParse(ExpectedRetireYearTextBox.Text, out int expectedRetireYear) && expectedRetireYear > 0 && expectedRetireYear <= TotalLife)
             {
                 // 计算剩余寿命
-                int remainingLife = TotalLife - expectedRetireYear;
-                RemainingLifeTextBlock.Text = remainingLife.ToString();
-
+                int usedLifetime = TotalLife - expectedRetireYear;
+                RemainingLifeTextBlock.Text = usedLifetime.ToString();
+                // 使用全局变量中的加速因子计算剩余寿命和百分比
+                var overallResult = LifeCalculator.CalculateOverallLife(GlobalVariables.OverallAccelerationFactor, usedLifetime);
+                var bladeResult = LifeCalculator.CalculateBladeLife(GlobalVariables.BladeAccelerationFactor, usedLifetime);
+                var gearboxResult = LifeCalculator.CalculateGearboxLife(GlobalVariables.GearboxAccelerationFactor, usedLifetime);
+                var generatorResult = LifeCalculator.CalculateGeneratorLife(GlobalVariables.GeneratorAccelerationFactor, usedLifetime);
+                var converterResult = LifeCalculator.CalculateConverterLife(GlobalVariables.ConverterAccelerationFactor, usedLifetime);
                 // 计算比例
-                double percentage = (double)remainingLife / TotalLife;
+                double percentage = (double)usedLifetime / TotalLife;
 
-                // 根据比例随机生成四个部件寿命
-                BladeResultTextBlock1.Text = GetRandomValue(25, 30, percentage).ToString();
-                GearboxResultTextBlock1.Text = GetRandomValue(10, 15, percentage).ToString();
-                GeneratorResultTextBlock1.Text = GetRandomValue(10, 15, percentage).ToString();
-                ConverterResultTextBlock1.Text = GetRandomValue(2, 7, percentage).ToString();
+                // 显示结果
+                BladeResultTextBlock.Value = Math.Round(bladeResult.RemainingLifePercentage / 100, 2);
+                GearboxResultTextBlock.Value = Math.Round(gearboxResult.RemainingLifePercentage / 100, 2);
+                GeneratorResultTextBlock.Value = Math.Round(generatorResult.RemainingLifePercentage / 100, 2);
+                ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercentage / 100, 2);
 
 
                 // 根据 percentage 推荐 4 种方案

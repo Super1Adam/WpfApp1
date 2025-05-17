@@ -28,7 +28,7 @@ namespace WpfApp1.Views
         public WindowScada()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModels();
+            this.DataContext = GlobalVariablesViewModels.CurrentMainViewModel;
         }
         private void btnMin_Click(object sender, RoutedEventArgs e)
         {

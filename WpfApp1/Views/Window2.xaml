@@ -1,0 +1,29 @@
+﻿<Window x:Class="WpfApp1.Views.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views"
+        mc:Ignorable="d"
+        Title="Window2" Height="450" Width="800">
+    <Grid>
+        <ToggleButton x:Name="TogglePopupButton" Height="30" Width="150" HorizontalAlignment="Left">
+            <StackPanel>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Run Text="是否状态切换? " />
+			<Run Text="{Binding IsChecked, ElementName=TogglePopupButton}" />
+                </TextBlock>
+                <Popup Name="myPopup" IsOpen="{Binding IsMouseOver, ElementName=TogglePopupButton, Mode=OneWay}">
+                    <Border BorderThickness="1">
+                        <Image 
+                    Source="E:\gird\wind\WpfApp1\WpfApp1\Image\1.1.png" 
+                            Width="200"
+                    Height="150"
+                    Stretch="Uniform"/>
+                    </Border>
+                </Popup>
+            </StackPanel>
+        </ToggleButton>
+
+    </Grid>
+</Window>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -25,11 +26,10 @@ namespace WpfApp1.Views
     /// <summary>
     /// CycleWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class CycleWindow : Window
+    public partial class CycleWindow1 : Window
     {
-        public CycleWindow()
+        public CycleWindow1()
         {
-          
             InitializeComponent();
             CycleViewsModels viewModel = new CycleViewsModels();
             this.DataContext = viewModel;
@@ -163,11 +163,144 @@ namespace WpfApp1.Views
 
         }
      
-
+              
         private void Button_ClickBack(object sender, RoutedEventArgs e)
 
         {
             this.Close();
+        }
+        private bool _isPopupAllowed = true;
+        private DateTime _lastPopupCloseTime = DateTime.MinValue;
+
+        private void DataGridRow_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //// 若上次关闭 popup 到现在不足 1 秒，则不允许再次打开
+            //if (!_isPopupAllowed || (DateTime.Now - _lastPopupCloseTime).TotalSeconds < 1)
+            //    return;
+
+            //var row = sender as DataGridRow;
+            //if (row?.DataContext is FangAn item && !string.IsNullOrEmpty(item.ImagePath))
+            //{
+            //    ImagePreviewPopup.DataContext = item;
+            //    ImagePreviewPopup.IsOpen = true;
+            //}
+        }
+        private bool IsMouseOverRowOrPopup(DataGridRow row)
+        {
+            // 判断鼠标是否在行或 popup 上
+            return row != null && (row.IsMouseOver || ImagePreviewPopup.IsMouseOver);
+        }
+
+        private async void DataGridRow_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //var row = sender as DataGridRow;
+
+            //// 延迟判断，避免误触发
+            //await Task.Delay(100);
+
+            //if (!IsMouseOverRowOrPopup(row))
+            //{
+            //    ImagePreviewPopup.IsOpen = false;
+            //    _isPopupAllowed = false;
+            //    _lastPopupCloseTime = DateTime.Now;
+
+            //    // 一秒后才允许再次弹出
+            //    await Task.Delay(1000);
+            //    _isPopupAllowed = true;
+            //}
+        }
+
+
+
+
+        //private async void DataGridRow_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    //// 延迟一点再判断是否真的离开
+        //    //await Task.Delay(100);
+
+        //    //// 如果鼠标仍在 Popup 或 Row 上，则不关闭
+        //    //if (IsMouseOverPopup() || IsMouseOverRow(sender as DataGridRow))
+        //    //    return;
+
+        //    //ImagePreviewPopup.IsOpen = false;
+        //}
+
+        private bool IsMouseOverPopup()
+        {
+            if (ImagePreviewPopup?.Child == null)
+                return false;
+
+            var pos = Mouse.GetPosition(ImagePreviewPopup.Child);
+            return pos.X >= 0 && pos.X <= ImagePreviewPopup.Child.RenderSize.Width &&
+                   pos.Y >= 0 && pos.Y <= ImagePreviewPopup.Child.RenderSize.Height;
+        }
+
+        private bool IsMouseOverRow(DataGridRow row)
+        {
+            if (row == null)
+                return false;
+
+            var pos = Mouse.GetPosition(row);
+            return pos.X >= 0 && pos.X <= row.RenderSize.Width &&
+                   pos.Y >= 0 && pos.Y <= row.RenderSize.Height;
+        }
+
+        private void DataGridRow_MouseEnter1(object sender, MouseEventArgs e)
+        {
+            ImagePreviewPopup1.IsOpen = false;
+
+            var row = sender as DataGridRow;
+            if (row?.DataContext is FangAnChiLun item && !string.IsNullOrEmpty(item.ImagePath))
+            {
+                ImagePreviewPopup1.DataContext = item;
+                ImagePreviewPopup1.IsOpen = true;
+            }
+        }
+
+        private async void DataGridRow_MouseLeave1(object sender, MouseEventArgs e)
+        {
+            await Task.Delay(300); // 延迟一点关闭，防止刚离开就闪退
+            if (!ImagePreviewPopup1.IsMouseOver)
+            {
+                ImagePreviewPopup1.IsOpen = false;
+            }
+        }
+        private void DataGridRow_MouseEnter2(object sender, MouseEventArgs e)
+        {
+            var row = sender as DataGridRow;
+            if (row != null)
+            {
+                var item = row.DataContext as FangAnFaDianJi; // 替换为你的实际类名
+                if (item != null && !string.IsNullOrEmpty(item.ImagePath))
+                {
+                    ImagePreviewPopup.DataContext = item;
+                    ImagePreviewPopup.IsOpen = true;
+                }
+            }
+        }
+
+        private void DataGridRow_MouseLeave2(object sender, MouseEventArgs e)
+        {
+            ImagePreviewPopup.IsOpen = false;
+        }
+        private void DataGridRow_MouseEnter3(object sender, MouseEventArgs e)
+        {
+            var row = sender as DataGridRow;
+            if (row != null)
+            {
+                var item = row.DataContext as FangAnBianLiuQi; // 替换为你的实际类名
+                if (item != null && !string.IsNullOrEmpty(item.ImagePath))
+                {
+                    ImagePreviewPopup.DataContext = item;
+                    ImagePreviewPopup.IsOpen = true;
+                }
+            }
+        }
+
+
+        private void DataGridRow_MouseLeave3(object sender, MouseEventArgs e)
+        {
+            ImagePreviewPopup.IsOpen = false;
         }
         private void UpdateContentForRange(ObservableCollection<FangAn> fangAns, string range)//叶片跟新逻辑
         {
@@ -211,17 +344,22 @@ namespace WpfApp1.Views
                 {
                     ProjectName = "再利用",//点击查看示例图片1.3.1 1.3.2 1.3.4
                     Content = "作为板材利用，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景",
-                    Time = "切割成合适的板材后，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景"
+                    Time = "切割成合适的板材后，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景",
+                    ImagePath = "pack://application:,,,/WpfApp1;component/Image/3.1.png"
                 });
                 fangAns.Add(new FangAn
                 {
                     ProjectName = "再利用",
                     Time = "作为建材利用",
+                    ImagePath = "pack://application:,,,/WpfApp1;component/Image/3.1.png",
+
                     Content = "根据不同的场景将叶片切割成10cm~20cm或其他尺寸长条状小块，作为新型复合材料取代木质复合材料，可用于地板、塑料路面障碍等。本方法并未将叶片复合材料分离，而是将叶片切割后直接制作成建筑材料，因此成本较低。"
                 });
                 fangAns.Add(new FangAn
                 {
                     ProjectName = "再利用",
+                    ImagePath = "pack://application:,,,/WpfApp1;component/Image/3.1.png",
+
                     Content = "景观利用",
                     Time = "废弃的风机叶片可以被改造成艺术品，用于城市公园、展览等场合。"
                 });
@@ -229,6 +367,8 @@ namespace WpfApp1.Views
                 {
                     ProjectName = "再循环",
                     Content = "降解",
+                    ImagePath = "pack://application:,,,/WpfApp1;component/Image/3.1.png",
+
                     Time = "(a)打碎成粉末  (b)化学降解 (c)热解焦 (d)热解油"
                 });
 
@@ -271,7 +411,9 @@ namespace WpfApp1.Views
                 {
                     ProjectName = "再利用",
                     Content = "将齿轮箱直接用到其他风电场",
-                    Time = "几乎不需要成本，利用价值高，但是性能不如新产品"
+                    Time = "几乎不需要成本，利用价值高，但是性能不如新产品",
+                  ImagePath = "E:\\gird\\wind\\WpfApp1\\WpfApp1\\Image\\2.1.png",
+
                 });
                 fangAnChiLuns.Add(new FangAnChiLun
                 {
@@ -334,8 +476,9 @@ namespace WpfApp1.Views
                 List<FangAnFaDianJi> predefinedRecords = new List<FangAnFaDianJi>
         {
             new FangAnFaDianJi { ProjectName = "再利用", Content = "将发电机直接用到其他风电场", Time = "几乎不需要成本，利用价值高，但是性能不如新产品" },
-            new FangAnFaDianJi { ProjectName = "再制造", Content = "在原有制造的基础上进行一次新的制造", Time = "再制造产品可以做到接近甚至超过新品品质，但是成本更高" },
-            new FangAnFaDianJi { ProjectName = "机组改造", Content = "铜线拆解后用于金属回收", Time = "材料回收利用，降低浪费" }
+            new FangAnFaDianJi { ProjectName = "再制造", Content = "在原有制造的基础上进行一次新的制造", Time = "再制造产品可以做到接近甚至超过新品品质，但是成本更高",ImagePath="E:\\gird\\wind\\WpfApp1\\WpfApp1\\Image\\2.1.png"},
+            new FangAnFaDianJi { ProjectName = "机组改造", Content = "铜线拆解后用于金属回收", Time = "材料回收利用，降低浪费",        ImagePath = "E:\\gird\\wind\\WpfApp1\\WpfApp1\\Image\\2.1.png",
+ }
         };
 
 
@@ -406,7 +549,9 @@ namespace WpfApp1.Views
                 {
                     ProjectName = "再利用",
                     Content = "重新利用将变流器直接用到其他风电场",
-                    Time = "利用成本低，利用价值高"
+                    Time = "利用成本低，利用价值高",
+                                        ImagePath = "E:\\gird\\wind\\WpfApp1\\WpfApp1\\Image\\2.1.png",
+
                 });
                 FangAnBianLiuQis.Add(new FangAnBianLiuQi
                 {
@@ -500,72 +645,86 @@ namespace WpfApp1.Views
             popupWindow.ShowDialog(); // 显示弹出窗口
         }
 
+        //        private DateTime _lastClickTime;
+        //        private object _lastClickedItem;
 
+        //        private void DataGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //        {
+        //            var row = ItemsControl.ContainerFromElement(MyDataGrid, e.OriginalSource as DependencyObject) as DataGridRow;
+        //            if (row == null) return;
 
+        //            var currentItem = row.DataContext;
+        //            var currentTime = DateTime.Now;
+
+        //            // 双击判定（300ms内点击相同项目）
+        //            if (currentItem == _lastClickedItem &&
+        //                (currentTime - _lastClickTime).TotalMilliseconds < 300)
+        //            {
+        //                _lastClickedItem = null;
+        //MyDataGrid_MouseDoubleClick(sender, new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left));                e.Handled = true;
+        //            }
+        //            else
+        //            {
+        //                _lastClickedItem = currentItem;
+        //                _lastClickTime = currentTime;
+        //            }
+        //        }
+
+        //        private void DataGridRow_MouseEnter(object sender, MouseEventArgs e)
+        //        {
+        //            // 添加双击保护
+        //            if ((DateTime.Now - _lastClickTime).TotalMilliseconds < 300) return;
+
+        //            var row = sender as DataGridRow;
+        //            if (row?.DataContext is FangAn item && !string.IsNullOrEmpty(item.ImagePath))
+        //            {
+        //                ImagePreviewPopup.DataContext = item;
+        //                ImagePreviewPopup.IsOpen = true;
+        //            }
+        //        }
+        //        private void DataGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        //        {
+        //            // 检查当前鼠标捕获的对象是否是 MyDataGrid
+        //            if (Mouse.Captured == MyDataGrid)
+        //            {
+        //                // 如果是，则释放鼠标捕获
+        //                MyDataGrid.ReleaseMouseCapture();
+        //            }
+        //        }
         private void MyDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedRow = MyDataGrid.SelectedItem as FangAn; // 替换为实际的类型
+             var selectedRow = MyDataGrid.SelectedItem as FangAn;
+            MyDataGrid.RowStyle = (Style)FindResource("DataGridRowStyle"); // 无图片弹出
+
 
             if (selectedRow != null)
             {
-                // 判断第一列的值（ProjectName）
-                if (selectedRow.ProjectName == "再利用")
+                if (!string.IsNullOrWhiteSpace(selectedRow.ImagePath))
                 {
-                    if (selectedRow.Content == "作为板材利用，可制作为挡板、托盘等就近梯次利用到农庄、物流等场景")
+                  
+
+
+                    try
                     {
-                        var imagePaths = new Uri[]
-                        {
-                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
-                        };
-                        string title = "再利用图例";
-                        ShowImagePopup(imagePaths, title);
+                        string[] paths = selectedRow.ImagePath.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        var imageUris = paths
+                            .Select(p => new Uri(p.Trim())) // 👈 一定要 Trim！
+                            .ToArray();
+
+                        ShowImagePopup(imageUris, selectedRow.ProjectName + "图例");
+
                     }
-                    if (selectedRow.Content == "根据不同的场景将叶片切割成10cm~20cm或其他尺寸长条状小块，作为新型复合材料取代木质复合材料，可用于地板、塑料路面障碍等。本方法并未将叶片复合材料分离，而是将叶片切割后直接制作成建筑材料，因此成本较低。")
+                    catch (Exception ex)
                     {
-                        var imagePaths = new Uri[]
-                        {
-                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
-                            new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
-                        };
-                        string title = "再利用图例";
-                        ShowImagePopup(imagePaths, title);
+                        MessageBox.Show("加载图片失败：" + ex.Message);
                     }
 
-                    if(selectedRow .Content == "景观利用")
-                    {
-                        var imagePaths = new Uri[]
-                        {
-                                     new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
-
-                        };
-                        string title = "再利用图例";
-                        ShowImagePopup(imagePaths, title);
-                    }
-      //              var imagePaths = new Uri[]
-      //{
-      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.1.jpg"),
-      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.2.png"),
-      //  new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.4.jpg"),
-      //   new Uri("pack://application:,,,/WpfApp1;component/Image/1.3.5.jpg")
-      //};
-                    //string title = "再利用图例";
-                    //ShowImagePopup(imagePaths,title);
-                }
-                else if (selectedRow.ProjectName == "再循环")
-                {
-                    var imagePaths = new Uri[]
-     {
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.1.png"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.2.png"),
-        new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.3.png"),
-         new Uri("pack://application:,,,/WpfApp1;component/Image/1.4.4.png")
-     };
-                    string title = "在制造图例";
-                    ShowImagePopup(imagePaths,title);
 
                 }
             }
         }
+
         private void MyDataGrid1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (MyDataGrid2.SelectedItem is FangAnFaDianJi selectedItem)
@@ -583,7 +742,7 @@ namespace WpfApp1.Views
             }
         }
 
-    
+
 
 
         private void MyDataGrid3_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -629,6 +788,38 @@ namespace WpfApp1.Views
             windowScada.Show();
             this.Close();
         }
-       
+
+        private void DataGridRow_MouseUp2(object sender, MouseButtonEventArgs e)
+        {
+            if (MyDataGrid3.SelectedItem is FangAnFaDianJi selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再利用")
+                {
+                    var imagePaths = new Uri[] {
+                        new  Uri("pack://application:,,,/WpfApp1;component/Image/4.1.png"),
+                    };
+                    string title = "在利用图例";
+                    ShowImagePopup(imagePaths, title);
+                }
+
+            }
+        }
+        private void DataGridRow_MouseUp3(object sender, MouseButtonEventArgs e)
+        {
+            if (MyDataGrid3.SelectedItem is FangAnBianLiuQi selectedItem)
+            {
+                // 判断是否为指定行
+                if (selectedItem.ProjectName == "再利用")
+                {
+                    var imagePaths = new Uri[] {
+                        new  Uri("pack://application:,,,/WpfApp1;component/Image/4.1.png"),
+                    };
+                    string title = "在利用图例";
+                    ShowImagePopup(imagePaths, title);
+                }
+
+            }
+        }
     }
 }

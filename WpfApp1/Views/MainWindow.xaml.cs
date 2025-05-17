@@ -33,10 +33,10 @@ namespace WpfApp1.Views
             
             InitializeComponent();
 
-            
-            this.DataContext = new MainViewModels();
+
+            this.DataContext = GlobalVariablesViewModels.CurrentMainViewModel;
         }
- 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 

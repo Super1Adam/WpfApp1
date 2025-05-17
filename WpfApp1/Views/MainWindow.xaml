@@ -417,7 +417,7 @@ SelectedItem="{Binding SelectedLongitude}" ></ComboBox>
                                 <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
-                                <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
+                                <TextBlock Text="风功率密度(W/m^2)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                             </StackPanel>
                             <UniformGrid Columns="2"  Grid.Row="1" Margin="5">
@@ -437,7 +437,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                     </lvc:CartesianChart.AxisX>
 
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="风速(m/s)" >
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>
@@ -446,17 +446,17 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 </lvc:CartesianChart>
                                 <lvc:CartesianChart Margin="5,0,5,0">
                                     <lvc:CartesianChart.Series >
-                                        <lvc:LineSeries  Values="{Binding TemperaturValues }" LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
+                                        <lvc:LineSeries  Values="{Binding TemperaturValues }"  LineSmoothness=" 0" Stroke="IndianRed" Fill="Transparent" PointGeometry=""/>
                                     </lvc:CartesianChart.Series>
-                                    <lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisX >
                                         <lvc:Axis  Foreground=" #33ffffff"  Labels="{Binding TimeLabels}" FontSize="10" >
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator Step="4" StrokeThickness="0"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
-                                    </lvc:CartesianChart.AxisX>
+                                    </lvc:CartesianChart.AxisX >
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF">
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="温度(℃)">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>
@@ -475,7 +475,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="湿度(%)" >
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator  Stroke="#10FFFFFF"  />
                                             </lvc:Axis.Separator>
@@ -494,7 +494,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF"  >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="风功率密度(W/m^2)" >
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>
@@ -522,7 +522,7 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <TextBlock Text="湿度(%)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <Border Width="15" Height="15" Background="DarkOliveGreen" Margin="3,0"/>
-                                <TextBlock Text="风功率密度(kg/m^3)" Foreground="#44FFFFFF" FontSize="15"
+                                <TextBlock Text="风功率密度(W/m^2)" Foreground="#44FFFFFF" FontSize="15"
 VerticalAlignment="Center" Margin="0,0,10,0"/>
                             </StackPanel>
                             <UniformGrid Columns="2" Grid.Row="1" Margin="5">
@@ -531,14 +531,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         <lvc:ColumnSeries   Values="{Binding WindSpeedValuesZF }"  Stroke="#2BB6FE" Fill="#2BB6FE" PointGeometry=""/>
                                     </lvc:CartesianChart.Series>
                                     <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis  Foreground=" #33ffffff"  LabelsRotation="-45"  Labels="{Binding WindSpeedValuesZFX}" >
+                                        <lvc:Axis  Foreground=" #33ffffff"  LabelsRotation="-45" Title="风速(m/s)" Labels="{Binding WindSpeedValuesZFX}" >
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator  Step="1" StrokeThickness="0"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="天数">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>
@@ -550,14 +550,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         <lvc:ColumnSeries   Values="{Binding TemperaturValuesZF }"  Stroke="IndianRed" Fill="IndianRed" PointGeometry=""/>
                                     </lvc:CartesianChart.Series>
                                     <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding TemperaturValuesZFX}">
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Title="温度(℃)" Labels="{Binding TemperaturValuesZFX}">
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator Step="1" StrokeThickness="0"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF">
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="天数">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>
@@ -569,14 +569,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         <lvc:ColumnSeries   Values="{Binding HumidityValuesZF }"  Stroke="PeachPuff" Fill="PeachPuff" PointGeometry=""/>
                                     </lvc:CartesianChart.Series>
                                     <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding HumidityValuesZFX}">
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Title="湿度(%)" Labels="{Binding HumidityValuesZFX}">
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator Step="1" StrokeThickness="0"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF" >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="天数" >
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator  Stroke="#10FFFFFF"  />
                                             </lvc:Axis.Separator>
@@ -588,14 +588,14 @@ VerticalAlignment="Center" Margin="0,0,10,0"/>
                                         <lvc:ColumnSeries   Values="{Binding WindPowerDensityZF }"  Stroke="DarkOliveGreen" Fill="DarkOliveGreen" PointGeometry=""/>
                                     </lvc:CartesianChart.Series>
                                     <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Labels="{Binding WindPowerDensityZFX}">
+                                        <lvc:Axis  Foreground=" #33ffffff" LabelsRotation="-45" Title="风功率密度(W/m^2)" Labels="{Binding WindPowerDensityZFX}">
                                             <lvc:Axis.Separator >
                                                 <lvc:Separator  StrokeThickness="0"  Step="1"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Foreground="#33FFFFFF"  >
+                                        <lvc:Axis Foreground="#33FFFFFF" Title="天数" >
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator  Stroke="#10FFFFFF"/>
                                             </lvc:Axis.Separator>

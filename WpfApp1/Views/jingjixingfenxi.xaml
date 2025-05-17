@@ -475,38 +475,45 @@ To="1" Duration="0:0:0.2"/>
             <GroupBox Grid.Row="1" Header="循环策略推荐" FontSize="15">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.2*"/>
                         <ColumnDefinition Width="2.5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid>
          <Grid.RowDefinitions>
              <RowDefinition Height="1*"/>
-             <RowDefinition Height="1*"/>
+             <RowDefinition Height="2*"/>
             
          </Grid.RowDefinitions>
-         <UniformGrid Grid.Row="1" Columns="4" >
-             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                 <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="BladeResultTextBlock1" Text="    " Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
-             </StackPanel>
-             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                 <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="GearboxResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
-             </StackPanel>
+
+                        <UniformGrid Grid.Row="1" Columns="4" >
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+
+                                <TextBlock Text="叶片" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <zxc:CircularProgressBar x:Name="BladeResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
+Width="80" Height="80" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                <TextBlock Text="齿轮箱" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <zxc:CircularProgressBar x:Name="GearboxResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
+Width="80" Height="80" />
+                            </StackPanel>
 
 
-             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                 <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="GeneratorResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
-             </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                <TextBlock Text="发电机" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <zxc:CircularProgressBar x:Name="GeneratorResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
+Width="80" Height="80" />
+                            </StackPanel>
 
-             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
-                 <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
-                 <TextBlock x:Name="ConverterResultTextBlock1" Text="" Foreground="#CC2BB6FE" FontSize="25" HorizontalAlignment="Center"/>
-             </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                                <TextBlock Text="变流器" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
+                                <zxc:CircularProgressBar x:Name="ConverterResultTextBlock" Value="0" Foreground="White" BackColor="#11FFFFFF"
+Width="80" Height="80" />
+                            </StackPanel>
 
-         </UniformGrid>
-         <UniformGrid Grid.Row="0" Columns="3">
+                        </UniformGrid>
+
+                        <UniformGrid Grid.Row="0" Columns="3">
              <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                  <TextBlock Text="推荐退役年份" Foreground="#AA999999" FontSize="20" Margin="0,5" HorizontalAlignment="Center"/>
                  <TextBlock Text="25" Foreground="#CC2BB6FE" FontSize="20" HorizontalAlignment="Center"/>

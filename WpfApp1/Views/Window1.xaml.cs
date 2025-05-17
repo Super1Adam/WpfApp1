@@ -37,7 +37,7 @@ namespace WpfApp1.Views
             string objPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "obj.obj");
 
 
-            this.DataContext = new MainViewModels();
+            this.DataContext = GlobalVariablesViewModels.CurrentMainViewModel;
             //主视角
             string modelPath1 = objPath;
             ModelImporter import = new ModelImporter();
@@ -74,14 +74,13 @@ namespace WpfApp1.Views
             ModelVisual3D modelVisual3d4 = new ModelVisual3D();
             modelVisual3d4.Content = initGroup4;
             viewPort3D4.Children.Add(modelVisual3d4);
-            
-   
+            List<int> whiteIndices = new List<int> { 66, 84, 49, 37 };
 
-
-
-
-
-
+            // 对每个模型都设置同样的四个索引为白色
+            SetModelPartsToWhite(initGroup1, whiteIndices);
+            SetModelPartsToWhite(initGroup2, whiteIndices);
+            SetModelPartsToWhite(initGroup3, whiteIndices);
+            SetModelPartsToWhite(initGroup4, whiteIndices);
 
 
         }
@@ -192,6 +191,20 @@ namespace WpfApp1.Views
             UpdateModelColor4(49, converterResult.RemainingLifePercentage); // 发电机
             UpdateModelColor3(37, generatorResult.RemainingLifePercentage); // 变流器
           
+        }
+
+        private void SetModelPartsToWhite(Model3DGroup group, List<int> indices)
+        {
+            foreach (int index in indices)
+            {
+                if (index >= 0 && index < group.Children.Count)
+                {
+                    if (group.Children[index] is GeometryModel3D geometryModel)
+                    {
+                        geometryModel.Material = new DiffuseMaterial(new SolidColorBrush(Colors.White));
+                    }
+                }
+            }
         }
 
         private void UpdateModelColor1(int targetIndex, double remainingLifePercentage)
@@ -383,11 +396,11 @@ namespace WpfApp1.Views
             GlobalLifetimes.ConverterLife = converterResult.RemainingLifePercentage;
 
             // 显示结果
-            OverallResultTextBlock.Text = $"{LimitRange(overallResult.RemainingLife, 20, 25):F2} 年";
-      BladeResultTextBlock.Value = Math.Round(bladeResult.RemainingLifePercentage / 100, 2);
-GearboxResultTextBlock.Value = Math.Round(gearboxResult.RemainingLifePercentage / 100, 2);
-GeneratorResultTextBlock.Value = Math.Round(generatorResult.RemainingLifePercentage / 100, 2);
-ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercentage / 100, 2);
+             OverallResultTextBlock.Text = $"{LimitRange(overallResult.RemainingLife, 20, 25):F2} 年";
+             BladeResultTextBlock.Value = Math.Round(bladeResult.RemainingLifePercentage / 100, 2);
+             GearboxResultTextBlock.Value = Math.Round(gearboxResult.RemainingLifePercentage / 100, 2);
+             GeneratorResultTextBlock.Value = Math.Round(generatorResult.RemainingLifePercentage / 100, 2);
+             ConverterResultTextBlock.Value = Math.Round(converterResult.RemainingLifePercentage / 100, 2);
 
         }
 
